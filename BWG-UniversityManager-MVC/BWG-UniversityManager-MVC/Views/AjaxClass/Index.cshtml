@@ -1,0 +1,278 @@
+﻿@model IEnumerable<ASP_NET_MVC.Models.Class>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Class</h2>
+
+<button id="createNewButton" class="btn-success" onclick="OpenAddNewForm()">Create New</button>
+<div class="grid">
+    <table class="table" id="table">
+        <thead>
+            <tr>
+                <td><b>ID</b></td>
+                <td><b>DepARTMENT</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var clas in Model)
+            {
+                <tr id=@clas.Id>
+                    <td onclick="ViewDetails('@clas.Id')"><b>@clas.Id</b></td>
+                    <td> @clas.Dep </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="info">
+        <h2 id="notification"></h2>
+        <div id="detailSegment">
+            <h4 id="id"></h4>
+            <h4 id="Dep"></h4>
+            <button id="updateBut" class="btn-success" onclick="OpenUpdateForm()">Edit</button>
+            <button id="deleteBut" class="btn-danger" onclick="DeleteClass()">Remove</button>
+        </div>
+        <div id="addSegment">
+            <form id="addForm">
+                Class ID:
+                <input id="Cid"class="form-control" type="text" value="" name="Cid" required maxlength="6" title="Field must be less than 6 characters long"/><br />
+                Department:
+                <input id="CDep" class="form-control" type="text" value="" name="CDep" /><br />
+                <button class="btn-success" type="button" id="addButton">Add</button>
+            </form>
+        </div>
+        <div id="updateSegment">
+            <form id="updateForm">
+                Class ID:
+                <input id="Cid_ud" class="form-control" type="text" value="" name="Cid" readonly /><br />
+                Department:
+                <input id="CDep_ud"class="form-control" type="text" value="" name="CDep" /><br />
+                <button class="btn-success" type="button" id="saveButton" onclick="UpdateClass()">Save</button>
+            </form>
+        </div>
+        <div>
+            <span role="alert" id="IDError" aria-hidden="true">
+                Please enter ID
+            </span>
+            <span role="alert" id="DepError" aria-hidden="true">
+                Please enter Department
+            </span>
+        </div>
+    </div>
+</div>
+
+<style>
+    .grid {
+        display: grid;
+        grid-template-columns: 70% 30%;
+    }
+
+    .table, .info {
+        border: ridge;
+        padding: 10px;
+    }
+
+    #deleteBut, #updateBut, #addSegment, #updateSegment {
+        display: none;
+    }
+    #deleteBut, #updateBut, #addSegment, #updateSegment {
+        display: none;
+    }
+    #IDError, #DepError{
+        display: none;
+        font-size: 0.8em;
+    }
+    input.invalid {
+        border-color: red;
+    }
+</style>
+
+@section scripts
+{
+    <script>
+        var cl = {
+            id: "",
+            Dep: "",
+        }
+        var outerID;
+        //Show Class's Details
+        function ViewDetails(id) {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                const c = JSON.parse(this.responseText);
+                document.getElementById("notification").innerHTML = "DETAILS";
+                document.getElementById("addSegment").style.display = "none";
+                document.getElementById("updateSegment").style.display = "none";
+                document.getElementById("detailSegment").style.display = "unset";
+                document.getElementById("deleteBut").style.display = "inline";
+                document.getElementById("updateBut").style.display = "inline";
+
+                document.getElementById("id").innerHTML = "ID: " + `${c.Id}`;
+                document.getElementById("Dep").innerHTML = "Dep: " + `${c.Dep}`;
+                outerID = id;
+                cl.id = c.Id; cl.Dep = c.Dep;
+            }
+            xhttp.open("GET", "..//../AjaxClass/Details" + `/${id}`);
+            xhttp.send();
+        }
+
+        //Add new Class
+        function OpenAddNewForm() {
+            document.getElementById("notification").innerHTML = "ADD NEW CLASS";
+            document.getElementById("addSegment").style.display = "unset";
+            document.getElementById("updateSegment").style.display = "none";
+            document.getElementById("detailSegment").style.display = "none";
+
+            var addClassForm = document.getElementById("addForm");
+            document.getElementById("addButton").addEventListener("click", function () {
+                CreateNew(addClassForm.childNodes[1].value,
+                    addClassForm.childNodes[4].value)
+            })
+        }
+        function CreateNew(Cid,CDep) {
+            if (Cid == "" || CDep == "" ) {
+                return;
+            }
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                var c = JSON.parse(this.responseText);
+                if (!c) {
+                    alert("Class existed");
+                    document.getElementById("notification").innerHTML = "";
+                    document.getElementById("addSegment").style.display = "none";
+                    return;
+                }
+                alert("Class Added");
+
+                document.getElementById("notification").innerHTML = "";
+                document.getElementById("addSegment").style.display = "none";
+                var table = document.getElementById("table");
+                var row = table.insertRow(1);
+                row.id = `${Cid}`;
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var bold = document.createElement("b");
+                var textNode = document.createTextNode(`${Cid}`)
+                bold.appendChild(textNode);
+                cell1.appendChild(bold);
+                cell2.innerHTML = CDep;
+                cell1.onclick = function () { ViewDetails(`${Cid}`); }
+            }
+            xhttp.open("GET", "..//../AjaxClass/CreateNew?Id=" + Cid + "&Dep="+CDep);
+            xhttp.send();
+        }
+
+        //Edit Class's Information
+        function OpenUpdateForm() {
+            document.getElementById("notification").innerHTML = "EDIT CLASS";
+            document.getElementById("updateSegment").style.display = "unset";
+            document.getElementById("addSegment").style.display = "none";
+            document.getElementById("detailSegment").style.display = "none";
+
+            var updateClassForm = document.getElementById("updateForm");
+            updateClassForm.childNodes[1].value = cl.id;
+            updateClassForm.childNodes[4].value = cl.Dep;
+        }
+        function UpdateClass() {
+            var updateClassForm = document.getElementById("updateForm");
+            cl.id = updateClassForm.childNodes[1].value;
+            cl.Dep = updateClassForm.childNodes[4].value;
+            if (cl.id == "" || cl.Dep == "" ) {
+                return;
+            }
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                const c = JSON.parse(this.responseText);
+                var row = document.getElementById(`${c.Id}`);
+                row.childNodes[3].innerHTML = c.Dep;
+                document.getElementById("notification").innerHTML = "";
+                document.getElementById("updateSegment").style.display = "none";
+                alert("Updates Saved")
+            }
+            xhttp.open("GET", "..//../AjaxClass/Update?Id=" + cl.id + "&Dep=" + cl.Dep );
+            xhttp.send();
+        }
+
+        //Delete Class
+        function DeleteClass() {
+            var confirmed = confirm("Confirm deletion?")
+            if (confirmed == true) {
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function () {
+                    const c = JSON.parse(this.responseText);
+                    if (c) {
+                        document.getElementById(`${outerID}`).style.display = "none";
+                        document.getElementById("notification").innerHTML = "";
+                        document.getElementById("detailSegment").style.display = "none";
+                        alert("Deleted!");
+                    }
+                }
+                xhttp.open("GET", "..//../AjaxClass/Delete" + `/${outerID}`);
+                xhttp.send();
+            }
+        }
+
+        //VALIDATION
+
+        const submit = document.getElementById("addButton");
+        submit.addEventListener("click", validate);
+        function validate(e) {
+            e.preventDefault();
+
+            const IDField = document.getElementById("Cid");
+            const DepField = document.getElementById("CDep");
+            let valid = true;
+            //ID
+            if (!IDField.value) {
+                IDField.classList.add("invalid");
+                document.getElementById("IDError").style.display = "block";
+            }
+            else {
+                document.getElementById("IDError").style.display = "none";
+                IDField.classList.remove("invalid");
+            }
+            //Dep
+            if (!DepField.value) {
+                DepField.classList.add("invalid");
+                document.getElementById("DepError").style.display = "block";
+            } else {
+                document.getElementById("DepError").style.display = "none";
+                DepField.classList.remove("invalid");
+            }
+            return valid;
+        }
+
+        const updateSubmit = document.getElementById("saveButton");
+        updateSubmit.addEventListener("click", validateUpdate);
+        function validateUpdate(e) {
+            e.preventDefault();
+            const DepField_ud = document.getElementById("CDep_ud");
+            const IDField_ud = document.getElementById("Cid_ud");
+
+            let valid = true;
+            //ID
+            if (!IDField_ud.value) {
+                IDField_ud.classList.add("invalid");
+                document.getElementById("IDError").style.display = "block";
+            }
+            else {
+                document.getElementById("IDError").style.display = "none";
+                IDField_ud.classList.remove("invalid");
+            }
+            //Dep
+            if (!DepField_ud.value) {
+                DepField_ud.classList.add("invalid");
+                document.getElementById("DepError").style.display = "block";
+            } else {
+                document.getElementById("DepError").style.display = "none";
+                DepField_ud.classList.remove("invalid");
+            }
+            return valid;
+        }
+    </script>
+}
+
+

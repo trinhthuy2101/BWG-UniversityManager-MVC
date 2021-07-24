@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ASP_NET_MVC.Models.Department>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Department</h2>
+@Html.ActionLink("Create New", "AddDepartment", "Department")
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>University</th>
+            <th>Department Name</th>
+            <th>Creating Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var department in Model)
+        {
+        <tr>
+            <td><b>@department.Id</b> </td>
+            <td> @department.Uni </td>
+            <td> @department.Name </td>
+            <td>
+                @Html.ActionLink("Edit", "UpdateDepartment", new RouteValueDictionary(new { id = department.Id }))|
+                @Html.ActionLink("Remove", "RemoveDepartment", new RouteValueDictionary(new { id = department.Id }))
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

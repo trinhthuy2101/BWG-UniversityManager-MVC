@@ -1,0 +1,26 @@
+﻿@model ASP_NET_MVC.Models.Class
+
+@{
+    ViewBag.Title = "AddClass";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add New Class</h2>
+
+@using (@Html.BeginForm("SaveClass", "Class", FormMethod.Post))
+{
+    <div class="form">
+        @Html.LabelFor(m => m.Id, "Class ID")
+        @Html.TextBoxFor(m => m.Id, new { @class = "form-control" })
+    </div>
+    <div class="form">
+        @Html.LabelFor(m => m.Dep, "Department")
+        @Html.TextBoxFor(m => m.Dep, new { @class = "form-control" })
+    </div>
+    <div><input type="submit" value="Submit" class=" btn btn-success" /></div>
+}
+<style>
+    .btn {
+        margin: 10px;
+    }
+</style>

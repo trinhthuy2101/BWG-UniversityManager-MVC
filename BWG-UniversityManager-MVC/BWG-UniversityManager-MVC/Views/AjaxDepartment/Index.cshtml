@@ -1,0 +1,303 @@
+﻿@model IEnumerable<ASP_NET_MVC.Models.Department>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Department</h2>
+
+<button id="createNewButton" class="btn-success" onclick="OpenAddNewForm()">Create New</button>
+<div class="grid">
+    <table class="table" id="table">
+        <thead>
+            <tr>
+                <td><b>ID</b></td>
+                <td><b>UniVERSITY</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dep in Model)
+            {
+                <tr id=@dep.Id>
+                    <td><b onclick="ViewDetails('@dep.Id')">@dep.Id</b></td>
+                    <td> @dep.Uni</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="info">
+        <h2 id="notification"></h2>
+        <div id="detailSegment">
+            <h4 id="id"></h4>
+            <h4 id="Uni"></h4>
+            <h4 id="name"></h4>
+            <button id="updateBut" class="btn-success" onclick="OpenUpdateForm()">Edit</button>
+            <button id="deleteBut" class="btn-danger" onclick="DeleteDepartment()">Remove</button>
+        </div>
+        <div id="addSegment">
+            <form id="addForm">
+                Department ID:
+                <input id="Did" class="form-control" type="text" value="" name="Did" required maxlength="4" title="Field must be less than 4 characters long" /><br />
+                University: 
+                <input id="DUni" class="form-control" type="text" value="" name="DUni" /><br />
+                Name:
+                <input id="Dname" class="form-control" type="text" value="" name="Dname" /><br />
+                <button class="btn-success" type="button" id="addButton">Add</button>
+            </form>
+        </div>
+        <div id="updateSegment">
+            <form id="updateForm">
+                Department ID:
+                <input id="Did_ud" class="form-control" type="text" value="" name="Did" readonly /><br />
+                University:
+                <input id="DUni_ud"class="form-control" type="text" value="" name="DUni" /><br />
+                Name:
+                <input id="Dname_ud"class="form-control" type="text" value="" name="Dname" /><br />
+                <button class="btn-success" type="button" id="saveButton" onclick="UpdateDepartment()">Save</button>
+            </form>
+        </div>
+        <div>
+            <span role="alert" id="IDError" aria-hidden="true">
+                Please enter ID
+            </span>
+            <span role="alert" id="UniError" aria-hidden="true">
+                Please enter University
+            </span>
+            <span role="alert" id="NameError" aria-hidden="true">
+                Please enter Department Name
+            </span>
+        </div>
+    </div>
+ </div>
+<style>
+    .grid {
+        display: grid;
+        grid-template-columns: 70% 30%;
+    }
+
+    .table, .info {
+        border: ridge;
+        padding: 10px;
+    }
+    #deleteBut, #updateBut, #addSegment, #updateSegment {
+        display: none;
+    }
+    #IDError, #NameError, #UniError {
+        display: none;
+        font-size: 0.8em;
+    }
+    input.invalid {
+        border-color: red;
+    }
+</style>
+@section scripts
+{
+    <script>
+        var dep = {
+            id: "",
+            Uni: "",
+            name:""
+        }
+        var outerID;
+        //Show Department's Details
+        function ViewDetails(id) {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                const d = JSON.parse(this.responseText);
+                document.getElementById("notification").innerHTML = "DETAILS";
+                document.getElementById("addSegment").style.display = "none";
+                document.getElementById("updateSegment").style.display = "none";
+                document.getElementById("detailSegment").style.display = "unset";
+                document.getElementById("deleteBut").style.display = "inline";
+                document.getElementById("updateBut").style.display = "inline";
+
+                document.getElementById("id").innerHTML = "ID: " + `${d.Id}`;
+                document.getElementById("Uni").innerHTML = "University: " + `${d.Uni}`;
+                document.getElementById("name").innerHTML = "Name: " + `${d.name}`;
+                outerID = id;
+                dep.id = d.Id; dep.Uni = d.Uni; dep.name = d.name;
+            }
+            xhttp.open("GET", "..//../AjaxDepartment/Details" + `/${id}`);
+            xhttp.send();
+        }
+
+        //Add new Department
+        function OpenAddNewForm() {
+            document.getElementById("notification").innerHTML = "ADD NEW DEPARTMENT";
+            document.getElementById("addSegment").style.display = "unset";
+            document.getElementById("updateSegment").style.display = "none";
+            document.getElementById("detailSegment").style.display = "none";
+
+            var addDepartmentForm = document.getElementById("addForm");
+            document.getElementById("addButton").addEventListener("click", function () {
+                CreateNew(addDepartmentForm.childNodes[1].value,
+                    addDepartmentForm.childNodes[4].value,
+                    addDepartmentForm.childNodes[7].value)
+            })
+        }
+        function CreateNew(Did,DUni,Dname) {
+            if (Did == "" || DUni == ""||Dname=="" ) {
+                return;
+            }
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                var d = JSON.parse(this.responseText);
+                if (!d) {
+                    alert("Department existed");
+                    document.getElementById("notification").innerHTML = "";
+                    document.getElementById("addSegment").style.display = "none";
+                    return;
+                }
+                alert("Department Added");
+
+                document.getElementById("notification").innerHTML = "";
+                document.getElementById("addSegment").style.display = "none";
+                var table = document.getElementById("table");
+                var row = table.insertRow(1);
+                row.id = `${Did}`;
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var bold = document.createElement("b");
+                var textNode = document.createTextNode(`${Did}`)
+                bold.appendChild(textNode);
+                cell1.appendChild(bold);
+                cell2.innerHTML = DUni;
+                cell1.onclick = function () { ViewDetails(`${Did}`); }
+            }
+            xhttp.open("GET", "..//../AjaxDepartment/CreateNew?Id=" + Did + "&Uni="+DUni+"&name="+Dname);
+            xhttp.send();
+        }
+
+        //Edit Department's Information
+        function OpenUpdateForm() {
+            document.getElementById("notification").innerHTML = "EDIT DEPARTMENT";
+            document.getElementById("updateSegment").style.display = "unset";
+            document.getElementById("addSegment").style.display = "none";
+            document.getElementById("detailSegment").style.display = "none";
+
+            var updateDepartmentForm = document.getElementById("updateForm");
+            updateDepartmentForm.childNodes[1].value = dep.id;
+            updateDepartmentForm.childNodes[4].value = dep.Uni;
+            updateDepartmentForm.childNodes[7].value = dep.name
+        }
+        function UpdateDepartment() {
+            var updateDepartmentForm = document.getElementById("updateForm");
+            dep.id = updateDepartmentForm.childNodes[1].value;
+            dep.Uni = updateDepartmentForm.childNodes[4].value;
+            dep.name = updateDepartmentForm.childNodes[7].value;
+
+            if (dep.id == "" || dep.Uni == ""||dep.name=="" ) {
+                return;
+            }
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                const d = JSON.parse(this.responseText);
+                var row = document.getElementById(`${d.Id}`);
+                row.childNodes[3].innerHTML = d.Uni;
+                document.getElementById("notification").innerHTML = "";
+                document.getElementById("updateSegment").style.display = "none";
+                alert("Updates Saved");
+            }
+            xhttp.open("GET", "..//../AjaxDepartment/Update?Id=" + dep.id + "&Uni=" + dep.Uni+"&name="+dep.name );
+            xhttp.send();
+        }
+
+        //Delete Department
+        function DeleteDepartment() {
+            var confirmed = confirm("Confirm deletion?")
+            if (confirmed == true) {
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function () {
+                    const d = JSON.parse(this.responseText);
+                    if (d) {
+                        document.getElementById(`${outerID}`).style.display = "none";
+                        document.getElementById("notification").innerHTML = "";
+                        document.getElementById("detailSegment").style.display = "none";
+                        alert("Deleted!");
+                    }
+                }
+                xhttp.open("GET", "..//../AjaxDepartment/Delete" + `/${outerID}`);
+                xhttp.send();
+            }
+        }
+
+        //VALIDATION
+
+        const submit = document.getElementById("addButton");
+        submit.addEventListener("click", validate);
+        function validate(e) {
+            e.preventDefault();
+
+            const IDField = document.getElementById("Did");
+            const NameField = document.getElementById("Dname");
+            const UniField = document.getElementById("DUni");
+            let valid = true;
+            //ID
+            if (!IDField.value) {
+                IDField.classList.add("invalid");
+                document.getElementById("IDError").style.display = "block";
+            }
+            else {
+                document.getElementById("IDError").style.display = "none";
+                IDField.classList.remove("invalid");
+            }
+            //Name
+            if (!NameField.value) {
+                NameField.classList.add("invalid");
+                document.getElementById("NameError").style.display = "block";
+            } else {
+                document.getElementById("NameError").style.display = "none";
+                NameField.classList.remove("invalid");
+            }
+            //University
+            if (!UniField.value) {
+                UniField.classList.add("invalid");
+                document.getElementById("UniError").style.display = "block";
+            } else {
+                document.getElementById("UniError").style.display = "none";
+                UniField.classList.remove("invalid");
+            }
+            return valid;
+        }
+
+        const updateSubmit = document.getElementById("saveButton");
+        updateSubmit.addEventListener("click", validateUpdate);
+        function validateUpdate(e) {
+            e.preventDefault();
+            const IDField_ud = document.getElementById("Did_ud");
+            const NameField_ud = document.getElementById("Dname_ud");
+            const UniField_ud = document.getElementById("DUni_ud");
+
+            //ID
+            if (!IDField_ud.value) {
+                IDField_ud.classList.add("invalid");
+                document.getElementById("IDError").style.display = "block";
+            }
+            else {
+                document.getElementById("IDError").style.display = "none";
+                IDField_ud.classList.remove("invalid");
+            }
+            //Name
+            if (!NameField_ud.value) {
+                NameField_ud.classList.add("invalid");
+                document.getElementById("NameError").style.display = "block";
+            } else {
+                document.getElementById("NameError").style.display = "none";
+                NameField_ud.classList.remove("invalid");
+            }
+            //University
+            if (!UniField_ud.value) {
+                UniField_ud.classList.add("invalid");
+                document.getElementById("UniError").style.display = "block";
+            } else {
+                document.getElementById("UniError").style.display = "none";
+                UniField_ud.classList.remove("invalid");
+            }
+            return valid;
+        }
+    </script>
+}
+
+

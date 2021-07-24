@@ -1,0 +1,27 @@
+﻿@model IEnumerable<ASP_NET_MVC.Models.Student>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Student</h2>
+@Html.ActionLink("Create New", "AddStudent", "Student")
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model)
+        {
+        <tr>
+            <td><b>@Html.ActionLink(@student.Id, "Details", new RouteValueDictionary(new { s = student.Id }))</b> </td>
+            <td> @student.Name </td>
+            
+        </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,39 @@
+﻿@model ASP_NET_MVC.Models.Student
+
+@{
+    ViewBag.Title = "AddStudent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add New Student</h2>
+
+@using (@Html.BeginForm("SaveStudent", "Student", FormMethod.Post))
+{
+    <div class="form">
+        @Html.LabelFor(m => m.Id, "Student ID")
+        @Html.TextBoxFor(m => m.Id, new { @class = "form-control" })
+    </div>
+    <div class="form">
+        @Html.LabelFor(m => m.Name, "Full Name")
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+    </div>
+    <div class="form">
+        <b>Email</b>
+        @Html.LabelFor(m => m.Idc, "Identity Card")
+        @Html.TextBoxFor(m => m.Idc, new { @class = "form-control" })
+    </div>
+    <div class="form">
+        @Html.LabelFor(m => m.Email, "Email")
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+    </div>
+    <div class="form">
+        @Html.LabelFor(m => m.@Class, "Class")
+        @Html.TextBoxFor(m => m.@Class, new { @class = "form-control" })
+    </div>
+    <div><input type="submit" value="Submit" class=" btn btn-success" /></div>
+}
+<style>
+    .btn {
+        margin: 10px;
+    }
+</style>

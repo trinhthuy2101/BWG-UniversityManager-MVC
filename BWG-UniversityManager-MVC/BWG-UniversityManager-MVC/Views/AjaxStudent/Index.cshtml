@@ -1,0 +1,370 @@
+﻿@model IEnumerable<ASP_NET_MVC.Models.Student>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Student</h2>
+
+<button id="createNewButton" class="btn-success" onclick="OpenAddNewForm()">Create New</button>
+<div class="grid">
+    <table class="table" id="table">
+        <thead>
+            <tr>
+                <td><b>ID</b></td>
+                <td><b>Name</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr id=@student.Id>
+                    <td><b onclick="ViewDetails(@student.Id)">@student.Id</b></td>
+                    <td> @student.Name </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="info">
+        <h2 id="notification"></h2>
+        <div id="detailSegment">
+            <h4 id="id"></h4>
+            <h4 id="Name"></h4>
+            <h4 id="Idc"></h4>
+            <h4 id="Email"></h4>
+            <h4 id="class"></h4>
+            <button id="updateBut" class="btn-success" onclick="OpenUpdateForm()">Edit</button>
+            <button id="deleteBut" class="btn-danger" onclick="DeleteStudent()">Remove</button>
+        </div>
+        <div id="addSegment">
+            <form id="addForm">
+                Student ID:
+                <input id="Sid" class="form-control" type="text" value="" Name="Sid" required maxlength="8" title="Field must be less than 8 characters long" /><br />
+                Name:
+                <input id="SName" class="form-control" type="text" value="" Name="SName" /><br />
+                Email:
+                <input id="SEmail" class="form-control" type="text" value="" Name="SEmail" /><br />
+                Idc:
+                <input id="SIdc" class="form-control" type="text" value="" Name="SIdc" /><br />
+                Class:
+                <input id="Sclass" class="form-control" type="text" value="" Name="Sclass" /><br />
+                <button class="btn-success" type="button" id="addButton">Add</button>
+
+            </form>
+        </div>
+        <div id="updateSegment">
+            <form id="updateForm">
+                Student ID:
+                <input id="Sid_ud" class="form-control" type="text" value="" Name="Sid" readonly /><br />
+                Name:
+                <input id="SName_ud" class="form-control" type="text" value="" Name="SName" /><br />
+                Email:
+                <input id="SEmail_ud" class="form-control" type="text" value="" Name="SEmail" /><br />
+                Idc:
+                <input id="SIdc_ud" class="form-control" type="text" value="" Name="SIdc" /><br />
+                Class:
+                <input id="Sclass_ud" class="form-control" type="text" value="" Name="Sclass" /><br />
+                <button class="btn-success" type="button" id="saveButton" onclick="UpdateStudent()">Save</button>
+            </form>
+        </div>
+        <div>
+            <span role="alert" id="IDError" aria-hidden="true">
+                Please enter ID
+            </span>
+            <span role="alert" id="NameError" aria-hidden="true">
+                Please enter Name
+            </span>
+            <span role="alert" id="IdcError" aria-hidden="true">
+                Please enter Idc
+            </span>
+            <span role="alert" id="EmailError" aria-hidden="true">
+                Please enter Email
+            </span>
+            <span role="alert" id="ClassError" aria-hidden="true">
+                Please enter Class
+            </span>
+        </div>
+    </div>
+</div>
+
+<style>
+    .grid {
+        display: grid;
+        grid-template-columns: 70% 30%;
+    }
+
+    .table, .info {
+        border: ridge;
+        padding: 10px;
+    }
+    #deleteBut, #updateBut,#addSegment,#updateSegment{
+        display: none;
+    }
+    #IDError,#NameError,#IdcError,#ClassError,#EmailError {
+        display: none;
+        font-size: 0.8em;
+    }
+
+    input.invalid {
+        border-color: red;
+    }
+    
+</style>
+
+@section scripts
+{
+    <script>
+        var student = {
+            id:"",
+            Name: "",
+            Email: "",
+            Idc: "",
+            Class:""
+        }
+        var outerID;
+        //Show Student's Details
+        function ViewDetails(id) {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                const s = JSON.parse(this.responseText);
+                document.getElementById("notification").innerHTML = "DETAILS";
+                document.getElementById("addSegment").style.display = "none";
+                document.getElementById("updateSegment").style.display = "none";
+                document.getElementById("detailSegment").style.display = "unset";
+                document.getElementById("deleteBut").style.display = "inline";
+                document.getElementById("updateBut").style.display = "inline";
+
+                document.getElementById("id").innerHTML = "ID: " + `${s.Id}`;
+                document.getElementById("Name").innerHTML = "Name: " + `${s.Name}`;
+                document.getElementById("class").innerHTML = "Class: " + `${s.Class}`;
+                document.getElementById("Idc").innerHTML = "Idc: " + `${s.Idc}`;
+                document.getElementById("Email").innerHTML = "Email: " + `${s.Email}`;
+
+                outerID = id;
+                student.id = s.Id; student.Name = s.Name; student.Email = s.Email; student.Idc = s.Idc; student.Class = s.Class;
+            }
+            xhttp.open("GET", "..//../AjaxStudent/Details" + `/${id}`);
+            xhttp.send();
+        }
+
+        //Add new Student
+        function OpenAddNewForm() {
+            document.getElementById("notification").innerHTML = "ADD NEW STUDENT";
+            document.getElementById("addSegment").style.display = "unset";
+            document.getElementById("updateSegment").style.display = "none";
+            document.getElementById("detailSegment").style.display = "none";
+
+            var addStudentForm = document.getElementById("addForm");
+            document.getElementById("addButton").addEventListener("click", function () {
+                CreateNew(addStudentForm.childNodes[1].value,
+                    addStudentForm.childNodes[4].value,
+                    addStudentForm.childNodes[7].value,
+                    addStudentForm.childNodes[10].value,
+                    addStudentForm.childNodes[13].value)
+            })
+        }
+        function CreateNew(Sid, SName,SEmail, SIdc, Sclass) {
+            if (Sid == "" || SName == "" || SIdc == "" || SEmail == "" || Sclass == "") {
+                return;
+            }
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                var s = JSON.parse(this.responseText);
+                if (!s) {
+                    alert("Student existed");
+                    document.getElementById("notification").innerHTML = "";
+                    document.getElementById("addSegment").style.display = "none";
+                    return;
+                }
+                alert("Student Added");
+
+                document.getElementById("notification").innerHTML = "";
+                document.getElementById("addSegment").style.display = "none";
+                var table = document.getElementById("table");
+                var row = table.insertRow(1);
+                row.id = `${Sid}`;
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var bold = document.createElement("b");
+                var textNode = document.createTextNode(`${Sid}`)
+                bold.appendChild(textNode);
+                cell1.appendChild(bold);
+                cell2.innerHTML = SName;
+                cell1.onclick = function () { ViewDetails(`${Sid}`); }
+            }
+            xhttp.open("GET", "..//../AjaxStudent/CreateNew?Id=" + Sid + "&Name=" + SName + "&Idc=" + SIdc + "&Email=" + SEmail + "&Class=" + Sclass);
+            xhttp.send();
+        }
+
+        //Edit Student's Information
+        function OpenUpdateForm() {
+            document.getElementById("notification").innerHTML = "EDIT STUDENT";
+            document.getElementById("updateSegment").style.display = "unset";
+            document.getElementById("addSegment").style.display = "none";
+            document.getElementById("detailSegment").style.display = "none";
+
+            var updateStudentForm = document.getElementById("updateForm");
+            updateStudentForm.childNodes[1].value = student.id;
+            updateStudentForm.childNodes[4].value = student.Name;
+            updateStudentForm.childNodes[7].value = student.Email;
+            updateStudentForm.childNodes[10].value = student.Idc;
+            updateStudentForm.childNodes[13].value = student.Class;
+        }
+        function UpdateStudent() {
+            var updateStudentForm = document.getElementById("updateForm");
+            student.id = updateStudentForm.childNodes[1].value;
+            student.Name = updateStudentForm.childNodes[4].value;
+            student.Email = updateStudentForm.childNodes[7].value;
+            student.Idc = updateStudentForm.childNodes[10].value;
+            student.Class = updateStudentForm.childNodes[13].value;
+            if (student.id == "" || student.Name == "" || student.Idc == "" || student.Email=="" || student.Class == "") {
+                return;
+            }
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                const s = JSON.parse(this.responseText);
+                var row = document.getElementById(`${s.Id}`);
+                row.childNodes[3].innerHTML = s.Name;
+                document.getElementById("notification").innerHTML = "";
+                document.getElementById("updateSegment").style.display = "none";
+                alert("Updates Saved")
+            }
+            xhttp.open("GET", "..//../AjaxStudent/Update?Id=" + student.id + "&Name=" + student.Name + "&Idc=" + student.Idc +  "&Email=" + Student.Email+ "&Class=" + student.Class);
+            xhttp.send();
+        }
+
+        //Delete Student
+        function DeleteStudent() {
+            var confirmed = confirm("Confirm deletion?")
+            if (confirmed == true) {
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function () {
+                    const s = JSON.parse(this.responseText);
+                    if (s) {
+                        document.getElementById(`${outerID}`).style.display = "none";
+                        document.getElementById("notification").innerHTML = "";
+                        document.getElementById("detailSegment").style.display = "none";
+                        alert("Deleted!");
+                    }
+                }
+                xhttp.open("GET", "..//../AjaxStudent/Delete" + `/${outerID}`);
+                xhttp.send();
+            }
+        }
+
+        //VALIDATION
+
+        const submit = document.getElementById("addButton");
+        submit.addEventListener("click", validate);
+        function validate(e) {
+            e.preventDefault();
+
+            const IDField = document.getElementById("Sid");
+            const NameField = document.getElementById("SName");
+            const IdcField = document.getElementById("SIdc");
+            const EmailField = document.getElementById("SEmail");
+            const ClassField = document.getElementById("Sclass");
+            let valid = true;
+            //ID
+            if (!IDField.value) {
+                IDField.classList.add("invalid");
+                document.getElementById("IDError").style.display = "block";
+            }
+            else {
+                document.getElementById("IDError").style.display = "none";
+                IDField.classList.remove("invalid");
+            }
+            //Name
+            if (!NameField.value) {
+                NameField.classList.add("invalid");
+                document.getElementById("NameError").style.display = "block";
+            } else {
+                document.getElementById("NameError").style.display = "none";
+                NameField.classList.remove("invalid");
+
+            }
+            //Idc
+            if (!IdcField.value) {
+                IdcField.classList.add("invalid");
+                document.getElementById("IdcError").style.display = "block";
+            } else {
+                document.getElementById("IdcError").style.display = "none";
+                IdcField.classList.remove("invalid");
+            }
+            //Email
+            if (!EmailField.value) {
+                EmailField.classList.add("invalid");
+                document.getElementById("EmailError").style.display = "block";
+            } else {
+                document.getElementById("EmailError").style.display = "none";
+                EmailField.classList.remove("invalid");
+            }
+            //Class
+            if (!ClassField.value) {
+                ClassField.classList.add("invalid");
+                document.getElementById("ClassError").style.display = "block";
+            } else {
+                document.getElementById("ClassError").style.display = "none";
+                ClassField.classList.remove("invalid");
+            }
+            return valid;
+        }
+
+        const updateSubmit = document.getElementById("saveButton");
+        updateSubmit.addEventListener("click", validateUpdate);
+        function validateUpdate(e) {
+            e.preventDefault();
+            const IDField_ud = document.getElementById("Sid_ud");
+            const NameField_ud = document.getElementById("SName_ud");
+            const EmailField_ud = document.getElementById("SEmail_ud");
+            const IdcField_ud = document.getElementById("SIdc_ud");
+            const ClassField_ud = document.getElementById("Sclass_ud");
+
+            let valid = true;
+            //ID
+            if (!IDField_ud.value) {
+                IDField_ud.classList.add("invalid");
+                document.getElementById("IDError").style.display = "block";
+            }
+            else {
+                document.getElementById("IDError").style.display = "none";
+                IDField_ud.classList.remove("invalid");
+            }
+            //Name
+            if (!NameField_ud.value) {
+                NameField_ud.classList.add("invalid");
+                document.getElementById("NameError").style.display = "block";
+            } else {
+                document.getElementById("NameError").style.display = "none";
+                NameField_ud.classList.remove("invalid");
+            }
+            //Idc
+            if (!IdcField_ud.value) {
+                IdcField_ud.classList.add("invalid");
+                document.getElementById("IdcError").style.display = "block";
+            } else {
+                document.getElementById("IdcError").style.display = "none";
+                IdcField_ud.classList.remove("invalid");
+            }
+            //Email
+            if (!EmailField_ud.value) {
+                EmailField_ud.classList.add("invalid");
+                document.getElementById("EmailError").style.display = "block";
+            } else {
+                document.getElementById("EmailError").style.display = "none";
+                EmailField_ud.classList.remove("invalid");
+            }
+            //Class
+            if (!ClassField_ud.value) {
+                ClassField_ud.classList.add("invalid");
+                document.getElementById("ClassError").style.display = "block";
+            } else {
+                document.getElementById("ClassError").style.display = "none";
+                ClassField_ud.classList.remove("invalid");
+            }
+            return valid;
+        }
+    </script>
+}

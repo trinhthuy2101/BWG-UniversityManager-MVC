@@ -1,0 +1,17 @@
+﻿@model ASP_NET_MVC.Models.Student
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2><b>@Model.Id</b> - <b>@Model.Name</b></h2>
+
+@Html.ActionLink("Edit", "UpdateStudent", new RouteValueDictionary(new { s = @Model.Id }))|
+@Html.ActionLink("Remove", "RemoveStudent", new RouteValueDictionary(new { s = @Model.Id }))
+<ul>
+    <li>Identity Card:<b>@Model.Idc</b> </li>
+    <li>Class: <b>@Model.Class</b></li>
+    <li>Idc: <b>@Model.Email</b></li>
+</ul>
+
+

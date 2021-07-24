@@ -1,0 +1,46 @@
+﻿@model ASP_NET_MVC.Models.Student
+@{
+    ViewBag.Title = "UpdateStudent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Update Student</h2>
+@using (@Html.BeginForm("SaveUpdateStudent", "Student", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="form">
+        @Html.LabelFor(m => m.Id, "Student ID")
+        @Html.TextBoxFor(m => m.Id, new { @readonly = "readonly", @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Id)
+    </div>
+    <div class="form">
+        @Html.LabelFor(m => m.Name, "Full Name")
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+    <div class="form">
+        <b>Identity Card</b>
+        @Html.LabelFor(m => m.Idc, "Identity")
+        @Html.TextBoxFor(m => m.Idc, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Idc)
+    </div>
+    <div class="form">
+        @Html.LabelFor(m => m.@Class, "Class")
+        @Html.TextBoxFor(m => m.@Class, new { @readonly = "readonly", @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.@Class)
+    </div>
+    <div class="form">
+        @Html.LabelFor(m => m.Email, "Email")
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Email)
+    </div>
+
+    <div><input type="submit" value="Submit" class=" btn btn-success" /></div>
+}
+<style>
+    .btn {
+        margin: 10px;
+    }
+</style>
