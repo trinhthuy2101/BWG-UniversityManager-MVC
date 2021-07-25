@@ -30,11 +30,11 @@
     <div class="info">
         <h2 id="notification"></h2>
         <div id="detailSegment">
-            <h4 id="id"></h4>
+            <h4 id="Id"></h4>
             <h4 id="Name"></h4>
             <h4 id="Idc"></h4>
             <h4 id="Email"></h4>
-            <h4 id="class"></h4>
+            <h4 id="Class"></h4>
             <button id="updateBut" class="btn-success" onclick="OpenUpdateForm()">Edit</button>
             <button id="deleteBut" class="btn-danger" onclick="DeleteStudent()">Remove</button>
         </div>
@@ -49,7 +49,7 @@
                 Idc:
                 <input id="SIdc" class="form-control" type="text" value="" Name="SIdc" /><br />
                 Class:
-                <input id="Sclass" class="form-control" type="text" value="" Name="Sclass" /><br />
+                <input id="SClass" class="form-control" type="text" value="" Name="SClass" /><br />
                 <button class="btn-success" type="button" id="addButton">Add</button>
 
             </form>
@@ -65,7 +65,7 @@
                 Idc:
                 <input id="SIdc_ud" class="form-control" type="text" value="" Name="SIdc" /><br />
                 Class:
-                <input id="Sclass_ud" class="form-control" type="text" value="" Name="Sclass" /><br />
+                <input id="SClass_ud" class="form-control" type="text" value="" Name="SClass" /><br />
                 <button class="btn-success" type="button" id="saveButton" onclick="UpdateStudent()">Save</button>
             </form>
         </div>
@@ -117,8 +117,7 @@
 {
     <script>
         var student = {
-            id:"",
-            Name: "",
+            id:"",            Name: "",
             Email: "",
             Idc: "",
             Class:""
@@ -136,9 +135,9 @@
                 document.getElementById("deleteBut").style.display = "inline";
                 document.getElementById("updateBut").style.display = "inline";
 
-                document.getElementById("id").innerHTML = "ID: " + `${s.Id}`;
+                document.getElementById("Id").innerHTML = "ID: " + `${s.Id}`;
                 document.getElementById("Name").innerHTML = "Name: " + `${s.Name}`;
-                document.getElementById("class").innerHTML = "Class: " + `${s.Class}`;
+                document.getElementById("Class").innerHTML = "Class: " + `${s.Class}`;
                 document.getElementById("Idc").innerHTML = "Idc: " + `${s.Idc}`;
                 document.getElementById("Email").innerHTML = "Email: " + `${s.Email}`;
 
@@ -165,8 +164,8 @@
                     addStudentForm.childNodes[13].value)
             })
         }
-        function CreateNew(Sid, SName,SEmail, SIdc, Sclass) {
-            if (Sid == "" || SName == "" || SIdc == "" || SEmail == "" || Sclass == "") {
+        function CreateNew(Sid, SName,SEmail, SIdc, SClass) {
+            if (Sid == "" || SName == "" || SIdc == "" || SEmail == "" || SClass == "") {
                 return;
             }
             const xhttp = new XMLHttpRequest();
@@ -194,7 +193,7 @@
                 cell2.innerHTML = SName;
                 cell1.onclick = function () { ViewDetails(`${Sid}`); }
             }
-            xhttp.open("GET", "..//../AjaxStudent/CreateNew?Id=" + Sid + "&Name=" + SName + "&Idc=" + SIdc + "&Email=" + SEmail + "&Class=" + Sclass);
+            xhttp.open("GET", "..//../AjaxStudent/CreateNew?Id=" + Sid + "&Name=" + SName + "&Idc=" + SIdc + "&Email=" + SEmail + "&Class=" + SClass);
             xhttp.send();
         }
 
@@ -265,7 +264,7 @@
             const NameField = document.getElementById("SName");
             const IdcField = document.getElementById("SIdc");
             const EmailField = document.getElementById("SEmail");
-            const ClassField = document.getElementById("Sclass");
+            const ClassField = document.getElementById("SClass");
             let valid = true;
             //ID
             if (!IDField.value) {
@@ -320,7 +319,7 @@
             const NameField_ud = document.getElementById("SName_ud");
             const EmailField_ud = document.getElementById("SEmail_ud");
             const IdcField_ud = document.getElementById("SIdc_ud");
-            const ClassField_ud = document.getElementById("Sclass_ud");
+            const ClassField_ud = document.getElementById("SClass_ud");
 
             let valid = true;
             //ID

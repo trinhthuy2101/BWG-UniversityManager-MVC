@@ -34,7 +34,7 @@ namespace ASP_NET_MVC.Controllers.Ajax
             DB.SaveChanges();
             return Json(s, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult CreateNew(string Id, string name,string Idc, string Email, string Class)
+        public JsonResult CreateNew(string Id, string Name,string Idc, string Email, string Class)
         {
             var s1 = DB.Students.Find(Id);
             if (s1!=null) return Json(false,JsonRequestBehavior.AllowGet);
@@ -42,7 +42,7 @@ namespace ASP_NET_MVC.Controllers.Ajax
             Student s = new Student();
             s.Id = Id;
             s.Idc = Idc;
-            s.Name = name;
+            s.Name = Name;
             s.Email = Email;
             s.Class = Class;
             if (ModelState.IsValid)
@@ -52,10 +52,10 @@ namespace ASP_NET_MVC.Controllers.Ajax
             }
             return Json(s,JsonRequestBehavior.AllowGet);
         }
-        public JsonResult Update(string Id, string name,string Idc, string Email, string Class)
+        public JsonResult Update(string Id, string Name,string Idc, string Email, string Class)
         {
             var s1 = DB.Students.Find(Id);
-            s1.Name = name;
+            s1.Name = Name;
             s1.Idc = Idc;
             s1.Email = Email;
             s1.Class = Class;

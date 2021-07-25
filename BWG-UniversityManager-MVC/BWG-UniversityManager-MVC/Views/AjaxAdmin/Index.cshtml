@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 id="title">Admin</h2>
+<h3 onclick="ShowListCourse()">Course</h3>
+<script>
+    function ShowListCourse() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload= function () {
+        }
+        xhttp.open("GET", "..//../AjaxAdmin/ShowList");
+        xhttp.send();
+    }
+</script>
+
+
