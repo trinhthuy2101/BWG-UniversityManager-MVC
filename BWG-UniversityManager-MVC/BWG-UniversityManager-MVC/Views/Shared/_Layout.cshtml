@@ -19,14 +19,14 @@
                 @Html.ActionLink("THUYTRINH", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("AjaxStudent", "Index", "AjaxStudent")</li>
-                    <li>@Html.ActionLink("AjaxClass", "Index", "AjaxClass")</li>
-                    <li>@Html.ActionLink("AjaxDepartment", "Index", "AjaxDepartment")</li>
-                    <li>@Html.ActionLink("AjaxUniversity", "Index", "AjaxUniversity")</li>
-                    <li>@Html.ActionLink("AjaxAdmin", "Index", "AjaxAdmin")</li>
-                    <li>@Html.ActionLink("AjaxTeacher", "Index", "AjaxTeacher")</li>
+                <ul id="parentNavBar" class="nav navbar-nav">
+                    <li id="HomeTab">@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li id="StudentTab">@Html.ActionLink("AjaxStudent", "Index", "AjaxStudent")</li>
+                    <li id="ClassTab">@Html.ActionLink("AjaxClass", "Index", "AjaxClass")</liid="StudentTab">
+                    <li id="DepartmentTab">@Html.ActionLink("AjaxDepartment", "Index", "AjaxDepartment")</li>
+                    <li id="UniversityTab">@Html.ActionLink("AjaxUniversity", "Index", "AjaxUniversity")</li>
+                    <li id="AdminTab">@Html.ActionLink("AjaxAdmin", "Index", "AjaxAdmin")</li>
+                    <li id="TeacherTab">@Html.ActionLink("AjaxTeacher", "Index", "AjaxTeacher")</li>
                 </ul>
             </div>
         </div>

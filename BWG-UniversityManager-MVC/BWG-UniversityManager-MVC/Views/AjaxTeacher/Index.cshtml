@@ -1,8 +1,73 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Teacher";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Teacher</h2>
+<button id="getTimeTable-btn" onclick="getTimeTable()">Get Time Table </button>
+<table id="timeTable" class="table table-dark"></table>
 
+
+<script>
+    //TODO: separate script to another file 
+    function getMyId() {
+        //TODO read cookie and return id
+        return "GV01";
+    }
+
+    function getTimeTable() {
+        const xhttp = new XMLHttpRequest();
+        var id = getMyId();
+        xhttp.open("GET", "..//../AjaxTeacher/GetTimeTable" + `/${id}`);
+        xhttp.send();
+        xhttp.onload = function () {
+            const parsed = JSON.parse(this.responseText);
+            var timetable = document.getElementById("timeTable");
+
+            let table = "<tr><th>Subject</th><th>StartTime</th><th>EndTime</th></tr>";
+            for (let i = 0; i < parsed.length; i++) {
+                table += "<tr><td>" +
+                    parsed[i].Subject +
+                    "</td><td>" +
+                    convert(parsed[i].StartDate) +
+                    "</td>" + "<td>" + convert(parsed[i].EndDate) + "</td>" +
+                    "</tr>";
+            }
+            timetable.innerHTML += table;
+        }
+
+    }
+
+
+    function checkIsTeacher() {
+        //TODO: read cookie and  check if this is teacher
+        //return false;
+        return true;
+    }
+    function onStartLoad() {
+        if (checkIsTeacher() == false /*TODO: check is admin*/) {
+            //this person is not teacher nor admin, redirect to home page
+            location.replace("../Home/Index");
+        }
+        else hideOtherTabs();
+    }
+
+    function hideOtherTabs() {
+        document.getElementById("StudentTab").remove();
+        document.getElementById("ClassTab").remove();
+        document.getElementById("DepartmentTab").remove();
+        document.getElementById("UniversityTab").remove();
+        document.getElementById("AdminTab").remove();
+    }
+    function convert(value) {
+        var str = new Date(parseInt(value.replace("/Date(", "").replace(")/", ""), 10));
+        var date = new Date(str),
+            mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+            day = ("0" + date.getDate()).slice(-2);
+        return [mnth, day, date.getFullYear()].join("/");
+    }
+    window.onload = onStartLoad();
+
+
+</script>
