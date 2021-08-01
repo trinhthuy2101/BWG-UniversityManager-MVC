@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using ASP_NET_MVC.Models;
+using BWG_UniversityManager_MVC.Models;
 
-namespace ASP_NET_MVC.Controllers.Ajax
+namespace BWG_UniversityManager_MVC.Controllers.Ajax
 {
     public class AjaxAdminController : AjaxController
     {
@@ -14,18 +12,18 @@ namespace ASP_NET_MVC.Controllers.Ajax
         {
             return View();
         }
-        public ActionResult ShowList()
-        {
-            List<Course> a =DB.Courses.ToList();
-            List<CourseModel> cm = new List<CourseModel>();
-            for (int i = 0; i < a.Count; i++)
-            {
-                cm[i].Id = a[i].Id; cm[i].Room = a[i].Room; cm[i].Teacher = a[i].Teacher; cm[i].Subject = a[i].Subject;
-                cm[i].StartDate = a[i].StartDate; cm[i].EndDate = a[i].EndDate; cm[i].Time = a[i].Time;
-            }
-            
-            return Json(cm, JsonRequestBehavior.AllowGet);
-        }
+        //public ActionResult ShowList()
+        //{
+        //    List<Course> a = DB.Courses.ToList();
+        //    List<CourseModel> cm = new List<CourseModel>();
+        //    for (int i = 0; i < a.Count; i++)
+        //    {
+        //        cm[i].Id = a[i].Id; cm[i].Room = a[i].Room; cm[i].Teacher = a[i].Teacher; cm[i].Subject = a[i].Subject;
+        //        cm[i].StartDate = a[i].StartDate; cm[i].EndDate = a[i].EndDate; cm[i].Time = a[i].Time;
+        //    }
+
+        //    return Json(cm, JsonRequestBehavior.AllowGet);
+        //}
 
     }
 }

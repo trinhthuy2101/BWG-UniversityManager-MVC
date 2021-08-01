@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using ASP_NET_MVC.Models;
+using BWG_UniversityManager_MVC.Models;
 
-namespace ASP_NET_MVC.Controllers.Ajax
+namespace BWG_UniversityManager_MVC.Controllers.Ajax
 {
     public class AjaxUniversityController : AjaxController
     {
         // GET: AjaxUniversity
         public ActionResult Index()
         {
-            List<University > UniversityList = DB.Universities.ToList();
+            List<University> UniversityList = DB.Universities.ToList();
             return View(UniversityList);
         }
         public JsonResult Details(string id)
@@ -40,7 +38,7 @@ namespace ASP_NET_MVC.Controllers.Ajax
             if (u1 != null) return Json(false, JsonRequestBehavior.AllowGet);
 
             University u = new University();
-            u.Id =Id;
+            u.Id = Id;
             u.Name = name;
             if (ModelState.IsValid)
             {

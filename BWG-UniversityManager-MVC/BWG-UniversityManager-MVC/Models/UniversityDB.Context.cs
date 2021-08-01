@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ASP_NET_MVC.Models
+namespace BWG_UniversityManager_MVC.Models
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class webt2289_UniversityManager_BWGEntities : DbContext
+    public partial class webt2289_StudentManager_ThuyEntities : DbContext
     {
-        public webt2289_UniversityManager_BWGEntities()
-            : base("name=webt2289_UniversityManager_BWGEntities")
+        public webt2289_StudentManager_ThuyEntities()
+            : base("name=webt2289_StudentManager_ThuyEntities")
         {
         }
     

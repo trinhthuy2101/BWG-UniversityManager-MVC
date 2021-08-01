@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ASP_NET_MVC.Models.Class>
+﻿@model IEnumerable<BWG_UniversityManager_MVC.Models.Class>
 
 @{
     ViewBag.Title = "Index";
@@ -38,7 +38,7 @@
         <div id="addSegment">
             <form id="addForm">
                 Class ID:
-                <input id="Cid"class="form-control" type="text" value="" name="Cid" required maxlength="6" title="Field must be less than 6 characters long"/><br />
+                <input id="Cid" class="form-control" type="text" value="" name="Cid" required maxlength="6" title="Field must be less than 6 characters long" /><br />
                 Department:
                 <input id="CDep" class="form-control" type="text" value="" name="CDep" /><br />
                 <button class="btn-success" type="button" id="addButton">Add</button>
@@ -49,7 +49,7 @@
                 Class ID:
                 <input id="Cid_ud" class="form-control" type="text" value="" name="Cid" readonly /><br />
                 Department:
-                <input id="CDep_ud"class="form-control" type="text" value="" name="CDep" /><br />
+                <input id="CDep_ud" class="form-control" type="text" value="" name="CDep" /><br />
                 <button class="btn-success" type="button" id="saveButton" onclick="UpdateClass()">Save</button>
             </form>
         </div>
@@ -78,13 +78,16 @@
     #deleteBut, #updateBut, #addSegment, #updateSegment {
         display: none;
     }
+
     #deleteBut, #updateBut, #addSegment, #updateSegment {
         display: none;
     }
-    #IDError, #DepError{
+
+    #IDError, #DepError {
         display: none;
         font-size: 0.8em;
     }
+
     input.invalid {
         border-color: red;
     }

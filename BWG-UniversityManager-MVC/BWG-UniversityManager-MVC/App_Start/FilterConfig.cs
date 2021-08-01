@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace ASP_NET_MVC
+namespace BWG_UniversityManager_MVC
 {
     public class FilterConfig
     {

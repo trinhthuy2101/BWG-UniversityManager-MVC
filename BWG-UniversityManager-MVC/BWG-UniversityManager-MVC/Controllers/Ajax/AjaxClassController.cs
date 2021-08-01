@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using ASP_NET_MVC.Models;
+using BWG_UniversityManager_MVC.Models;
 
-namespace ASP_NET_MVC.Controllers.Ajax
+namespace BWG_UniversityManager_MVC.Controllers.Ajax
 {
     public class AjaxClassController : AjaxController
     {

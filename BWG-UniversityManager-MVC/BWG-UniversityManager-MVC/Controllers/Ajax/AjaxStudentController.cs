@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using ASP_NET_MVC.Models;
+using BWG_UniversityManager_MVC.Models;
 
-namespace ASP_NET_MVC.Controllers.Ajax
+namespace BWG_UniversityManager_MVC.Controllers.Ajax
 {
     public class AjaxStudentController : AjaxController
     {
@@ -34,11 +32,11 @@ namespace ASP_NET_MVC.Controllers.Ajax
             DB.SaveChanges();
             return Json(s, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult CreateNew(string Id, string Name,string Idc, string Email, string Class)
+        public JsonResult CreateNew(string Id, string Name, string Idc, string Email, string Class)
         {
             var s1 = DB.Students.Find(Id);
-            if (s1!=null) return Json(false,JsonRequestBehavior.AllowGet);
-            
+            if (s1 != null) return Json(false, JsonRequestBehavior.AllowGet);
+
             Student s = new Student();
             s.Id = Id;
             s.Idc = Idc;
@@ -50,9 +48,9 @@ namespace ASP_NET_MVC.Controllers.Ajax
                 DB.Students.Add(s);
                 DB.SaveChanges();
             }
-            return Json(s,JsonRequestBehavior.AllowGet);
+            return Json(s, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult Update(string Id, string Name,string Idc, string Email, string Class)
+        public JsonResult Update(string Id, string Name, string Idc, string Email, string Class)
         {
             var s1 = DB.Students.Find(Id);
             s1.Name = Name;
@@ -67,7 +65,7 @@ namespace ASP_NET_MVC.Controllers.Ajax
             s.Idc = s1.Idc;
             s.Email = s1.Email;
             s.Class = s1.Class;
-            return Json(s,JsonRequestBehavior.AllowGet);
+            return Json(s, JsonRequestBehavior.AllowGet);
         }
     }
 }
