@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
-using BWG_UniversityManager_MVC.Models;
+using ASP_NET_MVC.Models;
 
-namespace BWG_UniversityManager_MVC.Controllers.Ajax
+namespace ASP_NET_MVC.Controllers.Ajax
 {
     public class AjaxDepartmentController : AjaxController
     {
@@ -30,14 +32,14 @@ namespace BWG_UniversityManager_MVC.Controllers.Ajax
             DB.SaveChanges();
             return Json(d, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult CreateNew(string Id, string Uni, string Name)
+        public JsonResult CreateNew(string Id, string Uni,string Name)
         {
             var d1 = DB.Departments.Find(Id);
             if (d1 != null) return Json(false, JsonRequestBehavior.AllowGet);
 
             Department d = new Department();
             d.Id = Id;
-            d.Uni = Uni;
+            d.Uni= Uni;
             d.Name = Name;
             if (ModelState.IsValid)
             {
@@ -46,7 +48,7 @@ namespace BWG_UniversityManager_MVC.Controllers.Ajax
             }
             return Json(d, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult Update(string Id, string Uni, string Name)
+        public JsonResult Update(string Id, string Uni,string Name)
         {
             var d1 = DB.Departments.Find(Id);
             d1.Uni = Uni;
@@ -60,4 +62,4 @@ namespace BWG_UniversityManager_MVC.Controllers.Ajax
             return Json(d, JsonRequestBehavior.AllowGet);
         }
     }
-}   
+}

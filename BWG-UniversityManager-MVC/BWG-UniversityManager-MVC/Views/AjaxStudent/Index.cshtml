@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BWG_UniversityManager_MVC.Models.Student>
+﻿@model IEnumerable<ASP_NET_MVC.Models.Student>
 
 @{
     ViewBag.Title = "Index";
@@ -99,12 +99,10 @@
         border: ridge;
         padding: 10px;
     }
-
-    #deleteBut, #updateBut, #addSegment, #updateSegment {
+    #deleteBut, #updateBut,#addSegment,#updateSegment{
         display: none;
     }
-
-    #IDError, #NameError, #IdcError, #ClassError, #EmailError {
+    #IDError,#NameError,#IdcError,#ClassError,#EmailError {
         display: none;
         font-size: 0.8em;
     }
@@ -112,6 +110,7 @@
     input.invalid {
         border-color: red;
     }
+    
 </style>
 
 @section scripts

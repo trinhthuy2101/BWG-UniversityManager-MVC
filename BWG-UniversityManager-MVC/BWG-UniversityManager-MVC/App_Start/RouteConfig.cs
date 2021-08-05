@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace BWG_UniversityManager_MVC
+namespace ASP_NET_MVC
 {
     public class RouteConfig
     {

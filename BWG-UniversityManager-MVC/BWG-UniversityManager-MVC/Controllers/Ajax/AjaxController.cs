@@ -1,18 +1,23 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
-using BWG_UniversityManager_MVC.Models;
+using ASP_NET_MVC.Models;
 
-namespace BWG_UniversityManager_MVC.Controllers.Ajax
+namespace ASP_NET_MVC.Controllers.Ajax
 {
     public class AjaxController : Controller
     {
         // GET: Base
-        protected webt2289_StudentManager_ThuyEntities DB;
+        protected webt2289_StudentManager_ThuyEntities8 DB;
+
         public EntityState EntryState { get; private set; }
 
         public AjaxController()
         {
-            DB = new webt2289_StudentManager_ThuyEntities();
+            DB = new webt2289_StudentManager_ThuyEntities8();
         }
     }
 }

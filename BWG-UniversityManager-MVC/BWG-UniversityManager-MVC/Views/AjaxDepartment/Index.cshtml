@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BWG_UniversityManager_MVC.Models.Department>
+﻿@model IEnumerable<ASP_NET_MVC.Models.Department>
 
 @{
     ViewBag.Title = "Index";
@@ -40,7 +40,7 @@
             <form id="addForm">
                 Department ID:
                 <input id="Did" class="form-control" type="text" value="" name="Did" required maxlength="4" title="Field must be less than 4 characters long" /><br />
-                University:
+                University: 
                 <input id="DUni" class="form-control" type="text" value="" name="DUni" /><br />
                 Name:
                 <input id="Dname" class="form-control" type="text" value="" name="Dname" /><br />
@@ -52,9 +52,9 @@
                 Department ID:
                 <input id="Did_ud" class="form-control" type="text" value="" name="Did" readonly /><br />
                 University:
-                <input id="DUni_ud" class="form-control" type="text" value="" name="DUni" /><br />
+                <input id="DUni_ud"class="form-control" type="text" value="" name="DUni" /><br />
                 Name:
-                <input id="Dname_ud" class="form-control" type="text" value="" name="Dname" /><br />
+                <input id="Dname_ud"class="form-control" type="text" value="" name="Dname" /><br />
                 <button class="btn-success" type="button" id="saveButton" onclick="UpdateDepartment()">Save</button>
             </form>
         </div>
@@ -70,7 +70,7 @@
             </span>
         </div>
     </div>
-</div>
+ </div>
 <style>
     .grid {
         display: grid;
@@ -81,16 +81,13 @@
         border: ridge;
         padding: 10px;
     }
-
     #deleteBut, #updateBut, #addSegment, #updateSegment {
         display: none;
     }
-
     #IDError, #NameError, #UniError {
         display: none;
         font-size: 0.8em;
     }
-
     input.invalid {
         border-color: red;
     }

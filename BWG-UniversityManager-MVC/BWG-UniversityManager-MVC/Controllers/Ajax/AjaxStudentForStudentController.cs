@@ -1,8 +1,12 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
-namespace BWG_UniversityManager_MVC.Controllers.Ajax
+namespace ASP_NET_MVC.Controllers.Ajax
 {
-    public class AjaxStudentForStudentController : AjaxController
+    public class AjaxStudentForStudentController : Controller
     {
         // GET: AjaxStudentForStudent
         public ActionResult Index()

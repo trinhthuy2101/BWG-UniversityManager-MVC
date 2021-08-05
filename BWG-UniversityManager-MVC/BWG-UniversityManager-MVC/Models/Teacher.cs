@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BWG_UniversityManager_MVC.Models
+namespace ASP_NET_MVC.Models
 {
     using System;
     using System.Collections.Generic;
