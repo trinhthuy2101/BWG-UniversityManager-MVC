@@ -128,6 +128,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Ajax\AjaxAdminController.cs" />
     <Compile Include="Controllers\Ajax\AjaxClassController.cs" />
     <Compile Include="Controllers\Ajax\AjaxController.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Controllers\Ajax\AjaxStudentController.cs" />
     <Compile Include="Controllers\Ajax\AjaxStudentForStudentController.cs" />
     <Compile Include="Controllers\Ajax\AjaxUniversityController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Ajax\AjaxTeacherController.cs" />
     <Compile Include="Global.asax.cs">
@@ -257,9 +259,12 @@
     <Content Include="Views\AjaxAdmin\Index.cshtml" />
     <Content Include="Views\AjaxTeacher\Index.cshtml" />
     <Content Include="Views\AjaxStudentForStudent\Index.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
