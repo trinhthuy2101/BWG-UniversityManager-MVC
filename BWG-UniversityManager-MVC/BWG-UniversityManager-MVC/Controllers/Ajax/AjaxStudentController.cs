@@ -8,13 +8,22 @@ using ASP_NET_MVC.Models;
 
 namespace ASP_NET_MVC.Controllers.Ajax
 {
-    public class AjaxStudentController : AjaxController
+    public class AjaxStudentController : BaseController
     {
         // GET: Student
         public ActionResult Index()
         {
             List<Student> students = DB.Students.ToList();
-            return View(students);
+            if (checkRoleLoginModel == "Administrator")
+                return View(students);
+            else if (checkRoleLoginModel == null)
+                return RedirectToAction("Login", "Account");
+            else
+                return RedirectToAction("NoPermission", "AjaxStudent");
+        }
+        public ActionResult NoPermission()
+        {
+            return View();
         }
         public JsonResult Details(string id)
         {

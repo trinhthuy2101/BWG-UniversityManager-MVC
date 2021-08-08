@@ -12,7 +12,6 @@ namespace ASP_NET_MVC.Controllers.Ajax
     {
         // GET: Base
         protected webt2289_StudentManager_ThuyEntities8 DB;
-
         public EntityState EntryState { get; private set; }
 
         public AjaxController()

@@ -14,12 +14,15 @@ namespace ASP_NET_MVC.Controllers
     {
         // GET: Base
         protected webt2289_StudentManager_ThuyEntities8 DB;
-
+        protected static LoginModel LoginModel = new LoginModel();
+        protected string checkRoleLoginModel => LoginModel.Role;
         public EntityState EntryState { get; private set; }
+
 
         public BaseController()
         {
             DB = new webt2289_StudentManager_ThuyEntities8();
+            
         }
     }
 }
