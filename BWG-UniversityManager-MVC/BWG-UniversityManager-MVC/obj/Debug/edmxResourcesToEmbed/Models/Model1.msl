@@ -4,7 +4,8 @@
     <EntitySetMapping Name="Accounts">
       <EntityTypeMapping TypeName="webt2289_StudentManager_ThuyModel.Account">
         <MappingFragment StoreEntitySet="Account">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id" ColumnName="id" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
           <ScalarProperty Name="Password" ColumnName="Password" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -93,5 +94,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="USP_PRINT_Student" FunctionName="webt2289_StudentManager_ThuyModel.Store.USP_PRINT_Student" />
+    <FunctionImportMapping FunctionImportName="USP_PRINT_Student_FULL" FunctionName="webt2289_StudentManager_ThuyModel.Store.USP_PRINT_Student_FULL" />
   </EntityContainerMapping>
 </Mapping>
