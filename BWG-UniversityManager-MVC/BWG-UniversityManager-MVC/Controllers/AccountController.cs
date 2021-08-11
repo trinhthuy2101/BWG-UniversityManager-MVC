@@ -24,8 +24,10 @@ namespace ASP_NET_MVC.Controllers
             LoginModel.Id = account.Id;
             if (account.Id == "1")
                 LoginModel.Role = "Administrator";
-            else
-                LoginModel.Role = "XXX";
+            else if(account.UserName.Contains("GV"))
+                LoginModel.Role = "Teacher";
+            else if (account.UserName.Contains("ST"))
+                LoginModel.Role = "Student";
             return RedirectToAction("Index", "Home");
         }
         [HttpPost]
