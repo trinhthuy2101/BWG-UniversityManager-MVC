@@ -1,8 +1,113 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Teacher";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Teacher</h2>
+<h2 >Hello, Teacher</h2>
+<button id="getTimeTable-btn" onclick="getTimeTable()" class="btn btn-info">Show My Courses</button>
 
+
+<table id="timeTable" class="table table-dark"></table>
+<div id="givestudentpointzone" style="display:none">
+    <table id="givePoints" class="table table-dark"></table>
+    <button id="finnishGivePoint"  class="btn btn-success" onclick="savePoints()">Save Point</button>
+
+</div>
+
+<script>
+    //TODO: move script to another file
+
+    var timetable = document.getElementById("timeTable");
+    var giveStudentPointZone = document.getElementById("givestudentpointzone");
+    var tablegivepoint = document.getElementById("givePoints");
+    function getTimeTable() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "..//../AjaxTeacher/GetTimeTable" );
+        xhttp.send();
+        xhttp.onload = function () {
+            const parsed = JSON.parse(this.responseText);
+            timetable.style.display = "block";
+            giveStudentPointZone.style.display = 'none';
+
+            let table = "<tr><th>Subject</th><th>StartTime</th><th>TimeEnd</th><th>GivePoint</th></tr>";
+            for (let i = 0; i < parsed.length; i++) {
+                table += "<tr><td>" +
+                    parsed[i].Subject +
+                    "</td><td>" +
+                    convert(parsed[i].StartDate) +
+                    "</td>" + "<td>" + convert(parsed[i].EndDate) + "</td>" +
+                    "<td>" + '<button onclick="giveThisCoursePoint((\'' + parsed[i].Id + '\'))" class="btn btn-info">Give Point</button>' + "</td>" +
+                    "</tr>";
+            }
+            timetable.innerHTML = table;
+        }
+
+    }
+    function savePoints() {
+        alert("save point");
+        var listofID = document.getElementsByClassName("studentId");
+        var listOfPoint = document.getElementsByClassName("pointvalue");
+        for (var i = 0; i < listofID.length; i++) {
+            const xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "..//../AjaxTeacher/SavePoints?id=" + listofID[i].innerHTML + "&point=" + listOfPoint[i].value);
+            xhttp.send();
+
+        }
+    }
+    function giveThisCoursePoint(subjectid) {
+        alert("give point to course " + subjectid);
+
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "..//../AjaxTeacher/GetListRegisteredCourseFromRegisteredCourse?courseid=" +subjectid);
+        xhttp.send();
+        xhttp.onload = function () {
+            const parsed = JSON.parse(this.responseText);
+            timetable.style.display = 'none';
+            giveStudentPointZone.style.display = 'block';
+
+            if (parsed.length > 0) {
+                let table = "<tr><th>Name</th><th>ID</th><th>Point</th></tr>";
+                for (let i = 0; i < parsed.length; i++) {
+                    table += "<tr>" +
+                        "<td>" +
+                        '<div class="student">'+parsed[i].Student +'</div>'+
+                        "</td>" +
+                        "<td>" +
+                        '<div class="studentId">'+parsed[i].Id +'</div>'+
+                        "</td><td>"+
+                        '<input class="pointvalue" type="text" value=' + parsed[i].Point + ' >' +
+                        "</td>" +
+                        "</tr>";
+                }
+                tablegivepoint.innerHTML = table;
+            }
+            else alert("Sorry, there are no student to give point :( ");
+        }
+    }
+
+    function onStartLoad() {
+         hideOtherTabs();
+    }
+    function hideOtherTabs() {
+        document.getElementById("StudentTab").remove();
+        document.getElementById("ClassTab").remove();
+        document.getElementById("DepartmentTab").remove();
+        document.getElementById("UniversityTab").remove();
+        document.getElementById("AdminTab").remove();
+    }
+
+
+
+    
+    function convert(value) {
+        var str = new Date(parseInt(value.replace("/Date(", "").replace(")/", ""), 10));
+        var date = new Date(str),
+            mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+            day = ("0" + date.getDate()).slice(-2);
+        return [mnth, day, date.getFullYear()].join("/");
+    }
+    window.onload = onStartLoad();
+
+
+</script>
