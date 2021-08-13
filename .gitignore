@@ -51,3 +51,5 @@ BWG-UniversityManager-MVC/BWG-UniversityManager-MVC/obj/Debug/ASP-NET-MVC.dll
 BWG-UniversityManager-MVC/BWG-UniversityManager-MVC/obj/Debug/ASP-NET-MVC.pdb
 BWG-UniversityManager-MVC/BWG-UniversityManager-MVC/obj/Debug/BWG-UniversityManager-MVC.csproj.CoreCompileInputs.cache
 BWG-UniversityManager-MVC/BWG-UniversityManager-MVC/obj/Debug/BWG-UniversityManager-MVC.csprojAssemblyReference.cache
+BWG-UniversityManager-MVC/.vs/BWG-UniversityManager-MVC/config/applicationhost.config
+*.dll
