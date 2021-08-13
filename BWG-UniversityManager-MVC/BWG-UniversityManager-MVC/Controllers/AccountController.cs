@@ -22,11 +22,24 @@ namespace ASP_NET_MVC.Controllers
             if (!ModelState.IsValid || account == null)
                 return View();
             LoginModel.Id = account.Id;
+            string page = "Ajax";
             if (account.Id == "1")
+            {
                 LoginModel.Role = "Administrator";
-            else
-                LoginModel.Role = "XXX";
-            return RedirectToAction("Index", "Home");
+                page += "Admin";
+            }
+            else if (account.UserName.Contains("GV"))
+            {
+                LoginModel.Role = "Teacher";
+                page += "Teacher";
+            }
+            else if (account.UserName.Contains("ST"))
+            {
+                LoginModel.Role = "Student";
+                page += "StudentForStudent";
+            }
+                
+            return RedirectToAction("Index", page);
         }
         [HttpPost]
         public ActionResult LogOff()

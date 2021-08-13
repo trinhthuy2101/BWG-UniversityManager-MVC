@@ -14,6 +14,12 @@ namespace ASP_NET_MVC.Controllers.UniversityManager
        
         public ActionResult Index()
         {
+            if (LoginModel.Role == "Teacher")
+                return View();
+            else return RedirectToAction("NoPermission", "AjaxTeacher");
+        }
+        public ActionResult NoPermission()
+        {
             return View();
 
         }

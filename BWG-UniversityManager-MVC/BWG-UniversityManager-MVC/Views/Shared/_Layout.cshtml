@@ -16,18 +16,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("BWG", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @*@Html.ActionLink("THUYTRINH", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
             </div>
             <div class="navbar-collapse collapse">
                 <ul id="parentNavBar" class="nav navbar-nav">
                     <li id="HomeTab">@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li id="StudentTab">@Html.ActionLink("AjaxStudent", "Index", "AjaxStudent")</li>
-                    <li id="ClassTab">@Html.ActionLink("AjaxClass", "Index", "AjaxClass")</liid="StudentTab">
-                    <li id="DepartmentTab">@Html.ActionLink("AjaxDepartment", "Index", "AjaxDepartment")</li>
-                    <li id="UniversityTab">@Html.ActionLink("AjaxUniversity", "Index", "AjaxUniversity")</li>
-                    <li id="AdminTab">@Html.ActionLink("AjaxAdmin", "Index", "AjaxAdmin")</li>
+                    <li id="StudentTab">@Html.ActionLink("Student", "Index", "AjaxStudent")</li>
+                    <li id="ClassTab">@Html.ActionLink("Class", "Index", "AjaxClass")</liid="StudentTab">
+                    <li id="DepartmentTab">@Html.ActionLink("Department", "Index", "AjaxDepartment")</li>
+                    <li id="UniversityTab">@Html.ActionLink("University", "Index", "AjaxUniversity")</li>
+                    <li id="AdminTab">@Html.ActionLink("Admin","Index", "AjaxAdmin")</li>
                     <li id="TeacherTab">@Html.ActionLink("Teacher", "Index", "AjaxTeacher")</li>
-                    <li id="TeacherTab">@Html.ActionLink("Student", "Index", "AjaxStudentForStudent")</li>
+                    <li id="StudentTab1">@Html.ActionLink("Student Dashboard", "Index", "AjaxStudentForStudent")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
                 @Html.Partial("_ChangePasswordPartial")

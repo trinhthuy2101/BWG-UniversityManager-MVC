@@ -13,6 +13,12 @@ namespace ASP_NET_MVC.Controllers.Ajax
 
         public ActionResult Index()
         {
+            if (LoginModel.Role == "Teacher")
+                return View();
+            else return RedirectToAction("NoPermission", "AjaxStudentForStudent");
+        }
+        public ActionResult NoPermission()
+        {
             return View();
 
         }
