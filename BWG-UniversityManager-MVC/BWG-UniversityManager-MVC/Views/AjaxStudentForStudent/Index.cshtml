@@ -12,8 +12,11 @@
 </blockquote>
 <br />
 <div class="d-flex p-2 text-center col-auto">
-    <button id="getTimeTable-btn" onclick="getTimeTable()" class="btn btn-info">Show My Courses</button>
+    <button id="getTimeTable-btn" onclick="getTimeTable()" class="btn btn-info">Show My Registered Courses</button>
+    <button id="showCoursesToRegister-btn" onclick="showCoursesToRegister()" class="btn btn-info">I want to register course</button>
+   <br />
     <table id="timeTable" class="table table-dark table-responsive table-striped"></table>
+    <table id="coursesToRegisterTable" class="table table-dark table-responsive table-striped"></table>
     <div id="givestudentpointzone" style="display:none">
         <table id="givePoints" class="table table-dark table-responsive"></table>
         <button id="finnishGivePoint" class="btn btn-success" onclick="savePoints()">Save Point</button>
@@ -27,8 +30,8 @@
     //TODO: move script to another file
 
     var timetable = document.getElementById("timeTable");
-    var giveStudentPointZone = document.getElementById("givestudentpointzone");
-    var tablegivepoint = document.getElementById("givePoints");
+    var coursesToRegisterTable = document.getElementById("coursesToRegisterTable");
+  
     function getTimeTable() {
         const xhttp = new XMLHttpRequest();
         xhttp.open("GET", "..//../AjaxStudentForStudent/GetTimeTable" );
@@ -36,7 +39,7 @@
         xhttp.onload = function () {
             const parsed = JSON.parse(this.responseText);
             timetable.style.display = "table";
-            giveStudentPointZone.style.display = 'none';
+            coursesToRegisterTable.style.display = 'none';
 
             let table = '<tr><th style="text-align:center">Subject</th><th style="text-align:center">StartTime</th><th style="text-align:center">TimeEnd</th><th style="text-align:center">Pay</th></tr>';
             for (let i = 0; i < parsed.length; i++) {
@@ -52,6 +55,41 @@
         }
 
     }
+    function showCoursesToRegister() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "..//../AjaxStudentForStudent/ShowCoursesToRegister");
+        xhttp.send();
+        xhttp.onload = function () {
+            const parsed = JSON.parse(this.responseText);
+            timetable.style.display = "none";
+            coursesToRegisterTable.style.display = 'table';
+
+            let table = '<tr><th style="text-align:center">Subject</th><th style="text-align:center">StartTime</th><th style="text-align:center">TimeEnd</th><th style="text-align:center">Register</th></tr>';
+            for (let i = 0; i < parsed.length; i++) {
+                table += "<tr><td>" +
+                    parsed[i].Subject +
+                    "</td><td>" +
+                    convert(parsed[i].StartDate) +
+                    "</td>" + "<td>" + convert(parsed[i].EndDate) + "</td>" +
+                    "<td>" + '<button onclick="registerToCourse((\'' + parsed[i].Id + '\'))" class="btn btn-success">Register</button>' + "</td>" +
+                    "</tr>";
+            }
+            coursesToRegisterTable.innerHTML = table;
+        }
+
+    }
+    function registerToCourse(course) {
+
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "..//../AjaxStudentForStudent/RegisterToCourse?course=" + course);
+        xhttp.send();
+        xhttp.onload = function () {
+            const parsed = JSON.parse(this.responseText);
+            alert(parsed);
+            showCoursesToRegister();
+        }
+        
+    }  
     //function savePoints() {
     //    alert("save point");
     //    var listofID = document.getElementsByClassName("studentId");
