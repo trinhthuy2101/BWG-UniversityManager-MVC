@@ -270,6 +270,9 @@
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\NoLoggedAccount.cshtml" />
     <Content Include="Views\Shared\_ChangePasswordPartial.cshtml" />
+    <Content Include="Views\AjaxAdmin\NoPermission.cshtml" />
+    <Content Include="Views\AjaxTeacher\NoPermission.cshtml" />
+    <Content Include="Views\AjaxStudentForStudent\NoPermission.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
