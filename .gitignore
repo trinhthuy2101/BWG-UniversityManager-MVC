@@ -22,3 +22,12 @@ BWG-UniversityManager-MVC/BWG-UniversityManager-MVC/obj/Debug/ASP-NET-MVC.pdb
 BWG-UniversityManager-MVC/BWG-UniversityManager-MVC/obj/Debug/BWG-UniversityManager-MVC.csproj.CoreCompileInputs.cache
 BWG-UniversityManager-MVC/BWG-UniversityManager-MVC/obj/Debug/BWG-UniversityManager-MVC.csproj.FileListAbsolute.txt
 BWG-UniversityManager-MVC/BWG-UniversityManager-MVC/obj/Debug/BWG-UniversityManager-MVC.csprojAssemblyReference.cache
+*.dll
+*.pdb
+*.pdb
+*.dll
+BWG-UniversityManager-MVC/BWG-UniversityManager-MVC/bin/ASP-NET-MVC.dll
+BWG-UniversityManager-MVC/BWG-UniversityManager-MVC/bin/ASP-NET-MVC.pdb
+BWG-UniversityManager-MVC/BWG-UniversityManager-MVC/obj/Debug/ASP-NET-MVC.pdb
+BWG-UniversityManager-MVC/BWG-UniversityManager-MVC/obj/Debug/ASP-NET-MVC.dll
+*.cache
