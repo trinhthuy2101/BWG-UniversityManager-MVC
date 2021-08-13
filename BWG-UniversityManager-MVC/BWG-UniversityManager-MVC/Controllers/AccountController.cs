@@ -15,6 +15,7 @@ namespace ASP_NET_MVC.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult Login(Account model)
         {
