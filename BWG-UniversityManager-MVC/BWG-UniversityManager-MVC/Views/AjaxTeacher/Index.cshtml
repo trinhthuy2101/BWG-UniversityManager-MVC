@@ -3,17 +3,27 @@
     ViewBag.Title = "Teacher";
     Layout = "~/Views/Shared/_LayoutForTeacher.cshtml";
 }
+<div class="d-flex p-2 text-center col-auto">
+    <h2 id="hellotext" style="text-align:center">Hello, Teacher</h2>
+</div>
+    <blockquote class="blockquote text-right">
+        <p class="mb-0" id="quote">Have a nice day :)</p>
+        <footer class="blockquote-footer" id="famousname"> </footer>
+    </blockquote>
+    <br />
+<div class="d-flex p-2 text-center col-auto">
+    <button id="getTimeTable-btn" onclick="getTimeTable()" class="btn btn-info">Show My Courses</button>
 
-<h2 >Hello, Teacher</h2>
-<button id="getTimeTable-btn" onclick="getTimeTable()" class="btn btn-info">Show My Courses</button>
 
+    <table id="timeTable" class="table table-dark table-responsive table-striped"></table>
+    <div id="givestudentpointzone" style="display:none">
+        <table id="givePoints" class="table table-dark table-responsive"></table>
+        <button id="finnishGivePoint" class="btn btn-success" onclick="savePoints()">Save Point</button>
 
-<table id="timeTable" class="table table-dark"></table>
-<div id="givestudentpointzone" style="display:none">
-    <table id="givePoints" class="table table-dark"></table>
-    <button id="finnishGivePoint"  class="btn btn-success" onclick="savePoints()">Save Point</button>
+    </div>
 
 </div>
+
 
 <script>
     //TODO: move script to another file
@@ -27,10 +37,10 @@
         xhttp.send();
         xhttp.onload = function () {
             const parsed = JSON.parse(this.responseText);
-            timetable.style.display = "block";
+            timetable.style.display = "table";
             giveStudentPointZone.style.display = 'none';
 
-            let table = "<tr><th>Subject</th><th>StartTime</th><th>TimeEnd</th><th>GivePoint</th></tr>";
+            let table = '<tr><th style="text-align:center">Subject</th><th style="text-align:center">StartTime</th><th style="text-align:center">TimeEnd</th><th style="text-align:center">GivePoint</th></tr>';
             for (let i = 0; i < parsed.length; i++) {
                 table += "<tr><td>" +
                     parsed[i].Subject +
@@ -67,7 +77,7 @@
             giveStudentPointZone.style.display = 'block';
 
             if (parsed.length > 0) {
-                let table = "<tr><th>Name</th><th>ID</th><th>Point</th></tr>";
+                let table = '<tr><th style="text-align:center">Name</th><th style="text-align:center">ID</th><th style="text-align:center">Point</th></tr>';
                 for (let i = 0; i < parsed.length; i++) {
                     table += "<tr>" +
                         "<td>" +
@@ -87,7 +97,8 @@
     }
 
     function onStartLoad() {
-         hideOtherTabs();
+        hideOtherTabs();
+        helloTextWithName();
     }
     function hideOtherTabs() {
         document.getElementById("StudentTab").remove();
@@ -97,7 +108,27 @@
         document.getElementById("AdminTab").remove();
     }
 
+    function helloTextWithName() {
 
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "..//../AjaxTeacher/ReturnName");
+        xhttp.send();
+        xhttp.onload = function () {
+            const parsed = JSON.parse(this.responseText);
+
+            var hellotext = document.getElementById("hellotext");
+            hellotext.innerHTML = 'Hello, teacher ' + parsed;
+            let quotes = ['I cannot teach anybody anything; I can only make them think.', 'Tell me and I forget. Teach me and I remember. Involve me and I learn.', 'Teaching is the greatest act of optimism.', 'If you are planning for a year, sow rice; if you are planning for a decade, plant trees; if you are planning for a lifetime, educate people.', 'Education is not preparation for life; education is life itself.', 'What sculpture is to a block of marble, education is to a human soul.'];
+            let famousnames = ['Socrates', 'Benjamin Franklin', 'Colleen Wilcox', 'Chinese Proverb', 'John Dewey', 'Joseph Addison'];
+            let index = Math.floor(Math.random() * 6);
+            document.getElementById("quote").innerHTML = quotes[index];
+            document.getElementById("famousname").innerHTML = famousnames[index];
+
+
+
+
+        }
+    }
 
     
     function convert(value) {
