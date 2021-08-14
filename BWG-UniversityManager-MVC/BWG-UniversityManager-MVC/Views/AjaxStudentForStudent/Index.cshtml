@@ -1,8 +1,180 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Student";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="d-flex p-2 text-center col-auto">
+    <h2 id="hellotext" style="text-align:center">Hello, Student</h2>
+</div>
+<blockquote class="blockquote text-right">
+    <p class="mb-0" id="quote">Have a nice day :)</p>
+    <footer class="blockquote-footer" id="famousname"> </footer>
+</blockquote>
+<br />
+<div class="d-flex p-2 text-center col-auto">
+    <button id="getTimeTable-btn" onclick="getTimeTable()" class="btn btn-info">Show My Registered Courses</button>
+    <button id="showCoursesToRegister-btn" onclick="showCoursesToRegister()" class="btn btn-info">I want to register course</button>
+   <br />
+    <table id="timeTable" class="table table-dark table-responsive table-striped"></table>
+    <table id="coursesToRegisterTable" class="table table-dark table-responsive table-striped"></table>
+    <div id="givestudentpointzone" style="display:none">
+        <table id="givePoints" class="table table-dark table-responsive"></table>
+        <button id="finnishGivePoint" class="btn btn-success" onclick="savePoints()">Save Point</button>
 
-<h2>Student Dashboard</h2>
+    </div>
 
+</div>
+
+
+<script>
+    //TODO: move script to another file
+
+    var timetable = document.getElementById("timeTable");
+    var coursesToRegisterTable = document.getElementById("coursesToRegisterTable");
+  
+    function getTimeTable() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "..//../AjaxStudentForStudent/GetTimeTable" );
+        xhttp.send();
+        xhttp.onload = function () {
+            const parsed = JSON.parse(this.responseText);
+            timetable.style.display = "table";
+            coursesToRegisterTable.style.display = 'none';
+
+            let table = '<tr><th style="text-align:center">Subject</th><th style="text-align:center">StartTime</th><th style="text-align:center">TimeEnd</th><th style="text-align:center">Pay</th></tr>';
+            for (let i = 0; i < parsed.length; i++) {
+                table += "<tr><td>" +
+                    parsed[i].Subject +
+                    "</td><td>" +
+                    convert(parsed[i].StartDate) +
+                    "</td>" + "<td>" + convert(parsed[i].EndDate) + "</td>" +
+                    "<td>" + '<button onclick="giveThisCoursePoint((\'' + parsed[i].Id + '\'))" class="btn btn-info">Pay Fee</button>' + "</td>" +
+                    "</tr>";
+            }
+            timetable.innerHTML = table;
+        }
+
+    }
+    function showCoursesToRegister() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "..//../AjaxStudentForStudent/ShowCoursesToRegister");
+        xhttp.send();
+        xhttp.onload = function () {
+            const parsed = JSON.parse(this.responseText);
+            timetable.style.display = "none";
+            coursesToRegisterTable.style.display = 'table';
+
+            let table = '<tr><th style="text-align:center">Subject</th><th style="text-align:center">StartTime</th><th style="text-align:center">TimeEnd</th><th style="text-align:center">Register</th></tr>';
+            for (let i = 0; i < parsed.length; i++) {
+                table += "<tr><td>" +
+                    parsed[i].Subject +
+                    "</td><td>" +
+                    convert(parsed[i].StartDate) +
+                    "</td>" + "<td>" + convert(parsed[i].EndDate) + "</td>" +
+                    "<td>" + '<button onclick="registerToCourse((\'' + parsed[i].Id + '\'))" class="btn btn-success">Register</button>' + "</td>" +
+                    "</tr>";
+            }
+            coursesToRegisterTable.innerHTML = table;
+        }
+
+    }
+    function registerToCourse(course) {
+
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "..//../AjaxStudentForStudent/RegisterToCourse?course=" + course);
+        xhttp.send();
+        xhttp.onload = function () {
+            const parsed = JSON.parse(this.responseText);
+            alert(parsed);
+            showCoursesToRegister();
+        }
+        
+    }  
+    //function savePoints() {
+    //    alert("save point");
+    //    var listofID = document.getElementsByClassName("studentId");
+    //    var listOfPoint = document.getElementsByClassName("pointvalue");
+    //    for (var i = 0; i < listofID.length; i++) {
+    //        const xhttp = new XMLHttpRequest();
+    //        xhttp.open("POST", "..//../AjaxTeacher/SavePoints?id=" + listofID[i].innerHTML + "&point=" + listOfPoint[i].value);
+    //        xhttp.send();
+
+    //    }
+    //}
+    //function giveThisCoursePoint(subjectid) {
+    //    alert("give point to course " + subjectid);
+
+    //    const xhttp = new XMLHttpRequest();
+    //    xhttp.open("GET", "..//../AjaxTeacher/GetListRegisteredCourseFromRegisteredCourse?courseid=" +subjectid);
+    //    xhttp.send();
+    //    xhttp.onload = function () {
+    //        const parsed = JSON.parse(this.responseText);
+    //        timetable.style.display = 'none';
+    //        giveStudentPointZone.style.display = 'block';
+
+    //        if (parsed.length > 0) {
+    //            let table = '<tr><th style="text-align:center">Name</th><th style="text-align:center">ID</th><th style="text-align:center">Point</th></tr>';
+    //            for (let i = 0; i < parsed.length; i++) {
+    //                table += "<tr>" +
+    //                    "<td>" +
+    //                    '<div class="student">'+parsed[i].Student +'</div>'+
+    //                    "</td>" +
+    //                    "<td>" +
+    //                    '<div class="studentId">'+parsed[i].Id +'</div>'+
+    //                    "</td><td>"+
+    //                    '<input class="pointvalue" type="text" value=' + parsed[i].Point + ' >' +
+    //                    "</td>" +
+    //                    "</tr>";
+    //            }
+    //            tablegivepoint.innerHTML = table;
+    //        }
+    //        else alert("Sorry, there are no student to give point :( ");
+    //    }
+    //}
+
+    function onStartLoad() {
+        hideOtherTabs();
+        helloTextWithName();
+    }
+    function hideOtherTabs() {
+        document.getElementById("StudentTab").remove();
+        document.getElementById("ClassTab").remove();
+        document.getElementById("DepartmentTab").remove();
+        document.getElementById("UniversityTab").remove();
+        document.getElementById("AdminTab").remove();
+    }
+
+    function helloTextWithName() {
+
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "..//../AjaxStudentForStudent/ReturnName");
+        xhttp.send();
+        xhttp.onload = function () {
+            const parsed = JSON.parse(this.responseText);
+
+            var hellotext = document.getElementById("hellotext");
+            hellotext.innerHTML = 'Hello, Student ' + parsed;
+            let quotes = ['No matter how busy you may think you are, you must find time for reading, or surrender yourself to self-chosen ignorance.', 'Let us study things that are no more. It is necessary to understand them, if only to avoid them.', 'The authority of those who teach is often an obstacle to those who want to learn.', 'To acquire knowledge, one must study;but to acquire wisdom, one must observe.', 'You can not study the darkness by flooding it with light.','The art of reading and studying consists in remembering the essentials and forgetting what is not essential.'];
+            let famousnames = ['Atwood H. Townsend', 'Victor Hugo, Les Misérables', 'Marcus Tullius Cicero', 'Marilyn vos Savant', 'Edward Abbey', 'Adolf Hitler, Mein Kampf'];
+            let index = Math.floor(Math.random() * 6);
+            document.getElementById("quote").innerHTML = quotes[index];
+            document.getElementById("famousname").innerHTML = famousnames[index];
+
+
+
+
+        }
+    }
+
+
+    function convert(value) {
+        var str = new Date(parseInt(value.replace("/Date(", "").replace(")/", ""), 10));
+        var date = new Date(str),
+            mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+            day = ("0" + date.getDate()).slice(-2);
+        return [mnth, day, date.getFullYear()].join("/");
+    }
+    window.onload = onStartLoad();
+
+
+</script>
