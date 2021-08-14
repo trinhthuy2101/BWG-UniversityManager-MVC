@@ -20,23 +20,57 @@ namespace ASP_NET_MVC.Controllers
         {
             var account = DB.Accounts.SingleOrDefault(a => a.Password == model.Password && a.UserName == model.UserName);
             if (!ModelState.IsValid || account == null)
-                return View();
+            {
+                return RedirectToAction("LogginFail", "Account");
+            }
+                
             LoginModel.Id = account.Id;
+            string page = "Ajax";
             if (account.Id == "1")
+            {
                 LoginModel.Role = "Administrator";
-            else if(account.UserName.Contains("GV"))
+                page += "Admin";
+            }
+                
+            else if (account.UserName.Contains("GV"))
+            {
                 LoginModel.Role = "Teacher";
+                page += "Teacher";
+            }
+                
             else if (account.UserName.Contains("ST"))
+            {
                 LoginModel.Role = "Student";
-            return RedirectToAction("Index", "Home");
+                page +="StudentForStudent";
+            }
+                
+            return RedirectToAction("Index", page);
         }
+
+        public ActionResult LogginFail()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            /*if(LoginModel.Role=="Student")
+                return RedirectToAction("Logout", "AjaxStudentForStudent");
+            else if (LoginModel.Role == "Teacher")
+                return RedirectToAction("Logout", "AjaxTeacher");
+            else
+                return RedirectToAction("Logout", "AjaxAdmin");*/
+            return View();
+        }
+
         [HttpPost]
-        public ActionResult LogOff()
+        public ActionResult Logout(string dummuy)
         {
             LoginModel.Role = null;
             LoginModel.Id = null;
             return RedirectToAction("Index", "Home");
         }
+
         [HttpGet]
         public ActionResult ChangePassword()
         {

@@ -14,9 +14,14 @@ namespace ASP_NET_MVC.Controllers.UniversityManager
         //[Authorize(Roles = "HRManager,Finance")]
         public ActionResult Index()
         {
+            if (LoginModel.Role == "Teacher")
+                return View();
+            else return RedirectToAction("NoPermission", "Base");
+        }
+        public ActionResult Logout()
+        {
             return View();
         }
-        //[Authorize(Roles = "HRManager,Finance")]
         public ActionResult GetTimeTable() {
             string accountid = LoginModel.Id;
             string SQLFindTrueID=" select UserName from Account where id = '" + accountid + "'";

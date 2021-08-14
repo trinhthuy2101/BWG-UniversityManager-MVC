@@ -24,5 +24,9 @@ namespace ASP_NET_MVC.Controllers
             DB = new webt2289_StudentManager_ThuyEntities8();
             
         }
+        public ActionResult NoPermission()
+        {
+            return View();
+        }
     }
 }

@@ -6,12 +6,14 @@ using System.Web.Mvc;
 
 namespace ASP_NET_MVC.Controllers.Ajax
 {
-    public class AjaxStudentForStudentController : Controller
+    public class AjaxStudentForStudentController : BaseController
     {
         // GET: AjaxStudentForStudent
         public ActionResult Index()
         {
-            return View();
+            if (LoginModel.Role == "Student")
+                return View();
+            else return RedirectToAction("NoPermission", "Base");
         }
     }
 }
