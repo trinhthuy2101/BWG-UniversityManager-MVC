@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -20,9 +21,11 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul id="parentNavBar" class="nav navbar-nav">
-                    <li id="HomeTab">@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li id="StudentTab1">@Html.ActionLink("Student Dashboard", "Index", "AjaxStudentForStudent")</li>
                 </ul>
-                @Html.Partial("_LoginPartial")
+                <button>@Html.ActionLink("Change Password", "ChangePassword", "Account")</button>
+                <button>@Html.ActionLink("Log Out", "Logout","Account")</button>
+
             </div>
         </div>
     </div>
@@ -37,5 +40,13 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    <style>
+        button {
+            float: right;
+            margin: 13px 10px 0 10px;
+        }
+    </style>
 </body>
 </html>
+
