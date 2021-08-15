@@ -56,6 +56,16 @@ namespace ASP_NET_MVC.Controllers.Ajax
             s.Class = Class;
             if (ModelState.IsValid)
             {
+                //Create new account for student
+                List<Account> accounts = DB.Accounts.ToList();
+                int countAll = 0;
+                accounts.ForEach(a => countAll++);
+                Account account = new Account();
+                account.UserName = s.Id;
+                account.Password = "13579";
+                account.Id = (countAll+1).ToString();
+
+                DB.Accounts.Add(account);
                 DB.Students.Add(s);
                 DB.SaveChanges();
             }
