@@ -43,6 +43,18 @@ namespace ASP_NET_MVC.Controllers.UniversityManager
 
         }
 
+        //get teacher name
+        public ActionResult ReturnName()
+        {
+            string accountid = LoginModel.Id;
+            string SQLFindTrueID = " select UserName from Account where id = '" + accountid + "'";
+            string id = DB.Database.SqlQuery<string>(SQLFindTrueID).FirstOrDefault();
+
+            string SQLFindName = "select Name from teacher where id='" + id + "'";
+            string name = DB.Database.SqlQuery<string>(SQLFindName).FirstOrDefault();
+            return Json(name, JsonRequestBehavior.AllowGet);
+
+        }
 
     }
 
