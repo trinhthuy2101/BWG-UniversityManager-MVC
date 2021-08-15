@@ -20,9 +20,15 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul id="parentNavBar" class="nav navbar-nav">
-                    <li id="HomeTab">@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li id="AdminTab">@Html.ActionLink("Admin", "Index", "AjaxAdmin")</li>
+                    <li id="StudentTab">@Html.ActionLink("Student", "Index", "AjaxStudent")</li>
+                    <li id="ClassTab">@Html.ActionLink("Class", "Index", "AjaxClass")</li>
+                    <li id="DepartmentTab">@Html.ActionLink("Department", "Index", "AjaxDepartment")</li>
+                    <li id="UniversityTab">@Html.ActionLink("University", "Index", "AjaxUniversity")</li>
+                    
                 </ul>
-                @Html.Partial("_LoginPartial")
+                <button>@Html.ActionLink("Change Password", "ChangePassword", "Account")</button>
+                <button>@Html.ActionLink("Log Out", "Logout", "Account")</button>
             </div>
         </div>
     </div>
@@ -37,5 +43,13 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <style>
+        button{
+            float: right;
+            margin:13px 10px 0 10px;
+        }
+
+    </style>
 </body>
 </html>
+

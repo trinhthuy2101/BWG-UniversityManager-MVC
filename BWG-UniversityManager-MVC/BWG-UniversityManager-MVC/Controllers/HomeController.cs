@@ -6,12 +6,18 @@ using System.Web.Mvc;
 
 namespace ASP_NET_MVC.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
 
         public ActionResult Index()
         {
-            return View();
+            if (LoginModel.Role == "Student")
+                return RedirectToAction("Index", "AjaxStudentForStudent");
+            else if (LoginModel.Role == "Teacher")
+                return RedirectToAction("Index", "AjaxTeacher");
+            else if (LoginModel.Role == "Administrator")
+                return RedirectToAction("Index", "AjaxAdmin");
+            else return View();
         }
     }
 }

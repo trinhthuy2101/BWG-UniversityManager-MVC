@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="webt2289_StudentManager_ThuyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="Password" Type="varchar" MaxLength="100" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="100" />
+    <Property Name="id" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Class">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Dep" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Course">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Subject" Type="varchar" MaxLength="100" />
+    <Property Name="Teacher" Type="varchar" MaxLength="100" />
+    <Property Name="Room" Type="varchar" MaxLength="100" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="EndDate" Type="date" />
+    <Property Name="Time" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Uni" Type="varchar" MaxLength="100" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="RegisteredCourse">
+    <Key>
+      <PropertyRef Name="Course" />
+      <PropertyRef Name="Student" />
+    </Key>
+    <Property Name="Course" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Student" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Point" Type="int" />
+  </EntityType>
+  <EntityType Name="Room">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Class" Type="varchar" MaxLength="100" />
+    <Property Name="Idc" Type="varchar" MaxLength="100" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Subject">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="Credits" Type="int" />
+  </EntityType>
+  <EntityType Name="Teacher">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Idc" Type="varchar" MaxLength="100" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="University">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK__Course__Room__43A1090D">
+    <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+    <End Role="Course" Type="Self.Course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Room">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Course">
+        <PropertyRef Name="Room" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Course__Subject__44952D46">
+    <End Role="Subject" Type="Self.Subject" Multiplicity="0..1" />
+    <End Role="Course" Type="Self.Course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Course">
+        <PropertyRef Name="Subject" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Course__Teacher__42ACE4D4">
+    <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+    <End Role="Course" Type="Self.Course" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teacher">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Course">
+        <PropertyRef Name="Teacher" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Registere__Cours__4589517F">
+    <End Role="Course" Type="Self.Course" Multiplicity="1" />
+    <End Role="RegisteredCourse" Type="Self.RegisteredCourse" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Course">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RegisteredCourse">
+        <PropertyRef Name="Course" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Registere__Stude__467D75B8">
+    <End Role="Student" Type="Self.Student" Multiplicity="1" />
+    <End Role="RegisteredCourse" Type="Self.RegisteredCourse" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RegisteredCourse">
+        <PropertyRef Name="Student" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PK_Class_Dep">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Class" Type="Self.Class" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Class">
+        <PropertyRef Name="Dep" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PK_Dep_Uni">
+    <End Role="University" Type="Self.University" Multiplicity="0..1" />
+    <End Role="Department" Type="Self.Department" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="University">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Department">
+        <PropertyRef Name="Uni" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PK_Student_Class">
+    <End Role="Class" Type="Self.Class" Multiplicity="0..1" />
+    <End Role="Student" Type="Self.Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Class">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="Class" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="USP_PRINT_Student" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="webt2289_thuy">
+    <Parameter Name="Id" Type="char" Mode="In" />
+    <Parameter Name="Name" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="USP_PRINT_Student_FULL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="webt2289_thuy" />
+  <EntityContainer Name="webt2289_StudentManager_ThuyModelStoreContainer">
+    <EntitySet Name="Account" EntityType="Self.Account" Schema="webt2289_thuy" store:Type="Tables" />
+    <EntitySet Name="Class" EntityType="Self.Class" Schema="webt2289_thuy" store:Type="Tables" />
+    <EntitySet Name="Course" EntityType="Self.Course" Schema="webt2289_thuy" store:Type="Tables" />
+    <EntitySet Name="Department" EntityType="Self.Department" Schema="webt2289_thuy" store:Type="Tables" />
+    <EntitySet Name="RegisteredCourse" EntityType="Self.RegisteredCourse" Schema="webt2289_thuy" store:Type="Tables" />
+    <EntitySet Name="Room" EntityType="Self.Room" Schema="webt2289_thuy" store:Type="Tables" />
+    <EntitySet Name="Student" EntityType="Self.Student" Schema="webt2289_thuy" store:Type="Tables" />
+    <EntitySet Name="Subject" EntityType="Self.Subject" Schema="webt2289_thuy" store:Type="Tables" />
+    <EntitySet Name="Teacher" EntityType="Self.Teacher" Schema="webt2289_thuy" store:Type="Tables" />
+    <EntitySet Name="University" EntityType="Self.University" Schema="webt2289_thuy" store:Type="Tables" />
+    <AssociationSet Name="FK__Course__Room__43A1090D" Association="Self.FK__Course__Room__43A1090D">
+      <End Role="Room" EntitySet="Room" />
+      <End Role="Course" EntitySet="Course" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Course__Subject__44952D46" Association="Self.FK__Course__Subject__44952D46">
+      <End Role="Subject" EntitySet="Subject" />
+      <End Role="Course" EntitySet="Course" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Course__Teacher__42ACE4D4" Association="Self.FK__Course__Teacher__42ACE4D4">
+      <End Role="Teacher" EntitySet="Teacher" />
+      <End Role="Course" EntitySet="Course" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Registere__Cours__4589517F" Association="Self.FK__Registere__Cours__4589517F">
+      <End Role="Course" EntitySet="Course" />
+      <End Role="RegisteredCourse" EntitySet="RegisteredCourse" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Registere__Stude__467D75B8" Association="Self.FK__Registere__Stude__467D75B8">
+      <End Role="Student" EntitySet="Student" />
+      <End Role="RegisteredCourse" EntitySet="RegisteredCourse" />
+    </AssociationSet>
+    <AssociationSet Name="PK_Class_Dep" Association="Self.PK_Class_Dep">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Class" EntitySet="Class" />
+    </AssociationSet>
+    <AssociationSet Name="PK_Dep_Uni" Association="Self.PK_Dep_Uni">
+      <End Role="University" EntitySet="University" />
+      <End Role="Department" EntitySet="Department" />
+    </AssociationSet>
+    <AssociationSet Name="PK_Student_Class" Association="Self.PK_Student_Class">
+      <End Role="Class" EntitySet="Class" />
+      <End Role="Student" EntitySet="Student" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

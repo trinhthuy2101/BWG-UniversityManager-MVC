@@ -7,10 +7,17 @@ using ASP_NET_MVC.Models;
 
 namespace ASP_NET_MVC.Controllers.Ajax
 {
-    public class AjaxAdminController : AjaxController
+    public class AjaxAdminController : BaseController
     {
         // GET: AjaxAdmin
         public ActionResult Index()
+        {
+            if (LoginModel.Role != "Administrator")
+                return RedirectToAction("NoPermission", "AjaxAdmin");
+            else
+                return View();
+        }
+        public ActionResult NoPermission()
         {
             return View();
         }

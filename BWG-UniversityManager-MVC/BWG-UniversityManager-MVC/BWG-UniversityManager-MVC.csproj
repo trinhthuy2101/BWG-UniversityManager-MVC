@@ -186,6 +186,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StudentModel.cs" />
+    <Compile Include="Models\StudentWithPointAndCourse.cs" />
     <Compile Include="Models\Subject.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -262,17 +263,22 @@
     <Content Include="Views\AjaxStudentForStudent\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\AjaxStudent\NoPermission.cshtml" />
-    <Content Include="Views\AjaxClass\NoPermission.cshtml" />
-    <Content Include="Views\AjaxUniversity\NoPermission.cshtml" />
-    <Content Include="Views\AjaxDepartment\NoPermission.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\NoLoggedAccount.cshtml" />
     <Content Include="Views\Shared\_ChangePasswordPartial.cshtml" />
+    <Content Include="Views\Shared\_LayoutForAdmin.cshtml" />
+    <Content Include="Views\Shared\_LogoutPartial.cshtml" />
+    <Content Include="Views\Account\Logout.cshtml" />
+    <Content Include="Views\Shared\_LayoutForTeacher.cshtml" />
+    <Content Include="Views\Shared\_LayoutForStudent.cshtml" />
+    <Content Include="Views\Shared\_LayoutForLogout.cshtml" />
+    <Content Include="Views\Shared\View.cshtml" />
+    <Content Include="Views\Shared\_LayoutForChangePassword.cshtml" />
+    <Content Include="Views\Base\NoPermission.cshtml" />
+    <Content Include="Views\Account\LogginFail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -19,11 +19,7 @@ namespace ASP_NET_MVC.Controllers.Ajax
             else if (checkRoleLoginModel == null)
                 return RedirectToAction("Login", "Account");
             else
-                return RedirectToAction("NoPermission", "AjaxUniversity");
-        }
-        public ActionResult NoPermission()
-        {
-            return View();
+                return RedirectToAction("NoPermission", "Base");
         }
         public JsonResult Details(string id)
         {
