@@ -1,0 +1,3 @@
+# BWG-UniversityManager-MVC
+This is a learning project by BWG team. This project stimulate a university web site for students and teachers to login and do their job like give points, register courses, get time table,...
+Special thanks Mr.Tuan for leading us in this project.
