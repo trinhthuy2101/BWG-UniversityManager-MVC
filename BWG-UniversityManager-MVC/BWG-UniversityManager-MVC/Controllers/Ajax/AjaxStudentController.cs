@@ -62,7 +62,7 @@ namespace ASP_NET_MVC.Controllers.Ajax
                 accounts.ForEach(a => countAll++);
                 Account account = new Account();
                 account.UserName = s.Id;
-                account.Password = "12345";
+                account.Password = "13579";
                 account.Id = (countAll+1).ToString();
 
                 DB.Accounts.Add(account);
