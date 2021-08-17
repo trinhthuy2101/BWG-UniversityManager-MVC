@@ -25,8 +25,8 @@ namespace ASP_NET_MVC.Controllers.Ajax
             string SQLFindTrueID = " select UserName from Account where id = '" + accountid + "'";
             string id = DB.Database.SqlQuery<string>(SQLFindTrueID).FirstOrDefault();
 
-            string SQL = "select * from Course where id in (select Course from RegisteredCourse where Student='" + id + "')";
-            return Json(DB.Database.SqlQuery<Course>(SQL).ToList(), JsonRequestBehavior.AllowGet); 
+            string SQL = "select * from Course,RegisteredCourse where id in (select Course from RegisteredCourse where Student='" + id + "') and student='" + id + "' and course = id";
+            return Json(DB.Database.SqlQuery<CourseAndRegisteredCourse>(SQL).ToList(), JsonRequestBehavior.AllowGet);
         }
         public ActionResult ShowCoursesToRegister()
         {
@@ -79,5 +79,10 @@ namespace ASP_NET_MVC.Controllers.Ajax
 
         }
 
+        public ActionResult PayThisCourse(string student, string course) {
+            string SQL = "update RegisteredCourse set Fee ='paid' where Course= '" + course + "' and Student='" + student + "'";
+            DB.Database.ExecuteSqlCommand(SQL);
+            return Json(new object(), JsonRequestBehavior.AllowGet);
+        }
     }
 }

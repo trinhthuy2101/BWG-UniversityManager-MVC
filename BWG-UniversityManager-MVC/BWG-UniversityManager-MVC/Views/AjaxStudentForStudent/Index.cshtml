@@ -39,20 +39,38 @@
             timetable.style.display = "table";
             coursesToRegisterTable.style.display = 'none';
 
-            let table = '<tr><th style="text-align:center">Subject</th><th style="text-align:center">StartTime</th><th style="text-align:center">TimeEnd</th><th style="text-align:center">Pay</th></tr>';
+            let table = '<tr><th style="text-align:center">Subject</th><th style="text-align:center">StartTime</th><th style="text-align:center">TimeEnd</th><th>  </th></tr>';
             for (let i = 0; i < parsed.length; i++) {
                 table += "<tr><td>" +
                     parsed[i].Subject +
                     "</td><td>" +
                     convert(parsed[i].StartDate) +
                     "</td>" + "<td>" + convert(parsed[i].EndDate) + "</td>" +
-                    "<td>" + '<button onclick="giveThisCoursePoint((\'' + parsed[i].Id + '\'))" class="btn btn-info">Pay Fee</button>' + "</td>" +
+                    "<td>" + showPayBtnOrNot(parsed[i].Fee, parsed[i].Student, parsed[i].Id) + "</td>" +
                     "</tr>";
             }
             timetable.innerHTML = table;
         }
 
     }
+    function showPayBtnOrNot(feeStatus, student, course) {
+       // alert(student+" is check if paid or not");
+        if (feeStatus != "paid") {
+            return '<button onclick="payThisCourse(\'' + student + '\',\'' + course + '\')" class="btn btn-info">Pay Fee</button>';
+        }
+        else return '<button  class="btn btn-light"> You paid </button>';
+
+    }
+
+    function payThisCourse(student, course) {
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "..//../AjaxStudentForStudent/PayThisCourse?student=" + student + "&course=" + course);
+        xhttp.send();
+        xhttp.onload = function () {
+            getTimeTable();
+        }
+    }
+
     function showCoursesToRegister() {
         const xhttp = new XMLHttpRequest();
         xhttp.open("GET", "..//../AjaxStudentForStudent/ShowCoursesToRegister");
