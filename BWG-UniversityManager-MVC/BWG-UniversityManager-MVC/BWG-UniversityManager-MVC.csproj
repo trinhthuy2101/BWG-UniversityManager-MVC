@@ -277,6 +277,10 @@
     <Content Include="Views\Shared\_LayoutForChangePassword.cshtml" />
     <Content Include="Views\Base\NoPermission.cshtml" />
     <Content Include="Views\Account\LogginFail.cshtml" />
+    <Content Include="Views\AjaxAdmin\ShowTeacherList.cshtml" />
+    <Content Include="Views\AjaxAdmin\ShowSubjectList.cshtml" />
+    <Content Include="Views\AjaxAdmin\ShowRoomList.cshtml" />
+    <Content Include="Views\AjaxAdmin\ShowAccountList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

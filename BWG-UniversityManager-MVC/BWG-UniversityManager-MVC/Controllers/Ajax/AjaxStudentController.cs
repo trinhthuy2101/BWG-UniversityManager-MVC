@@ -21,10 +21,10 @@ namespace ASP_NET_MVC.Controllers.Ajax
             else
                 return RedirectToAction("NoPermission", "AjaxStudent");
         }
-        public ActionResult NoPermission()
+        /*public ActionResult NoPermission()
         {
             return View();
-        }
+        }*/
         public JsonResult Details(string id)
         {
             Student s = DB.Students.Find(id);

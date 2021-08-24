@@ -18,10 +18,10 @@ namespace ASP_NET_MVC.Controllers.UniversityManager
                 return View();
             else return RedirectToAction("NoPermission", "Base");
         }
-        public ActionResult Logout()
+        /*public ActionResult Logout()
         {
             return View();
-        }
+        }*/
         public ActionResult GetTimeTable() {
             string accountid = LoginModel.Id;
             string SQLFindTrueID=" select UserName from Account where id = '" + accountid + "'";

@@ -1,0 +1,24 @@
+﻿@model IEnumerable<ASP_NET_MVC.Models.Room>
+
+@{
+    ViewBag.Title = "ShowRoomList";
+    Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
+}
+
+<h2>ShowRoomList</h2>
+
+<table class="table" id="table">
+    <thead>
+        <tr>
+            <td><b>ID</b></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var subject in Model)
+        {
+            <tr id=@subject.Id>
+                <td><b onclick="ViewDetails(@subject.Id)">@subject.Id</b></td>
+            </tr>
+        }
+    </tbody>
+</table>
