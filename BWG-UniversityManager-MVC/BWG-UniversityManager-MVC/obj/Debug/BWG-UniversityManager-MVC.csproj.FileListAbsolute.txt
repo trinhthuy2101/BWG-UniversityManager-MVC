@@ -159,7 +159,6 @@ D:\BWG\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\BWG-UniversityManager
 D:\BWG\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\bin\Newtonsoft.Json.xml
 D:\BWG\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\bin\Antlr3.Runtime.pdb
 D:\BWG\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\BWG\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\obj\Debug\BWG-UniversityManager-MVC.csprojAssemblyReference.cache
 D:\BWG\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\obj\Debug\BWG-UniversityManager-MVC.csproj.CoreCompileInputs.cache
 D:\BWG\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\obj\Debug\BWG-UniversityManager-MVC.csproj.CopyComplete
 D:\BWG\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\obj\Debug\ASP-NET-MVC.dll
@@ -413,3 +412,4 @@ P:\githubbackup\Thuy-BWG-UniversityManager\BWG-UniversityManager-MVC\BWG-Univers
 P:\githubbackup\Thuy-BWG-UniversityManager\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\obj\Debug\BWG-UniversityManager-MVC.csproj.CopyComplete
 P:\githubbackup\Thuy-BWG-UniversityManager\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\obj\Debug\ASP-NET-MVC.dll
 P:\githubbackup\Thuy-BWG-UniversityManager\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\obj\Debug\ASP-NET-MVC.pdb
+D:\BWG\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\BWG-UniversityManager-MVC\obj\Debug\BWG-UniversityManager-MVC.csprojAssemblyReference.cache
