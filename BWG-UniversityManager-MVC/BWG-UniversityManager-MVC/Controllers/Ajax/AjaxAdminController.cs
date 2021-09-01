@@ -22,6 +22,7 @@ namespace ASP_NET_MVC.Controllers.Ajax
                 ViewModel.ViewModelSubject = DB.Subjects.ToList();
                 ViewModel.ViewModelTeacher = DB.Teachers.ToList();
                 ViewModel.ViewModelRoom = DB.Rooms.ToList();
+                ViewModel.ViewModelAccount = DB.Accounts.ToList();
                 return View(ViewModel);
             }
         }
