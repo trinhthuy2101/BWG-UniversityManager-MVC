@@ -55,7 +55,7 @@
 
     }
     function savePoints() {
-        alert("save point");
+        alert("Point Saved!");
         var listofID = document.getElementsByClassName("studentId");
         var listOfPoint = document.getElementsByClassName("pointvalue");
         for (var i = 0; i < listofID.length; i++) {
@@ -66,8 +66,6 @@
         }
     }
     function giveThisCoursePoint(subjectid) {
-        alert("give point to course " + subjectid);
-
         const xhttp = new XMLHttpRequest();
         xhttp.open("GET", "..//../AjaxTeacher/GetListRegisteredCourseFromRegisteredCourse?courseid=" +subjectid);
         xhttp.send();

@@ -270,18 +270,13 @@
     <Content Include="Views\Shared\_ChangePasswordPartial.cshtml" />
     <Content Include="Views\Shared\_LayoutForAdmin.cshtml" />
     <Content Include="Views\Shared\_LogoutPartial.cshtml" />
-    <Content Include="Views\Account\Logout.cshtml" />
     <Content Include="Views\Shared\_LayoutForTeacher.cshtml" />
     <Content Include="Views\Shared\_LayoutForStudent.cshtml" />
-    <Content Include="Views\Shared\_LayoutForLogout.cshtml" />
     <Content Include="Views\Shared\View.cshtml" />
     <Content Include="Views\Shared\_LayoutForChangePassword.cshtml" />
     <Content Include="Views\Base\NoPermission.cshtml" />
-    <Content Include="Views\Account\LogginFail.cshtml" />
-    <Content Include="Views\AjaxAdmin\ShowTeacherList.cshtml" />
-    <Content Include="Views\AjaxAdmin\ShowSubjectList.cshtml" />
-    <Content Include="Views\AjaxAdmin\ShowRoomList.cshtml" />
-    <Content Include="Views\AjaxAdmin\ShowAccountList.cshtml" />
+    <Content Include="Views\Shared\_LayoutOnlyHome.cshtml" />
+    <Content Include="Views\Account\LoginFail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

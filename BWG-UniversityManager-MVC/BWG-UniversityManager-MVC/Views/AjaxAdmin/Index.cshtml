@@ -3,92 +3,228 @@
     ViewBag.Title = "Admin";
     Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
 }
-<h2 id="title">Administrator</h2>
-<h3 onclick="ShowListCourse()" id="role">Show Course</h3>
-<button onclick="DisplayAddCourseForm()" id="AddcourseButton" class="btn-success">Add Course</button>
-<div class="grid">
-    <div id="course">
-        <table class="table" id="table">
+<div id="body">
+    <h2 id="title">Administrator</h2>
+    <select id="SelectRole" class="form-control" onchange="SelectRole()">
+        <option value=""></option>
+        <option value="Course">Course</option>
+        <option value="Teacher">Teacher</option>
+        <option value="Subject">Subject</option>
+        <option value="Room">Room</option>
+        <option value="Account">Account</option>
+    </select>
+    <hr />
+    <div id="CourseSegment">
+        <button onclick="DisplayAddCourseForm()" id="AddcourseButton" class="btn-success">Add Course</button>
+        <div class="grid">
+            <div id="course">
+                <table class="table" id="table">
+                    <thead>
+                        <tr>
+                            <td><b>ID</b></td>
+                            <td><b>Subject</b></td>
+                            <td><b>Teacher</b></td>
+                            <td><b>Room</b></td>
+                            <td><b>Time</b></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var course in Model.ViewModelCourse)
+                        {
+                            <tr id=@course.Id>
+                                <td><b>@course.Id</b></td>
+                                <td>@course.Subject</td>
+                                <td>@course.Teacher</td>
+                                <td>@course.Room</td>
+                                <td>@course.Time</td>
+                                <td><b onclick="DeleteCourse('@course.Id')">Delete</b></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div id="addCourseSegment">
+                <form id="addForm">
+                    Course's ID
+                    <input id="CourseId" class="form-control" type="text" value="" Name="CourseId" /><br />
+                    Subject
+                    <select id="Subject" class="form-control" Name="Subject">
+                        @foreach (var subject in Model.ViewModelSubject)
+                        {
+                            <option value=@subject.Id>@subject.Id</option>
+                        }
+                    </select><br />
+                    Teacher
+                    <select id="Teacher" class="form-control" Name="Teacher">
+                        @foreach (var teacher in Model.ViewModelTeacher)
+                        {
+                            <option value=@teacher.Id>@teacher.Id</option>
+                        }
+                    </select><br />
+                    Room
+                    <select id="Room" class="form-control" Name="Room">
+                        @foreach (var room in Model.ViewModelRoom)
+                        {
+                            <option value=@room.Id>@room.Id</option>
+                        }
+                    </select><br />
+                    Time
+                    <select id="time" class="form-control" Name="time">
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                    </select><br />
+                    <button class="btn-success" type="button" id="addButton">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="TeacherSegment">
+        <table class="table" id="TeacherTable">
             <thead>
                 <tr>
                     <td><b>ID</b></td>
-                    <td><b>Subject</b></td>
-                    <td><b>Teacher</b></td>
-                    <td><b>Room</b></td>
-                    <td><b>Time</b></td>
+                    <td><b>Name</b></td>
+                    <td><b>Email</b></td>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var course in Model.ViewModelCourse)
+                @foreach (var teacher in Model.ViewModelTeacher)
                 {
-                <tr id=@course.Id>
-                    <td><b>@course.Id</b></td>
-                    <td>@course.Subject</td>
-                    <td>@course.Teacher</td>
-                    <td>@course.Room</td>
-                    <td>@course.Time</td>
-                    <td><b onclick="DeleteCourse('@course.Id')">Delete</b></td>
-                </tr>
+                    <tr id=@teacher.Id>
+                        <td><b onclick="ViewDetails(@teacher.Id)">@teacher.Id</b></td>
+                        <td> @teacher.Name </td>
+                        <td> @teacher.Email </td>
+                    </tr>
                 }
             </tbody>
         </table>
     </div>
-    <div id="addCourseSegment">
-        <form id="addForm">
-            Course's ID
-            <input id="CourseId" class="form-control" type="text" value="" Name="CourseId" /><br/>
-            Subject
-            <select id="Subject" class="form-control" Name="Subject">
+    <div id="SubjectSegment">
+        <table class="table" id="SubjectTable">
+            <thead>
+                <tr>
+                    <td><b>ID</b></td>
+                    <td><b>Name</b></td>
+                    <td><b>Credits</b></td>
+                </tr>
+            </thead>
+            <tbody>
                 @foreach (var subject in Model.ViewModelSubject)
                 {
-                    <option value=@subject.Id>@subject.Id</option>
+                    <tr id=@subject.Id>
+                        <td><b onclick="ViewDetails(@subject.Id)">@subject.Id</b></td>
+                        <td> @subject.Name </td>
+                        <td> @subject.Credits </td>
+                    </tr>
                 }
-            </select><br />
-            Teacher
-            <select id="Teacher" class="form-control" Name="Teacher">
-                @foreach (var teacher in Model.ViewModelTeacher)
-                {
-                    <option value=@teacher.Id>@teacher.Id</option>
-                }
-            </select><br />
-            Room
-            <select id="Room" class="form-control" Name="Room">
+            </tbody>
+        </table>
+
+    </div>
+    <div id="RoomSegment">
+        <table class="table" id="RoomTable">
+            <thead>
+                <tr>
+                    <td><b>ID</b></td>
+                </tr>
+            </thead>
+            <tbody>
                 @foreach (var room in Model.ViewModelRoom)
                 {
-                    <option value=@room.Id>@room.Id</option>
+                    <tr id=@room.Id>
+                        <td><b onclick="ViewDetails(@room.Id)">@room.Id</b></td>
+                    </tr>
                 }
-            </select><br />
-            Time
-            <select id="time" class="form-control" Name="time">
-                <option value="AM">AM</option>
-                <option value="PM">PM</option>
-            </select><br />
-            <button class="btn-success" type="button" id="addButton">Add</button>
-        </form>
+            </tbody>
+        </table>
+    </div>
+    <div id="AccountSegment">
+        <table class="table" id="AccountTable">
+            <thead>
+                <tr>
+                    <td></td>
+                    <td><b>ID</b></td>
+                    <td><b>Username</b></td>
+                    <td><b>Password</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var account in Model.ViewModelAccount)
+                {
+                    <tr id=@account.Id>
+                        <td></td>
+                        <td><b onclick="ViewDetails(@account.Id)">@account.Id</b></td>
+                        <td> @account.UserName </td>
+                        <td> @account.Password </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
-
-
 <style>
-    #course, #addForm, #AddcourseButton {
+    #addForm,#CourseSegment, #TeacherSegment, #SubjectSegment, #RoomSegment, #AccountSegment {
         display: none;
     }
+
     .grid {
         display: grid;
         grid-template-columns: 70% 30%;
     }
-    #course, .addCourseSegment {
+
+    #course, .addCourseSegment{
         border: ridge;
         padding: 10px;
-        margin:20px;
+        margin: 20px;
+    }
+    #AccountTable,#TeacherTable,#SubjectTable,#RoomTable {
+        border: ridge;
+        padding: 10px;
+        margin: 10px;
     }
 </style>
 
 
 <script>
-    function ShowListCourse() {
-            document.getElementById("course").style.display = "unset";
-            document.getElementById("AddcourseButton").style.display = "unset";
+    //SELECT ROLE
+    function SelectRole() {
+        var x = document.getElementById("SelectRole").value;
+        if (x == "Course") {
+            document.getElementById("CourseSegment").style.display = "unset";
+            document.getElementById("TeacherSegment").style.display = "none";
+            document.getElementById("SubjectSegment").style.display = "none";
+            document.getElementById("RoomSegment").style.display = "none";
+            document.getElementById("AccountSegment").style.display = "none";
+        }
+        if (x == "Account") {
+            document.getElementById("CourseSegment").style.display = "none";
+            document.getElementById("TeacherSegment").style.display = "none";
+            document.getElementById("SubjectSegment").style.display = "none";
+            document.getElementById("RoomSegment").style.display = "none";
+            document.getElementById("AccountSegment").style.display = "unset";
+        }
+        if (x == "Teacher") {
+            document.getElementById("CourseSegment").style.display = "none";
+            document.getElementById("TeacherSegment").style.display = "unset";
+            document.getElementById("SubjectSegment").style.display = "none";
+            document.getElementById("RoomSegment").style.display = "none";
+            document.getElementById("AccountSegment").style.display = "none";
+        }
+        if (x == "Subject") {
+            document.getElementById("CourseSegment").style.display = "none";
+            document.getElementById("TeacherSegment").style.display = "none";
+            document.getElementById("SubjectSegment").style.display = "unset";
+            document.getElementById("RoomSegment").style.display = "none";
+            document.getElementById("AccountSegment").style.display = "none";
+        }
+        if (x == "Room") {
+            document.getElementById("CourseSegment").style.display = "none";
+            document.getElementById("TeacherSegment").style.display = "none";
+            document.getElementById("SubjectSegment").style.display = "none";
+            document.getElementById("RoomSegment").style.display = "unset";
+            document.getElementById("AccountSegment").style.display = "none";
+        }
+        
     }
     //ADD COURSE
     function DisplayAddCourseForm() {
@@ -103,7 +239,6 @@
                 addCourseForm.childNodes[13].value)
         })
     }
-
     function AddCourse(CourseId, Subject, Teacher, Room, Time) {
         if (CourseId == "" || Subject == "" || Teacher == "" || Room == "" || Time == "") {
             alert("All fields must be filled!");
@@ -147,6 +282,7 @@
         xhttp.open("POST", "..//../AjaxAdmin/AddCourse?Id=" + CourseId + "&Subject=" + Subject + "&Teacher=" + Teacher + "&Room=" + Room + "&Time=" + Time);
         xhttp.send();
     }
+    //DELETE COURSE
     function DeleteCourse(courseId) {
         var confirmed = confirm("Confirm deletion?")
         if (confirmed == true) {
