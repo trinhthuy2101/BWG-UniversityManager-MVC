@@ -21,6 +21,13 @@ namespace ASP_NET_MVC.Controllers.Ajax
             else
                 return RedirectToAction("NoPermission", "Base");
         }
+
+        [HttpGet]
+        public IEnumerable<Class> GetClasses()
+        {
+            return DB.Classes.ToList();
+        }
+
         public JsonResult Details(string id)
         {
             Class c = DB.Classes.Find(id);

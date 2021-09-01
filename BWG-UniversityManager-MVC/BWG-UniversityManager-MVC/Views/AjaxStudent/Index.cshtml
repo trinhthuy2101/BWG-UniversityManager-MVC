@@ -49,7 +49,10 @@
                 Idc:
                 <input id="SIdc" class="form-control" type="text" value="" Name="SIdc" /><br />
                 Class:
-                <input id="SClass" class="form-control" type="text" value="" Name="SClass" /><br />
+                <select class="form-control" id="classId" name="classId">
+                    <option>Select Class ID</option>
+                </select>
+                <br />
                 <button class="btn-success" type="button" id="addButton">Add</button>
 
             </form>
@@ -116,6 +119,8 @@
 @section scripts
 {
     <script>
+        const urlStudent = "..//../AjaxStudent/Details";
+        const urlClass = "..//../AjaxClass"
         var student = {
             id:"",            Name: "",
             Email: "",
@@ -146,6 +151,20 @@
             }
             xhttp.open("GET", "..//../AjaxStudent/Details" + `/${id}`);
             xhttp.send();
+        }
+
+        function renderDropDownList() {
+            const xhr = new XMLHttpRequest();
+            xhr2.open('GET', urlClass);
+            xhr2.send();
+            xhr.onload = function () {
+                const classIdList = JSON.parse(xhr.response);
+                for (let classId of classIdList) {
+                    const option = document.createElement('option');
+                    option.innerText = `${classId.iD_Class}`;
+                    classSelectTag.appendChild(option);
+                }
+            }
         }
 
         //Add new Student
