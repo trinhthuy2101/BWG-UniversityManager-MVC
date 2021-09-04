@@ -73,7 +73,7 @@ create table RegisteredCourse
 create table Subject 
 (
 	Id varchar(100),
-	Name varchar(100),
+	Name nvarchar(100),
 	Credits int,
 	constraint PK_Subject primary key(Id)
 )
@@ -284,59 +284,4 @@ insert into Course Values('C03','THTH','GV03','R04','3/3/2021','7/1/2021','PM')
 go
 insert into Course Values('C04','HTMT','GV05','R02','3/4/2021','7/1/2021','PM')
 go
-
-------------------------------------------------STORE PROCEDURE-------------------------------------------
-create proc USP_PRINT_Student_FULL
-as
-begin
-	print 'Table is already full';
-end
-go
-create proc USP_PRINT_Student
-	@Id char(8),
-	@Name nvarchar(100)
-as
-begin
-	print @Id+':' +@Name;
-end
-go
-
-------------------------------------------------TRIGGER ROCEDURE-----------------------------------------
-------------PREVENT Student INSERTION IF COUNT >30-----------
-create trigger UTG_Student_INSERT_PREVENT on Student for insert
-as
-begin
-	declare @count int
-	select @count=count(*)
-	from Student
-	if(@count=30)
-	begin
-	exec USP_PRINT_Student_FULL
-	rollback tran
-	end
-end
-go
--------------PRINT NEAREST DELETED Student------------------------------
-create trigger UTG_Student_DELETE on Student after delete, update
-as
-	declare @sl_Id varchar(100)
-	declare @sl_Name nvarchar(100)
-begin
-	select @sl_Id=D.Id,@sl_Name=D.Name
-	from deleted D
-	EXEC USP_PRINT_Student @sl_Id,@sl_Name;
-end
-go
--------------PRINT NEAREST INSERTED Student----------------------------
-create trigger UTG_Student_INSERT on Student after insert
-as
-	declare @sl_Id varchar(100)
-	declare @sl_Name nvarchar(100)
-begin
-	select @sl_Id=I.Id,@sl_Name=I.Name
-	from inserted I
-	EXEC USP_PRINT_Student @sl_Id,@sl_Name;
-end
-go
-
 

@@ -1,18 +1,171 @@
-﻿
+﻿@model ASP_NET_MVC.Models.ViewModels
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Admin";
     Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
 }
-<h2 id="title">Admin</h2>
-<h3 onclick="ShowListCourse()">Course</h3>
+<h2 id="title">Administrator</h2>
+<h3 onclick="ShowListCourse()" id="role">Show Course</h3>
+<button onclick="DisplayAddCourseForm()" id="AddcourseButton" class="btn-success">Add Course</button>
+<div class="grid">
+    <div id="course">
+        <table class="table" id="table">
+            <thead>
+                <tr>
+                    <td><b>ID</b></td>
+                    <td><b>Subject</b></td>
+                    <td><b>Teacher</b></td>
+                    <td><b>Room</b></td>
+                    <td><b>Time</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var course in Model.ViewModelCourse)
+                {
+                <tr id=@course.Id>
+                    <td><b>@course.Id</b></td>
+                    <td>@course.Subject</td>
+                    <td>@course.Teacher</td>
+                    <td>@course.Room</td>
+                    <td>@course.Time</td>
+                    <td><b onclick="DeleteCourse('@course.Id')">Delete</b></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="addCourseSegment">
+        <form id="addForm">
+            Course's ID
+            <input id="CourseId" class="form-control" type="text" value="" Name="CourseId" /><br/>
+            Subject
+            <select id="Subject" class="form-control" Name="Subject">
+                @foreach (var subject in Model.ViewModelSubject)
+                {
+                    <option value=@subject.Id>@subject.Id</option>
+                }
+            </select><br />
+            Teacher
+            <select id="Teacher" class="form-control" Name="Teacher">
+                @foreach (var teacher in Model.ViewModelTeacher)
+                {
+                    <option value=@teacher.Id>@teacher.Id</option>
+                }
+            </select><br />
+            Room
+            <select id="Room" class="form-control" Name="Room">
+                @foreach (var room in Model.ViewModelRoom)
+                {
+                    <option value=@room.Id>@room.Id</option>
+                }
+            </select><br />
+            Time
+            <select id="time" class="form-control" Name="time">
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+            </select><br />
+            <button class="btn-success" type="button" id="addButton">Add</button>
+        </form>
+    </div>
+</div>
+
+
+<style>
+    #course, #addForm, #AddcourseButton {
+        display: none;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: 70% 30%;
+    }
+    #course, .addCourseSegment {
+        border: ridge;
+        padding: 10px;
+        margin:20px;
+    }
+</style>
+
+
 <script>
     function ShowListCourse() {
-        const xhttp = new XMLHttpRequest();
-        xhttp.onload= function () {
+            document.getElementById("course").style.display = "unset";
+            document.getElementById("AddcourseButton").style.display = "unset";
+    }
+    //ADD COURSE
+    function DisplayAddCourseForm() {
+        document.getElementById("addForm").style.display = "unset";
+
+        var addCourseForm = document.getElementById("addForm");
+        document.getElementById("addButton").addEventListener("click", function () {
+            AddCourse(addCourseForm.childNodes[1].value,
+                addCourseForm.childNodes[4].value,
+                addCourseForm.childNodes[7].value,
+                addCourseForm.childNodes[10].value,
+                addCourseForm.childNodes[13].value)
+        })
+    }
+
+    function AddCourse(CourseId, Subject, Teacher, Room, Time) {
+        if (CourseId == "" || Subject == "" || Teacher == "" || Room == "" || Time == "") {
+            alert("All fields must be filled!");
+            return;
         }
-        xhttp.open("GET", "..//../AjaxAdmin/ShowList");
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function () {
+            var c = JSON.parse(this.responseText);
+            if (!c) {
+                alert("Course existed");
+                document.getElementById("addForm").style.display = "none";
+                return;
+            }
+            alert("Course Added");
+            document.getElementById("addForm").style.display = "none";
+            var table = document.getElementById("table");
+            var row = table.insertRow(1);
+            row.id = `${CourseId}`;
+            var cell0 = row.insertCell(0);
+            var cell1 = row.insertCell(1);
+            var cell2 = row.insertCell(2);
+            var cell3 = row.insertCell(3);
+            var cell4 = row.insertCell(4);
+            var cell5 = row.insertCell(5);
+            var bold = document.createElement("b");
+            var textNode = document.createTextNode(`${CourseId}`)
+            bold.appendChild(textNode);
+            cell0.appendChild(bold);
+            cell1.innerHTML = Subject;
+            cell2.innerHTML = Teacher;
+            cell3.innerHTML = Room;
+            cell4.innerHTML = Time;
+            var bold1 = document.createElement("b");
+            var textNode1 = document.createTextNode("Delete")
+            bold1.appendChild(textNode1);
+            cell5.appendChild(bold1);
+            cell5.addEventListener("click", function () {
+                DeleteCourse(CourseId);
+            });
+        }
+        xhttp.open("POST", "..//../AjaxAdmin/AddCourse?Id=" + CourseId + "&Subject=" + Subject + "&Teacher=" + Teacher + "&Room=" + Room + "&Time=" + Time);
         xhttp.send();
     }
+    function DeleteCourse(courseId) {
+        var confirmed = confirm("Confirm deletion?")
+        if (confirmed == true) {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                const c = JSON.parse(this.responseText);
+                if (!c) {
+                    alert("Fail to delete!");
+                }
+                else {
+                    document.getElementById(courseId).style.display = "none";
+                    alert("Course Deleted!");
+                }
+            }
+            xhttp.open("GET", "..//../AjaxAdmin/DeleteCourse?Id=" + courseId);
+            xhttp.send();
+        }
+    }
 </script>
+
 
 
