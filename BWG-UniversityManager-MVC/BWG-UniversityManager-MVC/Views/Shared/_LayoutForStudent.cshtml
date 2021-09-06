@@ -17,14 +17,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @*@Html.ActionLink("THUYTRINH", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
             </div>
             <div class="navbar-collapse collapse">
                 <ul id="parentNavBar" class="nav navbar-nav">
                     <li id="StudentTab1">@Html.ActionLink("Student Dashboard", "Index", "AjaxStudentForStudent")</li>
                 </ul>
                 <button>@Html.ActionLink("Change Password", "ChangePassword", "Account")</button>
-                <button>@Html.ActionLink("Log Out", "Logout","Account")</button>
+                @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                {
+                    <button><a href="javascript:document.getElementById('logoutForm').submit()">Log Out</a></button>
+                }
 
             </div>
         </div>

@@ -22,7 +22,7 @@ namespace ASP_NET_MVC.Controllers
             var account = DB.Accounts.SingleOrDefault(a => a.Password == model.Password && a.UserName == model.UserName);
             if (!ModelState.IsValid || account == null)
             {
-                return RedirectToAction("LogginFail", "Account");
+                return RedirectToAction("LoginFail", "Account");
             }
                 
             LoginModel.Id = account.Id;
@@ -48,22 +48,10 @@ namespace ASP_NET_MVC.Controllers
             return RedirectToAction("Index", page);
         }
 
-        public ActionResult LogginFail()
+        public ActionResult LoginFail()
         {
             return View();
         }
-        [HttpGet]
-        public ActionResult Logout()
-        {
-            /*if(LoginModel.Role=="Student")
-                return RedirectToAction("Logout", "AjaxStudentForStudent");
-            else if (LoginModel.Role == "Teacher")
-                return RedirectToAction("Logout", "AjaxTeacher");
-            else
-                return RedirectToAction("Logout", "AjaxAdmin");*/
-            return View();
-        }
-
         [HttpPost]
         public ActionResult Logout(string dummuy)
         {

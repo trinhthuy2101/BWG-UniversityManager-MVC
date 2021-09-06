@@ -24,7 +24,10 @@
                     <li id="TeacherTab">@Html.ActionLink("Teacher", "Index", "AjaxTeacher")</li>
                 </ul>
                 <button>@Html.ActionLink("Change Password", "ChangePassword", "Account")</button>
-                <button>@Html.ActionLink("Log Out", "Logout", "Account")</button>
+                @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                {
+                    <button><a href="javascript:document.getElementById('logoutForm').submit()">Log Out</a></button>
+                }
             </div>
         </div>
     </div>

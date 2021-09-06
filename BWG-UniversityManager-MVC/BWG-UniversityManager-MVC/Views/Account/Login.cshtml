@@ -5,13 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Login</h2>
+<h2 >Login</h2>
 
 @using (Html.BeginForm()) 
 {    
     <div class="form-horizontal">
         <hr />
-        <h3>Login</h3>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -31,13 +30,11 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input method="post" type="submit" value="Sign In" class="btn btn-default" />
+                <input method="post" type="submit" value="Sign In" class="btn btn-success" />
             </div>
         </div>
     </div>
 }
 
 <script>
-    if(==null)
-             alert("")
 </script>
