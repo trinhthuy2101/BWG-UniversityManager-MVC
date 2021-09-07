@@ -20,7 +20,7 @@
             @foreach (var student in Model)
             {
                 <tr id=@student.Id>
-                    <td><b onclick="ViewDetails(@student.Id)">@student.Id</b></td>
+                    <td><b onclick="ViewDetails('@student.Id')">@student.Id</b></td>
                     <td> @student.Name </td>
                 </tr>
             }
