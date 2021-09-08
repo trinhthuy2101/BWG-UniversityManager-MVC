@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ASP_NET_MVC.Models.Class>
+﻿@model ASP_NET_MVC.Models.AttachedModel.AttachedClassModel
 
 @{
     ViewBag.Title = "Class";
@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var clas in Model)
+            @foreach (var clas in Model.Classes)
             {
                 <tr id=@clas.Id>
                     <td onclick="ViewDetails('@clas.Id')"><b>@clas.Id</b></td>
@@ -38,9 +38,16 @@
         <div id="addSegment">
             <form id="addForm">
                 Class ID:
-                <input id="Cid"class="form-control" type="text" value="" name="Cid" required maxlength="6" title="Field must be less than 6 characters long"/><br />
+                <input id="Cid" class="form-control" type="text" value="" name="Cid" required maxlength="6" title="Field must be less than 6 characters long" /><br />
                 Department:
-                <input id="CDep" class="form-control" type="text" value="" name="CDep" /><br />
+                <select class="form-control" id="CDep" name="CDep">
+                    <option>Select Department ID</option>
+                    @foreach (var dep in Model.Departments)
+                    {
+                        <option>@dep.Id</option>
+                    }
+                </select>
+                <br>
                 <button class="btn-success" type="button" id="addButton">Add</button>
             </form>
         </div>
@@ -49,7 +56,14 @@
                 Class ID:
                 <input id="Cid_ud" class="form-control" type="text" value="" name="Cid" readonly /><br />
                 Department:
-                <input id="CDep_ud"class="form-control" type="text" value="" name="CDep" /><br />
+                <select class="form-control" id="CDep" name="CDep">
+                    <option>Select Department ID</option>
+                    @foreach (var dep in Model.Departments)
+                    {
+                        <option>@dep.Id</option>
+                    }
+                </select>
+                <br>
                 <button class="btn-success" type="button" id="saveButton" onclick="UpdateClass()">Save</button>
             </form>
         </div>

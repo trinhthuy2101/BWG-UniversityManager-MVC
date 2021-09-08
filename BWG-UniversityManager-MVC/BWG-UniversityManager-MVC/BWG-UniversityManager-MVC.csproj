@@ -156,6 +156,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModel.cs" />
+    <Compile Include="Models\AttachedModel\AttachedClassModel.cs" />
+    <Compile Include="Models\AttachedModel\AttachedDepartmentModel.cs" />
+    <Compile Include="Models\AttachedModel\AttachedStudentModel.cs" />
     <Compile Include="Models\Class.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
