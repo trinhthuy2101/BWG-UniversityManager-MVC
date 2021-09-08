@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ASP_NET_MVC.Models.Department>
+﻿@model ASP_NET_MVC.Models.AttachedModel.AttachedDepartmentModel
 
 @{
     ViewBag.Title = "Department";
@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var dep in Model)
+            @foreach (var dep in Model.Departments)
             {
                 <tr id=@dep.Id>
                     <td><b onclick="ViewDetails('@dep.Id')">@dep.Id</b></td>
@@ -40,8 +40,15 @@
             <form id="addForm">
                 Department ID:
                 <input id="Did" class="form-control" type="text" value="" name="Did" required maxlength="4" title="Field must be less than 4 characters long" /><br />
-                University: 
-                <input id="DUni" class="form-control" type="text" value="" name="DUni" /><br />
+                University:
+                <select class="form-control" id="DUni" name="DUni">
+                    <option>Select University ID</option>
+                    @foreach (var uni in Model.Universities)
+                    {
+                        <option>@uni.Id</option>
+                    }
+                </select>
+                <br />
                 Name:
                 <input id="Dname" class="form-control" type="text" value="" name="Dname" /><br />
                 <button class="btn-success" type="button" id="addButton">Add</button>
@@ -52,9 +59,17 @@
                 Department ID:
                 <input id="Did_ud" class="form-control" type="text" value="" name="Did" readonly /><br />
                 University:
-                <input id="DUni_ud"class="form-control" type="text" value="" name="DUni" /><br />
+                @*<input id="DUni_ud" class="form-control" type="text" value="" name="DUni" /><br />*@
+                <select class="form-control" id="DUni_ud" name="DUni">
+                    <option>Select University ID</option>
+                    @foreach (var uni in Model.Universities)
+                    {
+                        <option>@uni.Id</option>
+                    }
+                </select>
+                <br />
                 Name:
-                <input id="Dname_ud"class="form-control" type="text" value="" name="Dname" /><br />
+                <input id="Dname_ud" class="form-control" type="text" value="" name="Dname" /><br />
                 <button class="btn-success" type="button" id="saveButton" onclick="UpdateDepartment()">Save</button>
             </form>
         </div>

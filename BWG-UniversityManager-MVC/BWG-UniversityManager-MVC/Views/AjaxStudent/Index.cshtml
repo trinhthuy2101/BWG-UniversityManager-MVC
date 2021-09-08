@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ASP_NET_MVC.Models.Student>
+﻿@model ASP_NET_MVC.Models.AttachedModel.AttachedStudentModel
 
 @{
     ViewBag.Title = "Student";
@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var student in Model)
+            @foreach (var student in Model.Students)
             {
                 <tr id=@student.Id>
                     <td><b onclick="ViewDetails('@student.Id')">@student.Id</b></td>
@@ -41,7 +41,7 @@
         <div id="addSegment">
             <form id="addForm">
                 Student ID:
-                <input id="Sid" class="form-control" type="text" value="" Name="Sid" required maxlength="8" title="Field must be less than 8 characters long" /><br />
+                <input id="Sid" class="form-control" type="number" value="" Name="Sid" required maxlength="8" title="Field must be less than 8 characters long" /><br />
                 Name:
                 <input id="SName" class="form-control" type="text" value="" Name="SName" /><br />
                 Email:
@@ -49,7 +49,15 @@
                 Idc:
                 <input id="SIdc" class="form-control" type="text" value="" Name="SIdc" /><br />
                 Class:
-                <input id="SClass" class="form-control" type="text" value="" Name="SClass" /><br />
+                <select class="form-control" id="classId" name="classId">
+                    <option>Select Class ID</option>
+                        @foreach (var clas in Model.Classes)
+                        {
+                            <option>@clas.Id</option>
+                        }
+                </select>
+                
+                <br />
                 <button class="btn-success" type="button" id="addButton">Add</button>
             </form>
         </div>
@@ -64,7 +72,14 @@
                 Idc:
                 <input id="SIdc_ud" class="form-control" type="text" value="" Name="SIdc" /><br />
                 Class:
-                <input id="SClass_ud" class="form-control" type="text" value="" Name="SClass" /><br />
+                <select class="form-control" id="classId" name="classId">
+                    <option>Select Class ID</option>
+                    @foreach (var clas in Model.Classes)
+                    {
+                        <option>@clas.Id</option>
+                    }
+                </select>
+                <br />
                 <button class="btn-success" type="button" id="saveButton" onclick="UpdateStudent()">Save</button>
             </form>
         </div>
@@ -115,6 +130,8 @@
 @section scripts
 {
     <script>
+        const urlStudent = "..//../AjaxStudent/Details";
+        const urlClass = "..//../AjaxClass"
         var student = {
             id:"",            Name: "",
             Email: "",
@@ -192,7 +209,7 @@
                 cell2.innerHTML = SName;
                 cell1.onclick = function () { ViewDetails(`${Sid}`); }
             }
-            xhttp.open("GET", "..//../AjaxStudent/CreateNew?Id=" + Sid + "&Name=" + SName + "&Idc=" + SIdc + "&Email=" + SEmail + "&Class=" + SClass);
+            xhttp.open("GET", "..//../AjaxStudent/CreateNew?Id=ST" + Sid + "&Name=" + SName + "&Idc=" + SIdc + "&Email=" + SEmail + "&Class=" + SClass);
             xhttp.send();
         }
 
