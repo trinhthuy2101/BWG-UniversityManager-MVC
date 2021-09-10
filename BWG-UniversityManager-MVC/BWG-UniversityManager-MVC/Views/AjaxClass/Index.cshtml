@@ -2,24 +2,24 @@
 
 @{
     ViewBag.Title = "Class";
-    Layout = "~/Views/Shared/_LayoutOnlyHome.cshtml";
+    Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
 }
-
+<button id="createNewButton" class="btn-success" onclick="OpenAddNewForm()">Create New</button>
 <h2>Class</h2>
 
-<button id="createNewButton" class="btn-success" onclick="OpenAddNewForm()">Create New</button>
+
 <div class="grid">
     <table class="table" id="table">
         <thead>
-            <tr>
+            <tr id="FirstRow">
                 <td><b>ID</b></td>
-                <td><b>DepARTMENT</b></td>
+                <td><b>DEPARTMENT</b></td>
             </tr>
         </thead>
         <tbody>
             @foreach (var clas in Model.Classes)
             {
-                <tr id=@clas.Id>
+                <tr id=@clas.Id onmouseover="mouseOver('@clas.Id')" onmouseout="mouseOut('@clas.Id' )">
                     <td onclick="ViewDetails('@clas.Id')"><b>@clas.Id</b></td>
                     <td> @clas.Dep </td>
                 </tr>
@@ -101,6 +101,10 @@
     }
     input.invalid {
         border-color: red;
+    }
+    #FirstRow {
+        color: white;
+        background-color: midnightblue;
     }
 </style>
 
@@ -285,6 +289,13 @@
                 DepField_ud.classList.remove("invalid");
             }
             return valid;
+        }
+        function mouseOver(Id) {
+            document.getElementById(Id).childNodes[1].style.color = "red";
+        }
+
+        function mouseOut(Id) {
+            document.getElementById(Id).childNodes[1].style.color = "black";
         }
     </script>
 }

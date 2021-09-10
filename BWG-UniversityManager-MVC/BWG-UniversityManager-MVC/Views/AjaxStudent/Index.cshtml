@@ -2,24 +2,24 @@
 
 @{
     ViewBag.Title = "Student";
-    Layout = "~/Views/Shared/_LayoutOnlyHome.cshtml";
+    Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
 }
+<button align-content="left" id="createNewButton" class="btn-success" onclick="OpenAddNewForm()">Create New</button>
 
 <h2>Student</h2>
 
-<button id="createNewButton" class="btn-success" onclick="OpenAddNewForm()">Create New</button>
 <div class="grid">
     <table class="table" id="table">
         <thead>
-            <tr>
+            <tr id="FirstRow">
                 <td><b>ID</b></td>
-                <td><b>Name</b></td>
+                <td><b>NAME</b></td>
             </tr>
         </thead>
         <tbody>
             @foreach (var student in Model.Students)
             {
-                <tr id=@student.Id>
+                <tr id=@student.Id onmouseover="mouseOver('@student.Id')" onmouseout="mouseOut('@student.Id')">
                     <td><b onclick="ViewDetails('@student.Id')">@student.Id</b></td>
                     <td> @student.Name </td>
                 </tr>
@@ -51,12 +51,12 @@
                 Class:
                 <select class="form-control" id="classId" name="classId">
                     <option>Select Class ID</option>
-                        @foreach (var clas in Model.Classes)
-                        {
-                            <option>@clas.Id</option>
-                        }
+                    @foreach (var clas in Model.Classes)
+                    {
+                        <option>@clas.Id</option>
+                    }
                 </select>
-                
+
                 <br />
                 <button class="btn-success" type="button" id="addButton">Add</button>
             </form>
@@ -113,10 +113,12 @@
         border: ridge;
         padding: 10px;
     }
-    #deleteBut, #updateBut,#addSegment,#updateSegment{
+
+    #deleteBut, #updateBut, #addSegment, #updateSegment {
         display: none;
     }
-    #IDError,#NameError,#IdcError,#ClassError,#EmailError {
+
+    #IDError, #NameError, #IdcError, #ClassError, #EmailError {
         display: none;
         font-size: 0.8em;
     }
@@ -124,7 +126,11 @@
     input.invalid {
         border-color: red;
     }
-    
+
+    #FirstRow {
+        color: white;
+        background-color: midnightblue;
+    }
 </style>
 
 @section scripts
@@ -133,10 +139,10 @@
         const urlStudent = "..//../AjaxStudent/Details";
         const urlClass = "..//../AjaxClass"
         var student = {
-            id:"",            Name: "",
+            id: "", Name: "",
             Email: "",
             Idc: "",
-            Class:""
+            Class: ""
         }
         var outerID;
         //Show Student's Details
@@ -180,7 +186,7 @@
                     addStudentForm.childNodes[13].value)
             })
         }
-        function CreateNew(Sid, SName,SEmail, SIdc, SClass) {
+        function CreateNew(Sid, SName, SEmail, SIdc, SClass) {
             if (Sid == "" || SName == "" || SIdc == "" || SEmail == "" || SClass == "") {
                 return;
             }
@@ -234,7 +240,7 @@
             student.Email = updateStudentForm.childNodes[7].value;
             student.Idc = updateStudentForm.childNodes[10].value;
             student.Class = updateStudentForm.childNodes[13].value;
-            if (student.id == "" || student.Name == "" || student.Idc == "" || student.Email=="" || student.Class == "") {
+            if (student.id == "" || student.Name == "" || student.Idc == "" || student.Email == "" || student.Class == "") {
                 return;
             }
             const xhttp = new XMLHttpRequest();
@@ -246,10 +252,9 @@
                 document.getElementById("updateSegment").style.display = "none";
                 alert("Updates Saved")
             }
-            xhttp.open("GET", "..//../AjaxStudent/Update?Id=" + student.id + "&Name=" + student.Name + "&Idc=" + student.Idc +  "&Email=" + Student.Email+ "&Class=" + student.Class);
+            xhttp.open("GET", "..//../AjaxStudent/Update?Id=" + student.id + "&Name=" + student.Name + "&Idc=" + student.Idc + "&Email=" + Student.Email + "&Class=" + student.Class);
             xhttp.send();
         }
-
         //Delete Student
         function DeleteStudent() {
             var confirmed = confirm("Confirm deletion?")
@@ -380,6 +385,13 @@
                 ClassField_ud.classList.remove("invalid");
             }
             return valid;
+        }
+        function mouseOver(Id) {
+            document.getElementById(Id).childNodes[1].style.color = "red";
+        }
+
+        function mouseOut(Id) {
+            document.getElementById(Id).childNodes[1].style.color = "black";
         }
     </script>
 }

@@ -2,24 +2,22 @@
 
 @{
     ViewBag.Title = "Department";
-    Layout = "~/Views/Shared/_LayoutOnlyHome.cshtml";
+    Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
 }
-
-<h2>Department</h2>
-
 <button id="createNewButton" class="btn-success" onclick="OpenAddNewForm()">Create New</button>
+<h2>Department</h2>
 <div class="grid">
     <table class="table" id="table">
         <thead>
-            <tr>
+            <tr id="FirstRow">
                 <td><b>ID</b></td>
-                <td><b>UniVERSITY</b></td>
+                <td><b>UNIVERSITY</b></td>
             </tr>
         </thead>
         <tbody>
             @foreach (var dep in Model.Departments)
             {
-                <tr id=@dep.Id>
+                <tr id=@dep.Id onmouseover="mouseOver('@dep.Id')" onmouseout="mouseOut('@dep.Id' )">
                     <td><b onclick="ViewDetails('@dep.Id')">@dep.Id</b></td>
                     <td> @dep.Uni</td>
                 </tr>
@@ -105,6 +103,10 @@
     }
     input.invalid {
         border-color: red;
+    }
+    #FirstRow {
+        color: white;
+        background-color: midnightblue;
     }
 </style>
 @section scripts
@@ -311,6 +313,13 @@
                 UniField_ud.classList.remove("invalid");
             }
             return valid;
+        }
+        function mouseOver(Id) {
+            document.getElementById(Id).childNodes[1].style.color = "red";
+        }
+
+        function mouseOut(Id) {
+            document.getElementById(Id).childNodes[1].style.color = "black";
         }
     </script>
 }
