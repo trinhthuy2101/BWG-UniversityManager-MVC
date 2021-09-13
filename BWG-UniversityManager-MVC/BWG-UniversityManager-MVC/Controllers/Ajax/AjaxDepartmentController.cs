@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ASP_NET_MVC.Models;
+using ASP_NET_MVC.Models.AttachedModel;
 
 namespace ASP_NET_MVC.Controllers.Ajax
 {
@@ -13,9 +14,16 @@ namespace ASP_NET_MVC.Controllers.Ajax
         // GET: AjaxDepartment
         public ActionResult Index()
         {
-            List<Department> DepartmentList = DB.Departments.ToList();
+            var departments = DB.Departments.ToList();
+            var universities = DB.Universities.ToList();
+            AttachedDepartmentModel attachedDepartment = new AttachedDepartmentModel
+            {
+                Departments = departments,
+                Universities = universities,
+            };
+           
             if (checkRoleLoginModel == "Administrator")
-                return View(DepartmentList);
+                return View(attachedDepartment);
             else if (checkRoleLoginModel == null)
                 return RedirectToAction("Login", "Account");
             else

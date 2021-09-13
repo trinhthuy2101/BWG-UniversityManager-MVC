@@ -1,25 +1,23 @@
-﻿@model IEnumerable<ASP_NET_MVC.Models.Department>
+﻿@model ASP_NET_MVC.Models.AttachedModel.AttachedDepartmentModel
 
 @{
     ViewBag.Title = "Department";
-    Layout = "~/Views/Shared/_LayoutOnlyHome.cshtml";
+    Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
 }
-
-<h2>Department</h2>
-
 <button id="createNewButton" class="btn-success" onclick="OpenAddNewForm()">Create New</button>
+<h2>Department</h2>
 <div class="grid">
     <table class="table" id="table">
         <thead>
-            <tr>
+            <tr id="FirstRow">
                 <td><b>ID</b></td>
-                <td><b>UniVERSITY</b></td>
+                <td><b>UNIVERSITY</b></td>
             </tr>
         </thead>
         <tbody>
-            @foreach (var dep in Model)
+            @foreach (var dep in Model.Departments)
             {
-                <tr id=@dep.Id>
+                <tr id=@dep.Id onmouseover="mouseOver('@dep.Id')" onmouseout="mouseOut('@dep.Id' )">
                     <td><b onclick="ViewDetails('@dep.Id')">@dep.Id</b></td>
                     <td> @dep.Uni</td>
                 </tr>
@@ -40,8 +38,15 @@
             <form id="addForm">
                 Department ID:
                 <input id="Did" class="form-control" type="text" value="" name="Did" required maxlength="4" title="Field must be less than 4 characters long" /><br />
-                University: 
-                <input id="DUni" class="form-control" type="text" value="" name="DUni" /><br />
+                University:
+                <select class="form-control" id="DUni" name="DUni">
+                    <option>Select University ID</option>
+                    @foreach (var uni in Model.Universities)
+                    {
+                        <option>@uni.Id</option>
+                    }
+                </select>
+                <br />
                 Name:
                 <input id="Dname" class="form-control" type="text" value="" name="Dname" /><br />
                 <button class="btn-success" type="button" id="addButton">Add</button>
@@ -52,9 +57,17 @@
                 Department ID:
                 <input id="Did_ud" class="form-control" type="text" value="" name="Did" readonly /><br />
                 University:
-                <input id="DUni_ud"class="form-control" type="text" value="" name="DUni" /><br />
+                @*<input id="DUni_ud" class="form-control" type="text" value="" name="DUni" /><br />*@
+                <select class="form-control" id="DUni_ud" name="DUni">
+                    <option>Select University ID</option>
+                    @foreach (var uni in Model.Universities)
+                    {
+                        <option>@uni.Id</option>
+                    }
+                </select>
+                <br />
                 Name:
-                <input id="Dname_ud"class="form-control" type="text" value="" name="Dname" /><br />
+                <input id="Dname_ud" class="form-control" type="text" value="" name="Dname" /><br />
                 <button class="btn-success" type="button" id="saveButton" onclick="UpdateDepartment()">Save</button>
             </form>
         </div>
@@ -90,6 +103,10 @@
     }
     input.invalid {
         border-color: red;
+    }
+    #FirstRow {
+        color: white;
+        background-color: midnightblue;
     }
 </style>
 @section scripts
@@ -296,6 +313,13 @@
                 UniField_ud.classList.remove("invalid");
             }
             return valid;
+        }
+        function mouseOver(Id) {
+            document.getElementById(Id).childNodes[1].style.color = "red";
+        }
+
+        function mouseOut(Id) {
+            document.getElementById(Id).childNodes[1].style.color = "black";
         }
     </script>
 }

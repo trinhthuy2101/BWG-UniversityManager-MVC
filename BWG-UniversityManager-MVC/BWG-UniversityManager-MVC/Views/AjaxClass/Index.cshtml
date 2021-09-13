@@ -1,25 +1,25 @@
-﻿@model IEnumerable<ASP_NET_MVC.Models.Class>
+﻿@model ASP_NET_MVC.Models.AttachedModel.AttachedClassModel
 
 @{
     ViewBag.Title = "Class";
-    Layout = "~/Views/Shared/_LayoutOnlyHome.cshtml";
+    Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
 }
-
+<button id="createNewButton" class="btn-success" onclick="OpenAddNewForm()">Create New</button>
 <h2>Class</h2>
 
-<button id="createNewButton" class="btn-success" onclick="OpenAddNewForm()">Create New</button>
+
 <div class="grid">
     <table class="table" id="table">
         <thead>
-            <tr>
+            <tr id="FirstRow">
                 <td><b>ID</b></td>
-                <td><b>DepARTMENT</b></td>
+                <td><b>DEPARTMENT</b></td>
             </tr>
         </thead>
         <tbody>
-            @foreach (var clas in Model)
+            @foreach (var clas in Model.Classes)
             {
-                <tr id=@clas.Id>
+                <tr id=@clas.Id onmouseover="mouseOver('@clas.Id')" onmouseout="mouseOut('@clas.Id' )">
                     <td onclick="ViewDetails('@clas.Id')"><b>@clas.Id</b></td>
                     <td> @clas.Dep </td>
                 </tr>
@@ -38,9 +38,16 @@
         <div id="addSegment">
             <form id="addForm">
                 Class ID:
-                <input id="Cid"class="form-control" type="text" value="" name="Cid" required maxlength="6" title="Field must be less than 6 characters long"/><br />
+                <input id="Cid" class="form-control" type="text" value="" name="Cid" required maxlength="6" title="Field must be less than 6 characters long" /><br />
                 Department:
-                <input id="CDep" class="form-control" type="text" value="" name="CDep" /><br />
+                <select class="form-control" id="CDep" name="CDep">
+                    <option>Select Department ID</option>
+                    @foreach (var dep in Model.Departments)
+                    {
+                        <option>@dep.Id</option>
+                    }
+                </select>
+                <br>
                 <button class="btn-success" type="button" id="addButton">Add</button>
             </form>
         </div>
@@ -49,7 +56,14 @@
                 Class ID:
                 <input id="Cid_ud" class="form-control" type="text" value="" name="Cid" readonly /><br />
                 Department:
-                <input id="CDep_ud"class="form-control" type="text" value="" name="CDep" /><br />
+                <select class="form-control" id="CDep" name="CDep">
+                    <option>Select Department ID</option>
+                    @foreach (var dep in Model.Departments)
+                    {
+                        <option>@dep.Id</option>
+                    }
+                </select>
+                <br>
                 <button class="btn-success" type="button" id="saveButton" onclick="UpdateClass()">Save</button>
             </form>
         </div>
@@ -87,6 +101,10 @@
     }
     input.invalid {
         border-color: red;
+    }
+    #FirstRow {
+        color: white;
+        background-color: midnightblue;
     }
 </style>
 
@@ -271,6 +289,13 @@
                 DepField_ud.classList.remove("invalid");
             }
             return valid;
+        }
+        function mouseOver(Id) {
+            document.getElementById(Id).childNodes[1].style.color = "red";
+        }
+
+        function mouseOut(Id) {
+            document.getElementById(Id).childNodes[1].style.color = "black";
         }
     </script>
 }

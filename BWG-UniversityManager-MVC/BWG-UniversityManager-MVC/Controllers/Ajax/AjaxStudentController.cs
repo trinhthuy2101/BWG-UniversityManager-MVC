@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ASP_NET_MVC.Models;
+using ASP_NET_MVC.Models.AttachedModel;
 
 namespace ASP_NET_MVC.Controllers.Ajax
 {
@@ -13,18 +14,25 @@ namespace ASP_NET_MVC.Controllers.Ajax
         // GET: Student
         public ActionResult Index()
         {
-            List<Student> students = DB.Students.ToList();
+            var students = DB.Students.ToList();
+            var classes = DB.Classes.ToList();
+            AttachedStudentModel attachedStudent = new AttachedStudentModel
+            {
+                Students = students,
+                Classes = classes,
+            };
+
             if (checkRoleLoginModel == "Administrator")
-                return View(students);
+            {
+                return View(attachedStudent);
+            }
+                
             else if (checkRoleLoginModel == null)
                 return RedirectToAction("Login", "Account");
             else
-                return RedirectToAction("NoPermission", "AjaxStudent");
+                return RedirectToAction("NoPermission", "Base");
         }
-        /*public ActionResult NoPermission()
-        {
-            return View();
-        }*/
+
         public JsonResult Details(string id)
         {
             Student s = DB.Students.Find(id);
@@ -49,7 +57,7 @@ namespace ASP_NET_MVC.Controllers.Ajax
             if (s1!=null) return Json(false,JsonRequestBehavior.AllowGet);
             
             Student s = new Student();
-            s.Id = Id;
+            s.Id =Id;
             s.Idc = Idc;
             s.Name = Name;
             s.Email = Email;

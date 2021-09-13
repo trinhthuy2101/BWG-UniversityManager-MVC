@@ -61,7 +61,7 @@ namespace ASP_NET_MVC.Controllers.Ajax
 
 
 
-            string SQL = "insert into RegisteredCourse values('" + course + "','" + studentid + "',NULL) ";
+            string SQL = "insert into RegisteredCourse values('" + course + "','" + studentid +"',NULL" +",NULL) ";
             DB.Database.ExecuteSqlCommand(SQL);
             return (Json("Registered", JsonRequestBehavior.AllowGet));
         }

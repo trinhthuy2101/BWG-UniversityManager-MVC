@@ -1,26 +1,26 @@
-﻿@model IEnumerable<ASP_NET_MVC.Models.Student>
+﻿@model ASP_NET_MVC.Models.AttachedModel.AttachedStudentModel
 
 @{
     ViewBag.Title = "Student";
-    Layout = "~/Views/Shared/_LayoutOnlyHome.cshtml";
+    Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
 }
+<button align-content="left" id="createNewButton" class="btn-success" onclick="OpenAddNewForm()">Create New</button>
 
 <h2>Student</h2>
 
-<button id="createNewButton" class="btn-success" onclick="OpenAddNewForm()">Create New</button>
 <div class="grid">
     <table class="table" id="table">
         <thead>
-            <tr>
+            <tr id="FirstRow">
                 <td><b>ID</b></td>
-                <td><b>Name</b></td>
+                <td><b>NAME</b></td>
             </tr>
         </thead>
         <tbody>
-            @foreach (var student in Model)
+            @foreach (var student in Model.Students)
             {
-                <tr id=@student.Id>
-                    <td><b onclick="ViewDetails(@student.Id)">@student.Id</b></td>
+                <tr id=@student.Id onmouseover="mouseOver('@student.Id')" onmouseout="mouseOut('@student.Id')">
+                    <td><b onclick="ViewDetails('@student.Id')">@student.Id</b></td>
                     <td> @student.Name </td>
                 </tr>
             }
@@ -41,7 +41,7 @@
         <div id="addSegment">
             <form id="addForm">
                 Student ID:
-                <input id="Sid" class="form-control" type="text" value="" Name="Sid" required maxlength="8" title="Field must be less than 8 characters long" /><br />
+                <input id="Sid" class="form-control" type="number" value="" Name="Sid" required maxlength="8" title="Field must be less than 8 characters long" /><br />
                 Name:
                 <input id="SName" class="form-control" type="text" value="" Name="SName" /><br />
                 Email:
@@ -51,7 +51,12 @@
                 Class:
                 <select class="form-control" id="classId" name="classId">
                     <option>Select Class ID</option>
+                    @foreach (var clas in Model.Classes)
+                    {
+                        <option>@clas.Id</option>
+                    }
                 </select>
+
                 <br />
                 <button class="btn-success" type="button" id="addButton">Add</button>
             </form>
@@ -67,7 +72,14 @@
                 Idc:
                 <input id="SIdc_ud" class="form-control" type="text" value="" Name="SIdc" /><br />
                 Class:
-                <input id="SClass_ud" class="form-control" type="text" value="" Name="SClass" /><br />
+                <select class="form-control" id="classId" name="classId">
+                    <option>Select Class ID</option>
+                    @foreach (var clas in Model.Classes)
+                    {
+                        <option>@clas.Id</option>
+                    }
+                </select>
+                <br />
                 <button class="btn-success" type="button" id="saveButton" onclick="UpdateStudent()">Save</button>
             </form>
         </div>
@@ -101,10 +113,12 @@
         border: ridge;
         padding: 10px;
     }
-    #deleteBut, #updateBut,#addSegment,#updateSegment{
+
+    #deleteBut, #updateBut, #addSegment, #updateSegment {
         display: none;
     }
-    #IDError,#NameError,#IdcError,#ClassError,#EmailError {
+
+    #IDError, #NameError, #IdcError, #ClassError, #EmailError {
         display: none;
         font-size: 0.8em;
     }
@@ -112,7 +126,11 @@
     input.invalid {
         border-color: red;
     }
-    
+
+    #FirstRow {
+        color: white;
+        background-color: midnightblue;
+    }
 </style>
 
 @section scripts
@@ -121,10 +139,10 @@
         const urlStudent = "..//../AjaxStudent/Details";
         const urlClass = "..//../AjaxClass"
         var student = {
-            id:"",            Name: "",
+            id: "", Name: "",
             Email: "",
             Idc: "",
-            Class:""
+            Class: ""
         }
         var outerID;
         //Show Student's Details
@@ -152,20 +170,6 @@
             xhttp.send();
         }
 
-        function renderDropDownList() {
-            const xhr = new XMLHttpRequest();
-            xhr2.open('GET', urlClass);
-            xhr2.send();
-            xhr.onload = function () {
-                const classIdList = JSON.parse(xhr.response);
-                for (let classId of classIdList) {
-                    const option = document.createElement('option');
-                    option.innerText = `${classId.iD_Class}`;
-                    classSelectTag.appendChild(option);
-                }
-            }
-        }
-
         //Add new Student
         function OpenAddNewForm() {
             document.getElementById("notification").innerHTML = "ADD NEW STUDENT";
@@ -182,7 +186,7 @@
                     addStudentForm.childNodes[13].value)
             })
         }
-        function CreateNew(Sid, SName,SEmail, SIdc, SClass) {
+        function CreateNew(Sid, SName, SEmail, SIdc, SClass) {
             if (Sid == "" || SName == "" || SIdc == "" || SEmail == "" || SClass == "") {
                 return;
             }
@@ -211,7 +215,7 @@
                 cell2.innerHTML = SName;
                 cell1.onclick = function () { ViewDetails(`${Sid}`); }
             }
-            xhttp.open("GET", "..//../AjaxStudent/CreateNew?Id=" + Sid + "&Name=" + SName + "&Idc=" + SIdc + "&Email=" + SEmail + "&Class=" + SClass);
+            xhttp.open("GET", "..//../AjaxStudent/CreateNew?Id=ST" + Sid + "&Name=" + SName + "&Idc=" + SIdc + "&Email=" + SEmail + "&Class=" + SClass);
             xhttp.send();
         }
 
@@ -236,7 +240,7 @@
             student.Email = updateStudentForm.childNodes[7].value;
             student.Idc = updateStudentForm.childNodes[10].value;
             student.Class = updateStudentForm.childNodes[13].value;
-            if (student.id == "" || student.Name == "" || student.Idc == "" || student.Email=="" || student.Class == "") {
+            if (student.id == "" || student.Name == "" || student.Idc == "" || student.Email == "" || student.Class == "") {
                 return;
             }
             const xhttp = new XMLHttpRequest();
@@ -248,10 +252,9 @@
                 document.getElementById("updateSegment").style.display = "none";
                 alert("Updates Saved")
             }
-            xhttp.open("GET", "..//../AjaxStudent/Update?Id=" + student.id + "&Name=" + student.Name + "&Idc=" + student.Idc +  "&Email=" + Student.Email+ "&Class=" + student.Class);
+            xhttp.open("GET", "..//../AjaxStudent/Update?Id=" + student.id + "&Name=" + student.Name + "&Idc=" + student.Idc + "&Email=" + Student.Email + "&Class=" + student.Class);
             xhttp.send();
         }
-
         //Delete Student
         function DeleteStudent() {
             var confirmed = confirm("Confirm deletion?")
@@ -382,6 +385,13 @@
                 ClassField_ud.classList.remove("invalid");
             }
             return valid;
+        }
+        function mouseOver(Id) {
+            document.getElementById(Id).childNodes[1].style.color = "red";
+        }
+
+        function mouseOut(Id) {
+            document.getElementById(Id).childNodes[1].style.color = "black";
         }
     </script>
 }

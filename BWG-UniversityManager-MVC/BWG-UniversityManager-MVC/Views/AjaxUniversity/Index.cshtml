@@ -2,24 +2,24 @@
 
 @{
     ViewBag.Title = "University";
-    Layout = "~/Views/Shared/_LayoutOnlyHome.cshtml";
+    Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
 }
 
+<button id="createNewButton" class="btn-success" onclick="OpenAddNewForm()">Create New</button>
 <h2>University</h2>
 
-<button id="createNewButton" class="btn-success" onclick="OpenAddNewForm()">Create New</button>
 <div class="grid">
     <table class="table" id="table">
         <thead>
-            <tr>
+            <tr id="FirstRow">
                 <td><b>ID</b></td>
-                <td><b>Name</b></td>
+                <td><b>NAME</b></td>
             </tr>
         </thead>
         <tbody>
             @foreach (var uni in Model)
             {
-                <tr id=@uni.Id>
+                <tr id=@uni.Id onmouseover="mouseOver('@uni.Id')" onmouseout="mouseOut('@uni.Id' )">
                     <td><b onclick="ViewDetails('@uni.Id')">@uni.Id</b></td>
                     <td> @uni.Name</td>
                 </tr>
@@ -82,9 +82,12 @@
         display: none;
         font-size: 0.8em;
     }
-
     input.invalid {
         border-color: red;
+    }
+    #FirstRow {
+        color: white;
+        background-color: midnightblue;
     }
 </style>
 
@@ -135,7 +138,7 @@
                 return;
             }
             const xhttp = new XMLHttpRequest();
-            xhttp.onload = function () {
+            xhttp.onload = function(){
                 var u = JSON.parse(this.responseText);
                 if (!u) {
                     alert("University existed");
@@ -270,6 +273,13 @@
                 NameField_ud.classList.remove("invalid");
             }
             return valid;
+        }
+        function mouseOver(Id) {
+            document.getElementById(Id).childNodes[1].style.color = "red";
+        }
+
+        function mouseOut(Id) {
+            document.getElementById(Id).childNodes[1].style.color = "black";
         }
     </script>
 }
