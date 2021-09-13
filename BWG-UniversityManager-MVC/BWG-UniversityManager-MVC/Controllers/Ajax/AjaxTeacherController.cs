@@ -31,9 +31,17 @@ namespace ASP_NET_MVC.Controllers.UniversityManager
             return Json(DB.Database.SqlQuery<Course>(SQL).ToList(),JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetListRegisteredCourseFromRegisteredCourse(string courseid) {
-            string SQL = "select RegisteredCourse.Course as Course,RegisteredCourse.Student as Id,RegisteredCourse.Point as Point,Student.Name as Student from webt2289_thuy.RegisteredCourse , webt2289_thuy.Student where Course = '"+ courseid + "' and Student.id = RegisteredCourse.Student";
+
+           // string accountid = LoginModel.Id;
+           // string SQLFindTrueID = " select UserName from Account where id = '" + accountid + "'";
+           // string id = DB.Database.SqlQuery<string>(SQLFindTrueID).FirstOrDefault();
+           // string SQLCheckSubject = "select * from Course, where Teacher='" + id + "'";
+           //// var subject = DB.Database.SqlQuery<Course>(SQLCheckSubject).ToList();
+           // //if(subject.) return Json("cannot get", JsonRequestBehavior.AllowGet);
+
+            string SQL = "select RegisteredCourse.Course as Course,RegisteredCourse.Student as Id,RegisteredCourse.Point as Point,Student.Name as Student from webt2289_thuy.RegisteredCourse, webt2289_thuy.Student where Course = '" + courseid + "' and Student.id = RegisteredCourse.Student";// and Subject='"+cours;
             var list = DB.Database.SqlQuery<StudentWithPointAndCourse>(SQL).ToList();
-            if (list.Count <= 0) return Json("cannot get", JsonRequestBehavior.AllowGet);
+            if (list.Count <= 0||list==null) return Json("cannot get", JsonRequestBehavior.AllowGet);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
         public ActionResult SavePoints(string id,string point) {
