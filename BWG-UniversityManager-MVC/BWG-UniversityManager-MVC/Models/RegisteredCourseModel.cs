@@ -11,6 +11,7 @@ namespace ASP_NET_MVC.Models
         public string Student { get; set; }
         public Nullable<int> Point { get; set; }
         public string Fee { get; set; }
+        public string Teacher { get; set; }
 
     }
 }
