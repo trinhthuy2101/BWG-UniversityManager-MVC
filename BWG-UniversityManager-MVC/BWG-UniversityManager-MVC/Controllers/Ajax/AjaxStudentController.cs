@@ -47,6 +47,16 @@ namespace ASP_NET_MVC.Controllers.Ajax
         public JsonResult Delete(string id)
         {
             Student s = DB.Students.Find(id);
+            var accounts = DB.Accounts.ToList();
+            Account account = null;
+            foreach(var acc in accounts)
+            {
+                if (acc.UserName == s.Id)
+                    account = acc;
+            }
+            if (account != null)
+                DB.Accounts.Remove(account);
+
             DB.Students.Remove(s);
             DB.SaveChanges();
             return Json(s, JsonRequestBehavior.AllowGet);
@@ -54,7 +64,14 @@ namespace ASP_NET_MVC.Controllers.Ajax
         public JsonResult CreateNew(string Id, string Name,string Idc, string Email, string Class)
         {
             var s1 = DB.Students.Find(Id);
-            if (s1!=null) return Json(false,JsonRequestBehavior.AllowGet);
+            var accountsTemp = DB.Accounts.ToList();
+            Account accountTemp = null;
+            foreach (var acc in accountsTemp)
+            {
+                if (acc.UserName == s1.Id)
+                    accountTemp = acc;
+            }
+            if (s1!=null||accountTemp!=null) return Json(false,JsonRequestBehavior.AllowGet);
             
             Student s = new Student();
             s.Id =Id;
