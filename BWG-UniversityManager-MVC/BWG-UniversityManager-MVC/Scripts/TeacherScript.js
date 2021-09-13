@@ -103,6 +103,9 @@ function helloTextWithName() {
 
 
 function convert(value) {
+    if (("" + value) == "NULL" || ("" + value) == "null") {
+        return "not determined";
+    }
     var str = new Date(parseInt(value.replace("/Date(", "").replace(")/", ""), 10));
     var date = new Date(str),
         mnth = ("0" + (date.getMonth() + 1)).slice(-2),
