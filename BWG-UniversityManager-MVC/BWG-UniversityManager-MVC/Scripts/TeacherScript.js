@@ -44,10 +44,15 @@ function giveThisCoursePoint(subjectid) {
     xhttp.send();
     xhttp.onload = function () {
         const parsed = JSON.parse(this.responseText);
-        timetable.style.display = 'none';
-        giveStudentPointZone.style.display = 'block';
-
-        if (parsed.length > 0) {
+      
+        if (parsed == "cannot get") {
+            alert("there are no student int this class");
+            tablegivepoint.innerHTML = "";
+            return;
+        }
+        else if (parsed.length > 0) {
+            timetable.style.display = 'none';
+            giveStudentPointZone.style.display = 'block';
             let table = '<tr><th style="text-align:center">Name</th><th style="text-align:center">ID</th><th style="text-align:center">Point</th></tr>';
             for (let i = 0; i < parsed.length; i++) {
                 table += "<tr>" +
