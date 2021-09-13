@@ -46,7 +46,7 @@
                 <input id="SName" class="form-control" type="text" value="" Name="SName" /><br />
                 Email:
                 <input id="SEmail" class="form-control" type="text" value="" Name="SEmail" /><br />
-                Idc:
+                Identity Card:
                 <input id="SIdc" class="form-control" type="text" value="" Name="SIdc" /><br />
                 Class:
                 <select class="form-control" id="classId" name="classId">
@@ -91,7 +91,7 @@
                 Please enter Name
             </span>
             <span role="alert" id="IdcError" aria-hidden="true">
-                Please enter Idc
+                Please enter Identity Card
             </span>
             <span role="alert" id="EmailError" aria-hidden="true">
                 Please enter Email
@@ -209,11 +209,11 @@
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
                 var bold = document.createElement("b");
-                var textNode = document.createTextNode(`${Sid}`)
+                var textNode = document.createTextNode(`${s.Id}`)
                 bold.appendChild(textNode);
                 cell1.appendChild(bold);
                 cell2.innerHTML = SName;
-                cell1.onclick = function () { ViewDetails(`${Sid}`); }
+                cell1.onclick = function () { ViewDetails(`${Sid}`)}
             }
             xhttp.open("GET", "..//../AjaxStudent/CreateNew?Id=ST" + Sid + "&Name=" + SName + "&Idc=" + SIdc + "&Email=" + SEmail + "&Class=" + SClass);
             xhttp.send();
@@ -247,7 +247,7 @@
             xhttp.onload = function () {
                 const s = JSON.parse(this.responseText);
                 var row = document.getElementById(`${s.Id}`);
-                row.childNodes[3].innerHTML = s.Name;
+                row.childNodes[1].innerHTML = s.Name;
                 document.getElementById("notification").innerHTML = "";
                 document.getElementById("updateSegment").style.display = "none";
                 alert("Updates Saved")

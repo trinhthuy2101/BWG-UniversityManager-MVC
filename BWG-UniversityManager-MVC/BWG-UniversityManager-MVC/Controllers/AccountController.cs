@@ -22,7 +22,7 @@ namespace ASP_NET_MVC.Controllers
             var account = DB.Accounts.SingleOrDefault(a => a.Password == model.Password && a.UserName == model.UserName);
             if (!ModelState.IsValid || account == null)
             {
-                return RedirectToAction("LoginFail", "Account");
+                return RedirectToAction("Login", "Account");
             }
                 
             LoginModel.Id = account.Id;
@@ -46,11 +46,6 @@ namespace ASP_NET_MVC.Controllers
             }
                 
             return RedirectToAction("Index", page);
-        }
-
-        public ActionResult LoginFail()
-        {
-            return View();
         }
         [HttpPost]
         public ActionResult Logout(string dummuy)
