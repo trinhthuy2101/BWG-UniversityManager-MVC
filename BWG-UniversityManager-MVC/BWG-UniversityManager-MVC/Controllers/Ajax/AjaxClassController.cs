@@ -47,9 +47,15 @@ namespace ASP_NET_MVC.Controllers.Ajax
         public JsonResult Delete(string id)
         {
             Class c = DB.Classes.Find(id);
-            DB.Classes.Remove(c);
-            DB.SaveChanges();
-            return Json(c, JsonRequestBehavior.AllowGet);
+            ClassModel c1 = new ClassModel();
+            c1.Dep = c.Dep;
+            c1.Id = c.Id;
+            if (ModelState.IsValid)
+            {
+                DB.Classes.Remove(c);
+                DB.SaveChanges();
+            }
+            return Json(c1, JsonRequestBehavior.AllowGet);
         }
         public JsonResult CreateNew(string Id, string Dep)
         {

@@ -36,12 +36,14 @@ namespace ASP_NET_MVC.Controllers.Ajax
         public JsonResult Details(string id)
         {
             Student s = DB.Students.Find(id);
-            StudentModel s1 = new StudentModel();
-            s1.Id = s.Id;
-            s1.Name = s.Name;
-            s1.Idc = s.Idc;
-            s1.Email = s.Email;
-            s1.Class = s.Class;
+            StudentModel s1 = new StudentModel
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Idc = s.Idc,
+                Email = s.Email,
+                Class = s.Class
+            };
             return Json(s1, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Delete(string id)

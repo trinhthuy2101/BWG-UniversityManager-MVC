@@ -21,7 +21,7 @@
             {
                 <tr id=@student.Id onmouseover="mouseOver('@student.Id')" onmouseout="mouseOut('@student.Id')">
                     <td><b onclick="ViewDetails('@student.Id')">@student.Id</b></td>
-                    <td> @student.Name </td>
+                    <td id="name    "> @student.Name </td>
                 </tr>
             }
         </tbody>
@@ -50,13 +50,12 @@
                 <input id="SIdc" class="form-control" type="text" value="" Name="SIdc" /><br />
                 Class:
                 <select class="form-control" id="classId" name="classId">
-                    <option>Select Class ID</option>
+                    @*<option>Select Class ID</option>*@
                     @foreach (var clas in Model.Classes)
                     {
                         <option>@clas.Id</option>
                     }
                 </select>
-
                 <br />
                 <button class="btn-success" type="button" id="addButton">Add</button>
             </form>
@@ -73,7 +72,7 @@
                 <input id="SIdc_ud" class="form-control" type="text" value="" Name="SIdc" /><br />
                 Class:
                 <select class="form-control" id="classId" name="classId">
-                    <option>Select Class ID</option>
+                    @*<option>Select Class ID</option>*@
                     @foreach (var clas in Model.Classes)
                     {
                         <option>@clas.Id</option>
@@ -96,9 +95,9 @@
             <span role="alert" id="EmailError" aria-hidden="true">
                 Please enter Email
             </span>
-            <span role="alert" id="ClassError" aria-hidden="true">
+            @*<span role="alert" id="ClassError" aria-hidden="true">
                 Please enter Class
-            </span>
+            </span>*@
         </div>
     </div>
 </div>
@@ -118,7 +117,7 @@
         display: none;
     }
 
-    #IDError, #NameError, #IdcError, #ClassError, #EmailError {
+    #IDError, #NameError, #IdcError, #EmailError {
         display: none;
         font-size: 0.8em;
     }
@@ -213,7 +212,7 @@
                 bold.appendChild(textNode);
                 cell1.appendChild(bold);
                 cell2.innerHTML = SName;
-                cell1.onclick = function () { ViewDetails(`${Sid}`)}
+                cell1.onclick = function () { ViewDetails(`${Sid}`); }
             }
             xhttp.open("GET", "..//../AjaxStudent/CreateNew?Id=ST" + Sid + "&Name=" + SName + "&Idc=" + SIdc + "&Email=" + SEmail + "&Class=" + SClass);
             xhttp.send();
@@ -247,12 +246,12 @@
             xhttp.onload = function () {
                 const s = JSON.parse(this.responseText);
                 var row = document.getElementById(`${s.Id}`);
-                row.childNodes[1].innerHTML = s.Name;
+                row.childNodes[3].innerHTML = s.Name;
                 document.getElementById("notification").innerHTML = "";
                 document.getElementById("updateSegment").style.display = "none";
                 alert("Updates Saved")
             }
-            xhttp.open("GET", "..//../AjaxStudent/Update?Id=" + student.id + "&Name=" + student.Name + "&Idc=" + student.Idc + "&Email=" + Student.Email + "&Class=" + student.Class);
+            xhttp.open("GET", "..//../AjaxStudent/Update?Id=" + student.id + "&Name=" + student.Name + "&Idc=" + student.Idc + "&Email=" + student.Email + "&Class=" + student.Class);
             xhttp.send();
         }
         //Delete Student
@@ -285,7 +284,7 @@
             const NameField = document.getElementById("SName");
             const IdcField = document.getElementById("SIdc");
             const EmailField = document.getElementById("SEmail");
-            const ClassField = document.getElementById("SClass");
+            //const ClassField = document.getElementById("SClass");
             let valid = true;
             //ID
             if (!IDField.value) {
@@ -321,14 +320,14 @@
                 document.getElementById("EmailError").style.display = "none";
                 EmailField.classList.remove("invalid");
             }
-            //Class
-            if (!ClassField.value) {
-                ClassField.classList.add("invalid");
-                document.getElementById("ClassError").style.display = "block";
-            } else {
-                document.getElementById("ClassError").style.display = "none";
-                ClassField.classList.remove("invalid");
-            }
+            ////Class
+            //if (!ClassField.value) {
+            //    ClassField.classList.add("invalid");
+            //    document.getElementById("ClassError").style.display = "block";
+            //} else {
+            //    document.getElementById("ClassError").style.display = "none";
+            //    ClassField.classList.remove("invalid");
+            //}
             return valid;
         }
 
@@ -340,7 +339,7 @@
             const NameField_ud = document.getElementById("SName_ud");
             const EmailField_ud = document.getElementById("SEmail_ud");
             const IdcField_ud = document.getElementById("SIdc_ud");
-            const ClassField_ud = document.getElementById("SClass_ud");
+            //const ClassField_ud = document.getElementById("SClass_ud");
 
             let valid = true;
             //ID
@@ -377,14 +376,14 @@
                 EmailField_ud.classList.remove("invalid");
             }
             //Class
-            if (!ClassField_ud.value) {
-                ClassField_ud.classList.add("invalid");
-                document.getElementById("ClassError").style.display = "block";
-            } else {
-                document.getElementById("ClassError").style.display = "none";
-                ClassField_ud.classList.remove("invalid");
-            }
-            return valid;
+            //if (!ClassField_ud.value) {
+            //    ClassField_ud.classList.add("invalid");
+            //    document.getElementById("ClassError").style.display = "block";
+            //} else {
+            //    document.getElementById("ClassError").style.display = "none";
+            //    ClassField_ud.classList.remove("invalid");
+            //}
+            //return valid;
         }
         function mouseOver(Id) {
             document.getElementById(Id).childNodes[1].style.color = "red";
