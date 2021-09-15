@@ -246,7 +246,13 @@
             xhttp.onload = function () {
                 const s = JSON.parse(this.responseText);
                 var row = document.getElementById(`${s.Id}`);
-                row.childNodes[1].innerText = s.Name;
+                if (row.childNodes[1].innerText.includes("ST")) {
+                    row.childNodes[3].innerText = s.Name;
+                }
+                else {
+                    row.childNodes[1].innerText = s.Name;
+                }
+               
                 document.getElementById("notification").innerHTML = "";
                 document.getElementById("updateSegment").style.display = "none";
                 alert("Updates Saved")
