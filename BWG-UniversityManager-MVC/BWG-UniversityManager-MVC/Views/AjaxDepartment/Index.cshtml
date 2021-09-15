@@ -112,9 +112,9 @@
 {
     <script>
         var dep = {
-            id: "",
+            Id: "",
             Uni: "",
-            name:""
+            Name:""
         }
         var outerID;
         //Show Department's Details
@@ -131,9 +131,9 @@
 
                 document.getElementById("id").innerHTML = "ID: " + `${d.Id}`;
                 document.getElementById("Uni").innerHTML = "University: " + `${d.Uni}`;
-                document.getElementById("name").innerHTML = "Name: " + `${d.name}`;
+                document.getElementById("name").innerHTML = "Name: " + `${d.Name}`;
                 outerID = id;
-                dep.id = d.Id; dep.Uni = d.Uni; dep.name = d.name;
+                dep.Id = d.Id; dep.Uni = d.Uni; dep.Name = d.Name;
             }
             xhttp.open("GET", "..//../AjaxDepartment/Details" + `/${id}`);
             xhttp.send();
@@ -196,29 +196,37 @@
             document.getElementById("detailSegment").style.display = "none";
 
             var updateDepartmentForm = document.getElementById("updateForm");
-            updateDepartmentForm.childNodes[1].value = dep.id;
+            updateDepartmentForm.childNodes[1].value = dep.Id;
             updateDepartmentForm.childNodes[4].value = dep.Uni;
-            updateDepartmentForm.childNodes[7].value = dep.name
+            updateDepartmentForm.childNodes[8].value = dep.Name
         }
         function UpdateDepartment() {
             var updateDepartmentForm = document.getElementById("updateForm");
-            dep.id = updateDepartmentForm.childNodes[1].value;
+            dep.Id = updateDepartmentForm.childNodes[1].value;
             dep.Uni = updateDepartmentForm.childNodes[4].value;
-            dep.name = updateDepartmentForm.childNodes[7].value;
+            dep.Name = updateDepartmentForm.childNodes[8].value;
 
-            if (dep.id == "" || dep.Uni == ""||dep.name=="" ) {
+            if (dep.Id == "" || dep.Uni == ""||dep.Name=="" ) {
                 return;
             }
             const xhttp = new XMLHttpRequest();
             xhttp.onload = function () {
                 const d = JSON.parse(this.responseText);
                 var row = document.getElementById(`${d.Id}`);
-                row.childNodes[3].innerHTML = d.Uni;
+                if (row.childNodes.length == 3) {
+                    row.childNodes[2].innerText = d.Name;
+                    row.childNodes[1].innerText = d.Uni;
+                }
+                else {
+                    row.childNodes[5].innerText = d.Name;
+                    row.childNodes[3].innerText = d.Uni;
+                }
+                
                 document.getElementById("notification").innerHTML = "";
                 document.getElementById("updateSegment").style.display = "none";
                 alert("Updates Saved");
             }
-            xhttp.open("GET", "..//../AjaxDepartment/Update?Id=" + dep.id + "&Uni=" + dep.Uni+"&name="+dep.name );
+            xhttp.open("GET", "..//../AjaxDepartment/Update?Id=" + dep.Id + "&Uni=" + dep.Uni+"&name="+dep.Name );
             xhttp.send();
         }
 
