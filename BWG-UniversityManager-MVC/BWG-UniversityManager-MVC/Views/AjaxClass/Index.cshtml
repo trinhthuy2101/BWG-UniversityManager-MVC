@@ -41,7 +41,6 @@
                 <input id="Cid" class="form-control" type="text" value="" name="Cid" required maxlength="6" title="Field must be less than 6 characters long" /><br />
                 Department:
                 <select class="form-control" id="CDep" name="CDep">
-                    <option>Select Department ID</option>
                     @foreach (var dep in Model.Departments)
                     {
                         <option>@dep.Id</option>
@@ -57,7 +56,6 @@
                 <input id="Cid_ud" class="form-control" type="text" value="" name="Cid" readonly /><br />
                 Department:
                 <select class="form-control" id="CDep" name="CDep">
-                    <option>Select Department ID</option>
                     @foreach (var dep in Model.Departments)
                     {
                         <option>@dep.Id</option>
@@ -70,9 +68,6 @@
         <div>
             <span role="alert" id="IDError" aria-hidden="true">
                 Please enter ID
-            </span>
-            <span role="alert" id="DepError" aria-hidden="true">
-                Please enter Department
             </span>
         </div>
     </div>
@@ -95,7 +90,7 @@
     #deleteBut, #updateBut, #addSegment, #updateSegment {
         display: none;
     }
-    #IDError, #DepError{
+    #IDError{
         display: none;
         font-size: 0.8em;
     }
@@ -241,7 +236,7 @@
             e.preventDefault();
 
             const IDField = document.getElementById("Cid");
-            const DepField = document.getElementById("CDep");
+            //const DepField = document.getElementById("CDep");
             let valid = true;
             //ID
             if (!IDField.value) {
@@ -252,14 +247,14 @@
                 document.getElementById("IDError").style.display = "none";
                 IDField.classList.remove("invalid");
             }
-            //Dep
-            if (!DepField.value) {
-                DepField.classList.add("invalid");
-                document.getElementById("DepError").style.display = "block";
-            } else {
-                document.getElementById("DepError").style.display = "none";
-                DepField.classList.remove("invalid");
-            }
+            ////Dep
+            //if (!DepField.value) {
+            //    DepField.classList.add("invalid");
+            //    document.getElementById("DepError").style.display = "block";
+            //} else {
+            //    document.getElementById("DepError").style.display = "none";
+            //    DepField.classList.remove("invalid");
+            //}
             return valid;
         }
 
@@ -267,7 +262,7 @@
         updateSubmit.addEventListener("click", validateUpdate);
         function validateUpdate(e) {
             e.preventDefault();
-            const DepField_ud = document.getElementById("CDep_ud");
+            //const DepField_ud = document.getElementById("CDep_ud");
             const IDField_ud = document.getElementById("Cid_ud");
 
             let valid = true;
@@ -281,13 +276,13 @@
                 IDField_ud.classList.remove("invalid");
             }
             //Dep
-            if (!DepField_ud.value) {
-                DepField_ud.classList.add("invalid");
-                document.getElementById("DepError").style.display = "block";
-            } else {
-                document.getElementById("DepError").style.display = "none";
-                DepField_ud.classList.remove("invalid");
-            }
+            //if (!DepField_ud.value) {
+            //    DepField_ud.classList.add("invalid");
+            //    document.getElementById("DepError").style.display = "block";
+            //} else {
+            //    document.getElementById("DepError").style.display = "none";
+            //    DepField_ud.classList.remove("invalid");
+            //}
             return valid;
         }
         function mouseOver(Id) {

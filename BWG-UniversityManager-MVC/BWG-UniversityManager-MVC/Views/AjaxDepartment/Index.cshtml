@@ -12,6 +12,7 @@
             <tr id="FirstRow">
                 <td><b>ID</b></td>
                 <td><b>UNIVERSITY</b></td>
+                <td><b>NAME</b></td>
             </tr>
         </thead>
         <tbody>
@@ -20,6 +21,7 @@
                 <tr id=@dep.Id onmouseover="mouseOver('@dep.Id')" onmouseout="mouseOut('@dep.Id' )">
                     <td><b onclick="ViewDetails('@dep.Id')">@dep.Id</b></td>
                     <td> @dep.Uni</td>
+                    <td>@dep.Name</td>
                 </tr>
             }
         </tbody>
@@ -40,7 +42,6 @@
                 <input id="Did" class="form-control" type="text" value="" name="Did" required maxlength="4" title="Field must be less than 4 characters long" /><br />
                 University:
                 <select class="form-control" id="DUni" name="DUni">
-                    <option>Select University ID</option>
                     @foreach (var uni in Model.Universities)
                     {
                         <option>@uni.Id</option>
@@ -57,9 +58,7 @@
                 Department ID:
                 <input id="Did_ud" class="form-control" type="text" value="" name="Did" readonly /><br />
                 University:
-                @*<input id="DUni_ud" class="form-control" type="text" value="" name="DUni" /><br />*@
                 <select class="form-control" id="DUni_ud" name="DUni">
-                    <option>Select University ID</option>
                     @foreach (var uni in Model.Universities)
                     {
                         <option>@uni.Id</option>
@@ -75,8 +74,8 @@
             <span role="alert" id="IDError" aria-hidden="true">
                 Please enter ID
             </span>
-            <span role="alert" id="UniError" aria-hidden="true">
-                Please enter University
+            @*<span role="alert" id="UniError" aria-hidden="true">
+                Please enter University*@
             </span>
             <span role="alert" id="NameError" aria-hidden="true">
                 Please enter Department Name
@@ -97,7 +96,7 @@
     #deleteBut, #updateBut, #addSegment, #updateSegment {
         display: none;
     }
-    #IDError, #NameError, #UniError {
+    #IDError, #NameError/*, #UniError */{
         display: none;
         font-size: 0.8em;
     }
@@ -151,7 +150,7 @@
             document.getElementById("addButton").addEventListener("click", function () {
                 CreateNew(addDepartmentForm.childNodes[1].value,
                     addDepartmentForm.childNodes[4].value,
-                    addDepartmentForm.childNodes[7].value)
+                    addDepartmentForm.childNodes[8].value)
             })
         }
         function CreateNew(Did,DUni,Dname) {
@@ -176,11 +175,13 @@
                 row.id = `${Did}`;
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
                 var bold = document.createElement("b");
                 var textNode = document.createTextNode(`${Did}`)
                 bold.appendChild(textNode);
                 cell1.appendChild(bold);
                 cell2.innerHTML = DUni;
+                cell3.innerHTML = Dname;
                 cell1.onclick = function () { ViewDetails(`${Did}`); }
             }
             xhttp.open("GET", "..//../AjaxDepartment/CreateNew?Id=" + Did + "&Uni="+DUni+"&name="+Dname);
@@ -249,7 +250,7 @@
 
             const IDField = document.getElementById("Did");
             const NameField = document.getElementById("Dname");
-            const UniField = document.getElementById("DUni");
+            //const UniField = document.getElementById("DUni");
             let valid = true;
             //ID
             if (!IDField.value) {
@@ -269,13 +270,13 @@
                 NameField.classList.remove("invalid");
             }
             //University
-            if (!UniField.value) {
-                UniField.classList.add("invalid");
-                document.getElementById("UniError").style.display = "block";
-            } else {
-                document.getElementById("UniError").style.display = "none";
-                UniField.classList.remove("invalid");
-            }
+            //if (!UniField.value) {
+            //    UniField.classList.add("invalid");
+            //    document.getElementById("UniError").style.display = "block";
+            //} else {
+            //    document.getElementById("UniError").style.display = "none";
+            //    UniField.classList.remove("invalid");
+            //}
             return valid;
         }
 
@@ -285,7 +286,7 @@
             e.preventDefault();
             const IDField_ud = document.getElementById("Did_ud");
             const NameField_ud = document.getElementById("Dname_ud");
-            const UniField_ud = document.getElementById("DUni_ud");
+            //const UniField_ud = document.getElementById("DUni_ud");
 
             //ID
             if (!IDField_ud.value) {
@@ -305,14 +306,14 @@
                 NameField_ud.classList.remove("invalid");
             }
             //University
-            if (!UniField_ud.value) {
-                UniField_ud.classList.add("invalid");
-                document.getElementById("UniError").style.display = "block";
-            } else {
-                document.getElementById("UniError").style.display = "none";
-                UniField_ud.classList.remove("invalid");
-            }
-            return valid;
+            //if (!UniField_ud.value) {
+            //    UniField_ud.classList.add("invalid");
+            //    document.getElementById("UniError").style.display = "block";
+            //} else {
+            //    document.getElementById("UniError").style.display = "none";
+            //    UniField_ud.classList.remove("invalid");
+            //}
+            //return valid;
         }
         function mouseOver(Id) {
             document.getElementById(Id).childNodes[1].style.color = "red";

@@ -8,7 +8,6 @@ namespace ASP_NET_MVC.Controllers
 {
     public class HomeController : BaseController
     {
-
         public ActionResult Index()
         {
             if (LoginModel.Role == "Student")
