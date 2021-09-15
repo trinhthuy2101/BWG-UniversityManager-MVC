@@ -49,6 +49,15 @@ namespace ASP_NET_MVC.Controllers.Ajax
         public JsonResult Delete(string id)
         {
             Student s = DB.Students.Find(id);
+            var accounts = DB.Accounts.ToList();
+            Account account = null;
+            foreach (var acc in accounts)
+            {
+                if (acc.UserName == s.Id)
+                    account = acc;
+            }
+            if (account != null)
+                DB.Accounts.Remove(account);
             DB.Students.Remove(s);
             DB.SaveChanges();
             return Json(s, JsonRequestBehavior.AllowGet);
