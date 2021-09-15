@@ -189,7 +189,7 @@
             xhttp.onload = function () {
                 const u = JSON.parse(this.responseText);
                 var row = document.getElementById(`${u.Id}`);
-                row.childNodes[3].innerHTML = uni.Name;
+                row.childNodes[1].innerHTML = uni.Name;
                 document.getElementById("notification").innerHTML = "";
                 document.getElementById("updateSegment").style.display = "none";
                 alert("Updates Saved");

@@ -204,7 +204,7 @@
                 document.getElementById("addSegment").style.display = "none";
                 var table = document.getElementById("table");
                 var row = table.insertRow(1);
-                row.id = `${Sid}`;
+                row.id = `ST${Sid}`;
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
                 var bold = document.createElement("b");
@@ -212,7 +212,7 @@
                 bold.appendChild(textNode);
                 cell1.appendChild(bold);
                 cell2.innerHTML = SName;
-                cell1.onclick = function () { ViewDetails(`${Sid}`); }
+                cell1.onclick = function () { ViewDetails(`ST${Sid}`); }
             }
             xhttp.open("GET", "..//../AjaxStudent/CreateNew?Id=ST" + Sid + "&Name=" + SName + "&Idc=" + SIdc + "&Email=" + SEmail + "&Class=" + SClass);
             xhttp.send();
@@ -246,7 +246,7 @@
             xhttp.onload = function () {
                 const s = JSON.parse(this.responseText);
                 var row = document.getElementById(`${s.Id}`);
-                row.childNodes[3].innerHTML = s.Name;
+                row.childNodes[1].innerText = s.Name;
                 document.getElementById("notification").innerHTML = "";
                 document.getElementById("updateSegment").style.display = "none";
                 alert("Updates Saved")

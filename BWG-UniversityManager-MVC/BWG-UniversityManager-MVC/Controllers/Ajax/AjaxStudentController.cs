@@ -82,7 +82,7 @@ namespace ASP_NET_MVC.Controllers.Ajax
                 Account account = new Account();
                 account.UserName = s.Id;
                 account.Password = "13579";
-                account.Id = (countAll+1).ToString();
+                account.Id = s.Id;
 
                 DB.Accounts.Add(account);
                 DB.Students.Add(s);
