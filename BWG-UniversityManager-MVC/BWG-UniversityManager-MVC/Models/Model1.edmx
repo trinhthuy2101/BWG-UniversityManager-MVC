@@ -31,6 +31,8 @@
           <Property Name="StartDate" Type="date" />
           <Property Name="EndDate" Type="date" />
           <Property Name="Time" Type="varchar" MaxLength="100" />
+          <Property Name="Status" Type="varchar" MaxLength="100" />
+          <Property Name="Date" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -48,12 +50,15 @@
           <Property Name="Course" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Student" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Point" Type="int" />
+          <Property Name="Fee" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Room">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="20" />
+          <Property Name="Manager" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Student">
           <Key>
@@ -70,8 +75,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
           <Property Name="Credits" Type="int" />
+          <Property Name="FeePerCredit" Type="int" />
         </EntityType>
         <EntityType Name="Teacher">
           <Key>
@@ -149,6 +155,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Room__Manager__0C1BC9F9">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+          <End Role="Room" Type="Self.Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="Manager" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="PK_Class_Dep">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="Class" Type="Self.Class" Multiplicity="*" />
@@ -221,6 +239,10 @@
             <End Role="Student" EntitySet="Student" />
             <End Role="RegisteredCourse" EntitySet="RegisteredCourse" />
           </AssociationSet>
+          <AssociationSet Name="FK__Room__Manager__0C1BC9F9" Association="Self.FK__Room__Manager__0C1BC9F9">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Room" EntitySet="Room" />
+          </AssociationSet>
           <AssociationSet Name="PK_Class_Dep" Association="Self.PK_Class_Dep">
             <End Role="Department" EntitySet="Department" />
             <End Role="Class" EntitySet="Class" />
@@ -270,6 +292,8 @@
           <NavigationProperty Name="Subject1" Relationship="Self.FK__Course__Subject__44952D46" FromRole="Course" ToRole="Subject" />
           <NavigationProperty Name="Teacher1" Relationship="Self.FK__Course__Teacher__42ACE4D4" FromRole="Course" ToRole="Teacher" />
           <NavigationProperty Name="RegisteredCourses" Relationship="Self.FK__Registere__Cours__4589517F" FromRole="Course" ToRole="RegisteredCourse" />
+          <Property Name="Status" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -291,6 +315,7 @@
           <Property Name="Point" Type="Int32" />
           <NavigationProperty Name="Course1" Relationship="Self.FK__Registere__Cours__4589517F" FromRole="RegisteredCourse" ToRole="Course" />
           <NavigationProperty Name="Student1" Relationship="Self.FK__Registere__Stude__467D75B8" FromRole="RegisteredCourse" ToRole="Student" />
+          <Property Name="Fee" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Room">
           <Key>
@@ -298,6 +323,9 @@
           </Key>
           <Property Name="Id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Courses" Relationship="Self.FK__Course__Room__43A1090D" FromRole="Room" ToRole="Course" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Manager" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Teacher" Relationship="webt2289_StudentManager_ThuyModel.FK__Room__Manager__0C1BC9F9" FromRole="Room" ToRole="Teacher" />
         </EntityType>
         <EntityType Name="Student">
           <Key>
@@ -316,9 +344,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Credits" Type="Int32" />
           <NavigationProperty Name="Courses" Relationship="Self.FK__Course__Subject__44952D46" FromRole="Subject" ToRole="Course" />
+          <Property Name="FeePerCredit" Type="Int32" />
         </EntityType>
         <EntityType Name="Teacher">
           <Key>
@@ -329,6 +358,7 @@
           <Property Name="Idc" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Courses" Relationship="Self.FK__Course__Teacher__42ACE4D4" FromRole="Teacher" ToRole="Course" />
+          <NavigationProperty Name="Rooms" Relationship="webt2289_StudentManager_ThuyModel.FK__Room__Manager__0C1BC9F9" FromRole="Teacher" ToRole="Room" />
         </EntityType>
         <EntityType Name="University">
           <Key>
@@ -482,7 +512,23 @@
             <Parameter Name="Name" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="USP_PRINT_Student_FULL" />
+          <AssociationSet Name="FK__Room__Manager__0C1BC9F9" Association="webt2289_StudentManager_ThuyModel.FK__Room__Manager__0C1BC9F9">
+            <End Role="Teacher" EntitySet="Teachers" />
+            <End Role="Room" EntitySet="Rooms" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK__Room__Manager__0C1BC9F9">
+          <End Type="webt2289_StudentManager_ThuyModel.Teacher" Role="Teacher" Multiplicity="0..1" />
+          <End Type="webt2289_StudentManager_ThuyModel.Room" Role="Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="Manager" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -509,6 +555,8 @@
           <EntitySetMapping Name="Courses">
             <EntityTypeMapping TypeName="webt2289_StudentManager_ThuyModel.Course">
               <MappingFragment StoreEntitySet="Course">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Subject" ColumnName="Subject" />
                 <ScalarProperty Name="Teacher" ColumnName="Teacher" />
@@ -531,6 +579,7 @@
           <EntitySetMapping Name="RegisteredCourses">
             <EntityTypeMapping TypeName="webt2289_StudentManager_ThuyModel.RegisteredCourse">
               <MappingFragment StoreEntitySet="RegisteredCourse">
+                <ScalarProperty Name="Fee" ColumnName="Fee" />
                 <ScalarProperty Name="Course" ColumnName="Course" />
                 <ScalarProperty Name="Student" ColumnName="Student" />
                 <ScalarProperty Name="Point" ColumnName="Point" />
@@ -540,6 +589,8 @@
           <EntitySetMapping Name="Rooms">
             <EntityTypeMapping TypeName="webt2289_StudentManager_ThuyModel.Room">
               <MappingFragment StoreEntitySet="Room">
+                <ScalarProperty Name="Manager" ColumnName="Manager" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -558,6 +609,7 @@
           <EntitySetMapping Name="Subjects">
             <EntityTypeMapping TypeName="webt2289_StudentManager_ThuyModel.Subject">
               <MappingFragment StoreEntitySet="Subject">
+                <ScalarProperty Name="FeePerCredit" ColumnName="FeePerCredit" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Credits" ColumnName="Credits" />

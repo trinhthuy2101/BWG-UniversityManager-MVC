@@ -23,6 +23,7 @@
         <AssociationConnector Association="webt2289_StudentManager_ThuyModel.FK__Registere__Cours__4589517F" ManuallyRouted="false" />
         <AssociationConnector Association="webt2289_StudentManager_ThuyModel.PK_Dep_Uni" ManuallyRouted="false" />
         <AssociationConnector Association="webt2289_StudentManager_ThuyModel.FK__Registere__Stude__467D75B8" ManuallyRouted="false" />
+        <AssociationConnector Association="webt2289_StudentManager_ThuyModel.FK__Room__Manager__0C1BC9F9" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

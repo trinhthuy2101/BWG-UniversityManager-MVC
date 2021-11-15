@@ -17,6 +17,7 @@ namespace ASP_NET_MVC.Models
         public string Course { get; set; }
         public string Student { get; set; }
         public Nullable<int> Point { get; set; }
+        public string Fee { get; set; }
     
         public virtual Course Course1 { get; set; }
         public virtual Student Student1 { get; set; }
