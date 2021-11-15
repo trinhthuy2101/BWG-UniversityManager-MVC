@@ -11,13 +11,15 @@ function getTimeTable() {
         timetable.style.display = "table";
         giveStudentPointZone.style.display = 'none';
 
-        let table = '<tr><th style="text-align:center">Subject</th><th style="text-align:center">StartTime</th><th style="text-align:center">TimeEnd</th><th style="text-align:center">GivePoint</th></tr>';
+        let table = '<tr><th style="text-align:center">Subject</th><th style="text-align:center">StartTime</th><th style="text-align:center">TimeEnd</th><th style="text-align:center">Time</th><th style="text-align:center">Status</th><th style="text-align:center">GivePoint</th></tr>';
         for (let i = 0; i < parsed.length; i++) {
             table += "<tr><td>" +
                 parsed[i].Subject +
                 "</td><td>" +
                 convert(parsed[i].StartDate) +
                 "</td>" + "<td>" + convert(parsed[i].EndDate) + "</td>" +
+                "</td>" + parsed[i].Time + '</td>' +
+                "</td>" + parsed[i].Status + '</td>' +
                 "<td>" + '<button onclick="giveThisCoursePoint((\'' + parsed[i].Id + '\'))" class="btn btn-info">Give Point</button>' + "</td>" +
                 "</tr>";
         }

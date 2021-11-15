@@ -21,8 +21,11 @@ namespace ASP_NET_MVC.Models
         }
     
         public string Id { get; set; }
+        public string Status { get; set; }
+        public string Manager { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Course> Courses { get; set; }
+        public virtual Teacher Teacher { get; set; }
     }
 }

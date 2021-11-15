@@ -26,6 +26,8 @@
     <Property Name="StartDate" Type="date" />
     <Property Name="EndDate" Type="date" />
     <Property Name="Time" Type="varchar" MaxLength="100" />
+    <Property Name="Status" Type="varchar" MaxLength="100" />
+    <Property Name="Date" Type="varchar" MaxLength="20" />
   </EntityType>
   <EntityType Name="Department">
     <Key>
@@ -43,12 +45,15 @@
     <Property Name="Course" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="Student" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="Point" Type="int" />
+    <Property Name="Fee" Type="varchar" MaxLength="255" />
   </EntityType>
   <EntityType Name="Room">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Status" Type="varchar" MaxLength="20" />
+    <Property Name="Manager" Type="varchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="Student">
     <Key>
@@ -65,8 +70,9 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="varchar" MaxLength="100" Nullable="false" />
-    <Property Name="Name" Type="varchar" MaxLength="100" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
     <Property Name="Credits" Type="int" />
+    <Property Name="FeePerCredit" Type="int" />
   </EntityType>
   <EntityType Name="Teacher">
     <Key>
@@ -144,6 +150,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__Room__Manager__0C1BC9F9">
+    <End Role="Teacher" Type="Self.Teacher" Multiplicity="0..1" />
+    <End Role="Room" Type="Self.Room" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teacher">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Room">
+        <PropertyRef Name="Manager" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="PK_Class_Dep">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="Class" Type="Self.Class" Multiplicity="*" />
@@ -215,6 +233,10 @@
     <AssociationSet Name="FK__Registere__Stude__467D75B8" Association="Self.FK__Registere__Stude__467D75B8">
       <End Role="Student" EntitySet="Student" />
       <End Role="RegisteredCourse" EntitySet="RegisteredCourse" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Room__Manager__0C1BC9F9" Association="Self.FK__Room__Manager__0C1BC9F9">
+      <End Role="Teacher" EntitySet="Teacher" />
+      <End Role="Room" EntitySet="Room" />
     </AssociationSet>
     <AssociationSet Name="PK_Class_Dep" Association="Self.PK_Class_Dep">
       <End Role="Department" EntitySet="Department" />

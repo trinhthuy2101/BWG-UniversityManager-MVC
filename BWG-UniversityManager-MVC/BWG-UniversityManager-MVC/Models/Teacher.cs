@@ -18,6 +18,7 @@ namespace ASP_NET_MVC.Models
         public Teacher()
         {
             this.Courses = new HashSet<Course>();
+            this.Rooms = new HashSet<Room>();
         }
     
         public string Id { get; set; }
@@ -27,5 +28,7 @@ namespace ASP_NET_MVC.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Course> Courses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Room> Rooms { get; set; }
     }
 }

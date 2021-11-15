@@ -21,6 +21,8 @@
     <EntitySetMapping Name="Courses">
       <EntityTypeMapping TypeName="webt2289_StudentManager_ThuyModel.Course">
         <MappingFragment StoreEntitySet="Course">
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Subject" ColumnName="Subject" />
           <ScalarProperty Name="Teacher" ColumnName="Teacher" />
@@ -43,6 +45,7 @@
     <EntitySetMapping Name="RegisteredCourses">
       <EntityTypeMapping TypeName="webt2289_StudentManager_ThuyModel.RegisteredCourse">
         <MappingFragment StoreEntitySet="RegisteredCourse">
+          <ScalarProperty Name="Fee" ColumnName="Fee" />
           <ScalarProperty Name="Course" ColumnName="Course" />
           <ScalarProperty Name="Student" ColumnName="Student" />
           <ScalarProperty Name="Point" ColumnName="Point" />
@@ -52,6 +55,8 @@
     <EntitySetMapping Name="Rooms">
       <EntityTypeMapping TypeName="webt2289_StudentManager_ThuyModel.Room">
         <MappingFragment StoreEntitySet="Room">
+          <ScalarProperty Name="Manager" ColumnName="Manager" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -70,6 +75,7 @@
     <EntitySetMapping Name="Subjects">
       <EntityTypeMapping TypeName="webt2289_StudentManager_ThuyModel.Subject">
         <MappingFragment StoreEntitySet="Subject">
+          <ScalarProperty Name="FeePerCredit" ColumnName="FeePerCredit" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Credits" ColumnName="Credits" />
