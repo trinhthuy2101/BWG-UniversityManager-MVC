@@ -77,6 +77,7 @@ function giveThisCoursePoint(subjectid) {
 function onStartLoad() {
     //hideOtherTabs();
     helloTextWithName();
+    getTrueTimeTable();
 }
 function hideOtherTabs() {
     document.getElementById("StudentTab").remove();
@@ -132,4 +133,38 @@ function isNumeric(str) {
     if (typeof str != "string") return false 
     return !isNaN(str) && 
         !isNaN(parseFloat(str)) 
+}
+function getTrueTimeTable() {
+    console.log("getting timetable");
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "..//../AjaxTeacher/GetTimeTable");
+    xhttp.send();
+    xhttp.onload = function () {
+        const parsed = JSON.parse(this.responseText);
+        for (let i = 0; i < parsed.length; i++) {
+            let dayCol=0;
+            if(parsed[i].Date=='monday') dayCol=1;
+            if(parsed[i].Date=='tuesday') dayCol=3;
+    
+            if(parsed[i].Date=='wednesday') dayCol=5;
+    
+            if(parsed[i].Date=='thursday') dayCol=7;
+    
+            if(parsed[i].Date=='friday') dayCol=9;
+    
+            if(parsed[i].Date=='saturday') dayCol=11;
+    
+            if(parsed[i].Date=='sunday') dayCol=13;
+            console.log(dayCol);
+            console.log(parsed[i].Sulibject);
+            var startPer=parsed[i].Time.slice(0,1);
+            console.log(startPer);
+            var endPer=parsed[i].Time.slice(2,3);
+            console.log(endPer);
+            for(let k=startPer;k<=endPer;k++){
+                document.getElementById("pe"+k.toString()).childNodes[dayCol].innerHTML=parsed[i].Subject;
+            }
+        }
+    }
+
 }

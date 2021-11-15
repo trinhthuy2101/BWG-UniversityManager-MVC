@@ -1,16 +1,15 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Teacher";
     Layout = "~/Views/Shared/_LayoutForTeacher.cshtml";
 }
 <div class="d-flex p-2 text-center col-auto">
     <h2 id="hellotext" style="text-align:center">Hello, Teacher</h2>
 </div>
-    <blockquote class="blockquote text-right">
-        <p class="mb-0" id="quote">Have a nice day :)</p>
-        <footer class="blockquote-footer" id="famousname"> </footer>
-    </blockquote>
-    <br />
+<blockquote class="blockquote text-right">
+    <p class="mb-0" id="quote">Have a nice day :)</p>
+    <footer class="blockquote-footer" id="famousname"> </footer>
+</blockquote>
+<br />
 <div class="d-flex p-2 text-center col-auto">
     <button id="getTimeTable-btn" onclick="getTimeTable()" class="btn btn-info">Show My Courses</button>
 
@@ -23,7 +22,104 @@
     </div>
 
 </div>
+<div class="d-flex p-2 text-center col-auto">
+    <button id="getTimeTable-btn" onclick="getTrueTimeTable()" class="btn btn-info">Show Time Table</button>
 
+
+    <div id="trueTimeTable" style="display:block">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Monday</th>
+                    <th scope="col">Tuesday</th>
+                    <th scope="col">Wednesday</th>
+                    <th scope="col">Thursday</th>
+                    <th scope="col">Friday</th>
+                    <th scope="col">Saturday</th>
+                    <th scope="col">Sunday</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="pe1">
+                    <td >empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                </tr>
+        <tr id="pe2">
+                    <td >empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                </tr>
+                        <tr id="pe3">
+                    <td >empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                </tr>
+                        <tr id="pe4">
+                    <td >empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                </tr>
+                        <tr id="pe5">
+                    <td >empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                </tr>
+                        <tr id="pe6">
+                    <td >empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                </tr>
+                        <tr id="pe7">
+                    <td >empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                </tr>
+                        <tr id="pe8">
+                    <td >empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                    <td>empty</td>
+                </tr>
+                       
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
 
 <script src="~/Scripts/TeacherScript.js">
 </script>
