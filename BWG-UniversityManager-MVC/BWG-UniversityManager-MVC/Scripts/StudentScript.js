@@ -51,13 +51,15 @@ function showCoursesToRegister() {
         timetable.style.display = "none";
         coursesToRegisterTable.style.display = 'table';
 
-        let table = '<tr><th style="text-align:center">Subject</th><th style="text-align:center">StartTime</th><th style="text-align:center">TimeEnd</th><th style="text-align:center">Register</th></tr>';
+        let table = '<tr> <th style="text-align:center">Subject</th>          <th style="text-align:center">StartTime</th>           <th style="text-align:center">TimeEnd</th>            <th style="text-align:center">Day in week</th>         <th style="text-align:center">Preiod</th>            <th style="text-align:center">Register</th></tr>';
         for (let i = 0; i < parsed.length; i++) {
             table += "<tr><td>" +
                 parsed[i].Subject +
                 "</td><td>" +
                 convert(parsed[i].StartDate) +
                 "</td>" + "<td>" + convert(parsed[i].EndDate) + "</td>" +
+                "<td>" + parsed[i].Date + "</td>"+
+                "<td>" + parsed[i].Time + "</td>" +
                 "<td>" + '<button onclick="registerToCourse((\'' + parsed[i].Id + '\'))" class="btn btn-success">Register</button>' + "</td>" +
                 "</tr>";
         }
@@ -72,8 +74,20 @@ function registerToCourse(course) {
     xhttp.send();
     xhttp.onload = function () {
         const parsed = JSON.parse(this.responseText);
-        alert(parsed);
-        showCoursesToRegister();
+        if (parsed == "Registered") {
+            alert(parsed);
+            showCoursesToRegister();
+        }
+        else {
+            alert(parsed);
+            if (confirm("Still register")) {
+                xhttp.open("POST", "..//../AjaxStudentForStudent/RegisterToCourse?course=" + course + "&keepConflict=keepConflict");
+                xhttp.send();
+            } else {
+                txt = "You pressed Cancel!";
+            }
+
+        }
     }
 
 }

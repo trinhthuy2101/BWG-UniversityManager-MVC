@@ -53,14 +53,24 @@ namespace ASP_NET_MVC.Controllers.Ajax
             }
             return Json(courses, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult RegisterToCourse(string course)
+        public ActionResult RegisterToCourse(string course, string keepConflict ="no")
         {
             string accountid = LoginModel.Id;
             string SQLFindTrueID = " select UserName from Account where id = '" + accountid + "'";
             string studentid = DB.Database.SqlQuery<string>(SQLFindTrueID).FirstOrDefault();
 
+            //find registered coursed
+            string registeredCourseSQL = "select * from Course where id in (select Course from RegisteredCourse where Student='" + studentid + "')" ;
+            var registeredCourses = DB.Database.SqlQuery<Course>(registeredCourseSQL).ToList();
 
+            string thisCourseSQL = "select * from Course where id ='" + course+"'";
 
+            var thisCourse=DB.Database.SqlQuery<Course>(thisCourseSQL).FirstOrDefault();
+            if (thisCourse != null) {
+                if (registeredCourses.Find(x => x.Date == thisCourse.Date && x.Time == thisCourse.Time) != null) {
+                   if(keepConflict=="no") return (Json("Time conflict: you cannot register since you already register a course has same time period", JsonRequestBehavior.AllowGet));
+                }
+            }
             string SQL = "insert into RegisteredCourse values('" + course + "','" + studentid +"',NULL" +",NULL) ";
             DB.Database.ExecuteSqlCommand(SQL);
             return (Json("Registered", JsonRequestBehavior.AllowGet));
