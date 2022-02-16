@@ -27,8 +27,8 @@ namespace ASP_NET_MVC.Controllers.UniversityManager
             string SQLFindTrueID=" select UserName from Account where id = '" + accountid + "'";
             string id = DB.Database.SqlQuery<string>(SQLFindTrueID).FirstOrDefault();
 
-            string updateSQL= "UPDATE Course SET Status = 'teaching',Time='1-4',Date='monday' WHERE Teacher='" + id + "'";
-            DB.Database.ExecuteSqlCommand(updateSQL);
+            // string updateSQL= "UPDATE Course SET Status = 'teaching',Time='1-4',Date='monday' WHERE Teacher='" + id + "'";
+            // DB.Database.ExecuteSqlCommand(updateSQL);
             string SQL = "select * from Course where Teacher='" + id + "'";
             var raw = DB.Database.SqlQuery<Course>(SQL);
             var result = raw.ToList();

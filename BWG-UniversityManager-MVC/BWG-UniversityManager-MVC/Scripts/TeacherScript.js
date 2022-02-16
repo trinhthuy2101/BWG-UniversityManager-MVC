@@ -77,7 +77,6 @@ function giveThisCoursePoint(subjectid) {
 function onStartLoad() {
     //hideOtherTabs();
     helloTextWithName();
-    getTrueTimeTable();
 }
 function hideOtherTabs() {
     document.getElementById("StudentTab").remove();
@@ -135,6 +134,7 @@ function isNumeric(str) {
         !isNaN(parseFloat(str)) 
 }
 function getTrueTimeTable() {
+    document.getElementById("trueTimeTable").style.display = "block";
     console.log("getting timetable");
     const xhttp = new XMLHttpRequest();
     xhttp.open("GET", "..//../AjaxTeacher/GetTimeTable");
@@ -143,18 +143,18 @@ function getTrueTimeTable() {
         const parsed = JSON.parse(this.responseText);
         for (let i = 0; i < parsed.length; i++) {
             let dayCol=0;
-            if(parsed[i].Date=='monday') dayCol=1;
-            if(parsed[i].Date=='tuesday') dayCol=3;
+            if(parsed[i].Date=='Monday') dayCol=1;
+            if(parsed[i].Date=='Tuesday') dayCol=3;
     
-            if(parsed[i].Date=='wednesday') dayCol=5;
+            if(parsed[i].Date=='Wednesday') dayCol=5;
     
-            if(parsed[i].Date=='thursday') dayCol=7;
+            if(parsed[i].Date=='Thursday') dayCol=7;
     
-            if(parsed[i].Date=='friday') dayCol=9;
+            if(parsed[i].Date=='Friday') dayCol=9;
     
-            if(parsed[i].Date=='saturday') dayCol=11;
+            if(parsed[i].Date=='Saturday') dayCol=11;
     
-            if(parsed[i].Date=='sunday') dayCol=13;
+            if(parsed[i].Date=='Sunday') dayCol=13;
             console.log(dayCol);
             console.log(parsed[i].Sulibject);
             var startPer=parsed[i].Time.slice(0,1);
