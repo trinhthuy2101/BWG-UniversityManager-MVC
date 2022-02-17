@@ -1,4 +1,4 @@
-﻿@model ASP_NET_MVC.Models.ViewModels
+﻿@Model ASP_NET_MVC.Models.ViewModels
 @{
     ViewBag.Title = "Admin";
     Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
@@ -24,20 +24,28 @@
                             <td><b>Subject</b></td>
                             <td><b>Teacher</b></td>
                             <td><b>Room</b></td>
+                            <td><b>Start</b></td>
+                            <td><b>End</b></td>
                             <td><b>Time</b></td>
+                            <td><b>Status</b></td>
+                            <td><b>Date</b></td>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var course in Model.ViewModelCourse)
                         {
-                            <tr id=@course.Id>
-                                <td><b>@course.Id</b></td>
-                                <td>@course.Subject</td>
-                                <td>@course.Teacher</td>
-                                <td>@course.Room</td>
-                                <td>@course.Time</td>
-                                <td><b onclick="DeleteCourse('@course.Id')">Delete</b></td>
-                            </tr>
+                        <tr id=@course.Id>
+                            <td><b>@course.Id</b></td>
+                            <td>@course.Subject</td>
+                            <td>@course.Teacher</td>
+                            <td>@course.Room</td>
+                            <td><b>@course.StartDate</b></td>
+                            <td><b>@course.EndDate</b></td>
+                            <td><b>@course.Time</b></td>
+                            <td><b>@course.Status</b></td>
+                            <td><b>@course.Date</b></td>
+                            <td><b onclick="DeleteCourse('@course.Id')">Delete</b></td>
+                        </tr>
                         }
                     </tbody>
                 </table>
@@ -67,11 +75,28 @@
                             <option value=@room.Id>@room.Id</option>
                         }
                     </select><br />
+                    Start Date
+                    <input id="StartDate" class="form-control" type="datetime-local" value="" Name="StartDate" /><br />
+                    End Date
+                    <input id="EndDate" class="form-control" type="datetime-local" value="" Name="EndDate" /><br />
                     Time
-                    <select id="time" class="form-control" Name="time">
-                        <option value="AM">AM</option>
-                        <option value="PM">PM</option>
+                    <input id="Time" class="form-control" type="text" value="" Name="Time" /><br />
+                    Status
+                    <select id="Status" class="form-control" Name="Status">
+                        <option value="Teaching">Teaching</option>
+                        <option value="Compeleted">Compeleted</option>
+                        <option value="Canceled">Canceled</option>
+                        <option value="Pending">Pending</option>
                     </select><br />
+                    Date
+                    <select id="Date" class="form-control" Name="Date">
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                        <option value="Saturday">Saturday</option>
+                    </select><br/>
                     <button class="btn-success" type="button" id="addButton">Add</button>
                 </form>
             </div>
@@ -99,61 +124,112 @@
         </table>
     </div>
     <div id="SubjectSegment">
-        <table class="table" id="SubjectTable">
-            <thead>
-                <tr>
-                    <td><b>ID</b></td>
-                    <td><b>Name</b></td>
-                    <td><b>Credits</b></td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var subject in Model.ViewModelSubject)
-                {
-                    <tr id=@subject.Id>
-                        <td><b onclick="ViewDetails(@subject.Id)">@subject.Id</b></td>
-                        <td> @subject.Name </td>
-                        <td> @subject.Credits </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <button onclick="DisplayAddSubjectForm()" id="AddSubjectButton" class="btn-success">Add Subject</button>
+        <div class="grid">
+            <div id="subject">
+                <table class="table" id="SubjectTable">
+                    <thead>
+                        <tr>
+                            <td><b>ID</b></td>
+                            <td><b>Name</b></td>
+                            <td><b>Credits</b></td>
+                            <td><b>Fee per Credit</b></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var subject in Model.ViewModelSubject)
+                        {
+                            <tr id=@subject.Id>
+                                <td><b onclick="ViewDetails(@subject.Id)">@subject.Id</b></td>
+                                <td> @subject.Name </td>
+                                <td> @subject.Credits </td>
+                                <td> @subject.FeePerCredit </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div id="addSubjectSegment">
+                <form id="addSubjectForm">
+                    Subject's ID
+                    <input id="SubjectId" class="form-control" type="text" value="" Name="SubjectId" /><br />
+                    Name
+                    <input class="form-control" type="text" value="" /><br />
+                    Credit
+                    <input class="form-control" type="number" value=""/><br />
+                    Fee per Credit
+                    <input class="form-control" type="number" value=""/><br />
+                    <button class="btn-success" type="button" id="addSubjectButton">Add</button>
+                </form>
+            </div>
+        </div>
+        
 
     </div>
     <div id="RoomSegment">
-        <table class="table" id="RoomTable">
-            <thead>
-                <tr>
-                    <td><b>ID</b></td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var room in Model.ViewModelRoom)
-                {
-                    <tr id=@room.Id>
-                        <td><b onclick="ViewDetails(@room.Id)">@room.Id</b></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <button onclick="DisplayAddRoomForm()" id="AddRoomButton" class="btn-success">Add Room</button>
+        <div class="grid">
+            <div id="room">
+                <table class="table" id="RoomTable">
+                    <thead>
+                        <tr>
+                            <td><b>ID</b></td>
+                            <td><b>Status</b></td>
+                            <td><b>Manager</b></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var room in Model.ViewModelRoom)
+                        {
+                        <tr id=@room.Id>
+                            <td><b onclick="ViewDetails(@room.Id)">@room.Id</b></td>
+                            <td>@room.Status</td>
+                            <td>@room.Manager</td>
+                            <td><b onclick="DeleteRoom('@room.Id')">Delete</b></td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div id="addRoomSegment">
+                <form id="addRoomForm">
+                    Room's ID
+                    <input id="RoomId" class="form-control" type="text" value="" Name="RoomId" /><br />
+                    Status
+                    <select id="Status" class="form-control" Name="Status">
+                        <option value="Good">Good</option>
+                        <option value="Fixing">Fixing</option>
+                    </select><br />
+                    Manager
+                    <select id="Teacher" class="form-control" Name="Teacher">
+                        @foreach (var teacher in Model.ViewModelTeacher)
+                        {
+                            <option value=@teacher.Id>@teacher.Id</option>
+                        }
+                    </select><br />
+                    <button class="btn-success" type="button" id="addRoomButton">Add</button>
+                </form>
+            </div>
+        </div>
+        
     </div>
 </div>
 <style>
-    #addForm,#CourseSegment, #TeacherSegment, #SubjectSegment, #RoomSegment, #AccountSegment {
+    #addForm,#CourseSegment, #TeacherSegment, #SubjectSegment, #RoomSegment, #AccountSegment,#addRoomForm,#addSubjectForm {
         display: none;
     }
 
     .grid {
         display: grid;
-        grid-template-columns: 70% 30%;
+        grid-template-columns: 80% 20%;
     }
 
-    #course, .addCourseSegment{
+    #course, .addCourseSegment,#room,#addRoomSegment,#addSubjectSegment,#subject{
         border: ridge;
         padding: 10px;
         margin: 20px;
     }
-    ##TeacherTable,#SubjectTable,#RoomTable {
+    #TeacherTable,#SubjectTable,#RoomTable {
         border: ridge;
         padding: 10px;
         margin: 10px;
@@ -201,11 +277,14 @@
                 addCourseForm.childNodes[4].value,
                 addCourseForm.childNodes[7].value,
                 addCourseForm.childNodes[10].value,
-                addCourseForm.childNodes[13].value)
+                addCourseForm.childNodes[13].value,
+                addCourseForm.childNodes[16].value,
+                addCourseForm.childNodes[19].value,
+                addCourseForm.childNodes[22].value)
         })
     }
-    function AddCourse(CourseId, Subject, Teacher, Room, Time) {
-        if (CourseId == "" || Subject == "" || Teacher == "" || Room == "" || Time == "") {
+    function AddCourse(CourseId, Subject, Teacher, Room, StartDate, EndDate, Time, Status, Date) {
+        if (CourseId == "" || Subject == "" || Teacher == "" || Room == "" || StartDate == "" || EndDate == "" || Time == "" || Status==""||Date=="") {
             alert("All fields must be filled!");
             return;
         }
@@ -228,6 +307,10 @@
             var cell3 = row.insertCell(3);
             var cell4 = row.insertCell(4);
             var cell5 = row.insertCell(5);
+            var cell6 = row.insertCell(6);
+            var cell7 = row.insertCell(7);
+            var cell8 = row.insertCell(8);
+            var cell9 = row.insertCell(9);
             var bold = document.createElement("b");
             var textNode = document.createTextNode(`${CourseId}`)
             bold.appendChild(textNode);
@@ -235,16 +318,20 @@
             cell1.innerHTML = Subject;
             cell2.innerHTML = Teacher;
             cell3.innerHTML = Room;
-            cell4.innerHTML = Time;
+            cell4.innerHTML = StartDate;
+            cell5.innerHTML = EndDate;
+            cell6.innerHTML = Time;
+            cell7.innerHTML = Status;
+            cell8.innerHTML = Date;
             var bold1 = document.createElement("b");
             var textNode1 = document.createTextNode("Delete")
             bold1.appendChild(textNode1);
-            cell5.appendChild(bold1);
-            cell5.addEventListener("click", function () {
+            cell9.appendChild(bold1);
+            cell9.addEventListener("click", function () {
                 DeleteCourse(CourseId);
             });
         }
-        xhttp.open("POST", "..//../AjaxAdmin/AddCourse?Id=" + CourseId + "&Subject=" + Subject + "&Teacher=" + Teacher + "&Room=" + Room + "&Time=" + Time);
+        xhttp.open("POST", "..//../AjaxAdmin/AddCourse?Id=" + CourseId + "&Subject=" + Subject + "&Teacher=" + Teacher + "&Room=" + Room + "&StartDate=" + StartDate + "&EndDate=" + EndDate + "&Time=" + Time + "&Status=" + Status+"&Date="+Date);
         xhttp.send();
     }
     //DELETE COURSE
@@ -266,6 +353,150 @@
             xhttp.send();
         }
     }
+
+    //ADD ROOM
+    function DisplayAddRoomForm() {
+        document.getElementById("addRoomForm").style.display = "unset";
+
+        var addRoomForm = document.getElementById("addRoomForm");
+        document.getElementById("addRoomButton").addEventListener("click", function () {
+            AddRoom(addRoomForm.childNodes[1].value,
+                addRoomForm.childNodes[4].value,
+                addRoomForm.childNodes[7].value)
+        })
+    }
+    function AddRoom(RoomId, Status,Manager) {
+        if (RoomId == "" || Status == "" || Manager == "" ) {
+            alert("All fields must be filled!");
+            return;
+        }
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function () {
+            var c = JSON.parse(this.responseText);
+            if (!c) {
+                alert("Room existed");
+                document.getElementById("addRoomForm").style.display = "none";
+                return;
+            }
+            alert("Room Added");
+            document.getElementById("addRoomForm").style.display = "none";
+            var table = document.getElementById("RoomTable");
+            var row = table.insertRow(1);
+            row.id = `${RoomId}`;
+            var cell0 = row.insertCell(0);
+            var cell1 = row.insertCell(1);
+            var cell2 = row.insertCell(2);
+            var cell3 = row.insertCell(3);
+            var bold = document.createElement("b");
+            var textNode = document.createTextNode(`${RoomId}`)
+            bold.appendChild(textNode);
+            cell0.appendChild(bold);
+            cell1.innerHTML = Status;
+            cell2.innerHTML = Manager;
+            var bold1 = document.createElement("b");
+            var textNode1 = document.createTextNode("Delete")
+            bold1.appendChild(textNode1);
+            cell3.appendChild(bold1);
+            cell3.addEventListener("click", function () {
+                DeleteRoom(`${RoomId}`);
+            });
+        }
+        xhttp.open("POST", "..//../AjaxAdmin/AddRoom?Id=" + RoomId + "&Status=" + Status + "&Manager=" + Manager);
+        xhttp.send();
+    }
+    //DELETE ROOM
+    function DeleteRoom(RoomId) {
+        var confirmed = confirm("Confirm deletion?")
+        if (confirmed == true) {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                const c = JSON.parse(this.responseText);
+                if (!c) {
+                    alert("Fail to delete!");
+                }
+                else {
+                    document.getElementById(RoomId).style.display = "none";
+                    alert("Room Deleted!");
+                }
+            }
+            xhttp.open("GET", "..//../AjaxAdmin/DeleteRoom?Id=" + RoomId);
+            xhttp.send();
+        }
+    }
+
+    //ADD SUBJECT
+    function DisplayAddSubjectForm() {
+        document.getElementById("addSubjectForm").style.display = "unset";
+
+        var addSubjectForm = document.getElementById("addSubjectForm");
+        document.getElementById("addSubjectButton").addEventListener("click", function () {
+            AddRoom(addSubjectForm.childNodes[1].value,
+                addSubjectForm.childNodes[4].value,
+                addSubjectForm.childNodes[7].value, addSubjectForm.childNodes[10].value)
+        })
+    }
+    function AddSubject(SubjectId, Name, Credits, FeePerCredit) {
+        if (SubjectId == "" || Name == "" || Credits == "" || FeePerCredit=="") {
+            alert("All fields must be filled!");
+            return;
+        }
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function () {
+            var c = JSON.parse(this.responseText);
+            if (!c) {
+                alert("Subject existed");
+                document.getElementById("addSubjectForm").style.display = "none";
+                return;
+            }
+            alert("Subject Added");
+            document.getElementById("addSubjectForm").style.display = "none";
+            var table = document.getElementById("SubjectTable");
+            var row = table.insertRow(1);
+            row.id = `${SubjectId}`;
+            var cell0 = row.insertCell(0);
+            var cell1 = row.insertCell(1);
+            var cell2 = row.insertCell(2);
+            var cell3 = row.insertCell(3);
+            var cell4 = row.insertCell(4);
+            var bold = document.createElement("b");
+            var textNode = document.createTextNode(`${SubjectId}`)
+            bold.appendChild(textNode);
+            cell0.appendChild(bold);
+            cell1.innerHTML = Name;
+            cell2.innerHTML = Credits;
+            cell3.innerHTML = FeePerCredit;
+            var bold1 = document.createElement("b");
+            var textNode1 = document.createTextNode("Delete")
+            bold1.appendChild(textNode1);
+            cell4.appendChild(bold1);
+            cell4.addEventListener("click", function () {
+                DeleteSubject(`${SubjectId}`);
+            });
+        }
+        xhttp.open("POST", "..//../AjaxAdmin/AddSubject?Id=" + SubjectId + "&Name=" + Name + "&Credits=" + Credits + "&FeePerCredit=" + FeePerCredit);
+        xhttp.send();
+    }
+    //DELETE SUBJECT
+    function DeleteSubject(SubjectId) {
+        var confirmed = confirm("Confirm deletion?")
+        if (confirmed == true) {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                const c = JSON.parse(this.responseText);
+                if (!c) {
+                    alert("Fail to delete!");
+                }
+                else {
+                    document.getElementById(SubjectId).style.display = "none";
+                    alert("Subject Deleted!");
+                }
+            }
+            xhttp.open("GET", "..//../AjaxAdmin/DeleteSubject?Id=" + SubjectId);
+            xhttp.send();
+        }
+    }
+
+
 </script>
 
 

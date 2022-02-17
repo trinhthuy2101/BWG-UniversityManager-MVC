@@ -82,7 +82,7 @@ namespace ASP_NET_MVC.Controllers.Ajax
             else
                 return RedirectToAction("NoPermission", "Base");
         }
-        public ActionResult AddCourse(string id,string subject,string teacher,string room,string time)
+        public ActionResult AddCourse(string id,string subject,string teacher,string room,string time,DateTime startDate, DateTime endDate,string status,String date)
         {
             var c1 = DB.Courses.Find(id);
             if (c1 != null) return Json(false, JsonRequestBehavior.AllowGet);
@@ -93,12 +93,21 @@ namespace ASP_NET_MVC.Controllers.Ajax
             c.Teacher = teacher;
             c.Room = room;
             c.Time = time;
+            c.StartDate = startDate;
+            c.EndDate = endDate;
+            c.Status = status;
+            c.Date = date;
+
             var c2 = new CourseModel();
             c2.Id=c.Id;
             c2.Subject=c.Subject;
             c2.Teacher=c.Teacher;
             c2.Room=c.Room;
             c2.Time=c.Time;
+            c2.StartDate=c.StartDate ;
+            c2.EndDate= c.EndDate;
+            c2.Status = c.Status;
+            c2.Date = c.Date;
             if (ModelState.IsValid)
             {
                 DB.Courses.Add(c);
@@ -115,6 +124,10 @@ namespace ASP_NET_MVC.Controllers.Ajax
             courseModel.Teacher = c.Teacher;
             courseModel.Room = c.Room;
             courseModel.Time = c.Time;
+            courseModel.StartDate = c.StartDate;
+            courseModel.EndDate = c.EndDate;
+            courseModel.Status = c.Status;
+            courseModel.Date = c.Date;
             if (ModelState.IsValid)
             {
                 DB.Courses.Remove(c);
@@ -122,5 +135,80 @@ namespace ASP_NET_MVC.Controllers.Ajax
             }
             return Json(courseModel, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult AddRoom(string id, string status, string manager)
+        {
+            var c1 = DB.Rooms.Find(id);
+            if (c1 != null) return Json(false, JsonRequestBehavior.AllowGet);
+
+            Room s = new Room();
+            s.Id = id;
+            s.Status = status;
+            s.Manager =manager;
+            var c2 = new RoomModel();
+            c2.Id = s.Id;
+            c2.Status = s.Status;
+            c2.Manager = s.Manager;
+            if (ModelState.IsValid)
+            {
+                DB.Rooms.Add(s);
+                DB.SaveChanges();
+            }
+            return Json(c2, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult DeleteRoom(string Id)
+        {
+            Room r = DB.Rooms.Find(Id);
+            var roomModel = new RoomModel();
+            roomModel.Id = r.Id;
+            roomModel.Status = r.Status;
+            roomModel.Manager = r.Manager;
+            if (ModelState.IsValid)
+            {
+                DB.Rooms.Remove(r);
+                DB.SaveChanges();
+            }
+            return Json(roomModel, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult AddSubject(string id, string name, int credits,int feePerCredit)
+        {
+            var s1 = DB.Subjects.Find(id);
+            if (s1 != null) return Json(false, JsonRequestBehavior.AllowGet);
+
+            Subject s = new Subject();
+            s.Id = id;
+            s.Credits = credits;
+            s.Name = name;
+            s.FeePerCredit = feePerCredit;
+
+            var s2 = new SubjectModel();
+            s2.Id = s.Id;
+            s2.Name = s.Name;
+            s2.Credits = s.Credits;
+            s2.FeePerCredit = s.FeePerCredit;
+            if (ModelState.IsValid)
+            {
+                DB.Subjects.Add(s);
+                DB.SaveChanges();
+            }
+            return Json(s2, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult DeleteSubject(string Id)
+        {
+            Subject s = DB.Subjects.Find(Id);
+            var subjectModel = new SubjectModel();
+            subjectModel.Id = s.Id;
+            subjectModel.Name = s.Name;
+            subjectModel.Credits = s.Credits;
+            subjectModel.FeePerCredit = s.FeePerCredit;
+            if (ModelState.IsValid)
+            {
+                DB.Subjects.Remove(s);
+                DB.SaveChanges();
+            }
+            return Json(subjectModel, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
