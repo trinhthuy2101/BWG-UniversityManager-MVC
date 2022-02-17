@@ -210,5 +210,46 @@ namespace ASP_NET_MVC.Controllers.Ajax
             return Json(subjectModel, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult AddTeacher(string id, string name, string idc, string email)
+        {
+            var t1 = DB.Subjects.Find(id);
+            if (t1 != null) return Json(false, JsonRequestBehavior.AllowGet);
+
+            Teacher t = new Teacher();
+            t.Id = id;
+            t.Idc = idc;
+            t.Name = name;
+            t.Email = email;
+
+            var t2 = new TeacherModel();
+            t2.Id = t.Id;
+            t2.Name = t.Name;
+            t2.Idc = t.Idc;
+            t2.Email = t.Email;
+            if (ModelState.IsValid)
+            {
+                DB.Teachers.Add(t);
+                DB.SaveChanges();
+            }
+            return Json(t2, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult DeleteTeacher(string Id)
+        {
+            Teacher s = DB.Teachers.Find(Id);
+            var teacherModel = new TeacherModel();
+            teacherModel.Id = s.Id;
+            teacherModel.Name = s.Name;
+            teacherModel.Idc = s.Idc;
+            teacherModel.Email = s.Email;
+            if (ModelState.IsValid)
+            {
+                DB.Teachers.Remove(s);
+                DB.SaveChanges();
+            }
+            return Json(teacherModel, JsonRequestBehavior.AllowGet);
+        }
+
+
+
     }
 }

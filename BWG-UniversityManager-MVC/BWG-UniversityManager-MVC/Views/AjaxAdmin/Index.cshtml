@@ -1,4 +1,4 @@
-﻿@Model ASP_NET_MVC.Models.ViewModels
+﻿@model ASP_NET_MVC.Models.ViewModels
 @{
     ViewBag.Title = "Admin";
     Layout = "~/Views/Shared/_LayoutForAdmin.cshtml";
@@ -103,25 +103,47 @@
         </div>
     </div>
     <div id="TeacherSegment">
-        <table class="table" id="TeacherTable">
-            <thead>
-                <tr>
-                    <td><b>ID</b></td>
-                    <td><b>Name</b></td>
-                    <td><b>Email</b></td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var teacher in Model.ViewModelTeacher)
-                {
-                    <tr id=@teacher.Id>
-                        <td><b onclick="ViewDetails(@teacher.Id)">@teacher.Id</b></td>
-                        <td> @teacher.Name </td>
-                        <td> @teacher.Email </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <button onclick="DisplayAddTeacherForm()" id="AddTeacherButton" class="btn-success">Add Teacher</button>
+        <div class="grid">
+            <div id="teacher">
+                <table class="table" id="TeacherTable">
+                    <thead>
+                        <tr>
+                            <td><b>ID</b></td>
+                            <td><b>Name</b></td>
+                            <td><b>Identity</b></td>
+                            <td><b>Email</b></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var teacher in Model.ViewModelTeacher)
+                        {
+                        <tr id=@teacher.Id>
+                            <td><b onclick="ViewDetails(@teacher.Id)">@teacher.Id</b></td>
+                            <td> @teacher.Name </td>
+                            <td> @teacher.Idc </td>
+                            <td> @teacher.Email </td>
+                            <td><b onclick="DeleteTeacher('@teacher.Id')">Delete</b></td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div id="addTeacherSegment">
+                <form id="addTeacherForm">
+                    Teacher's ID
+                    <input id="TeacherId" class="form-control" type="text" value="" Name="TeacherId" /><br />
+                    Name
+                    <input class="form-control" type="text" value="" /><br />
+                    Identity
+                    <input class="form-control" type="number" value="" /><br />
+                    Email
+                    <input class="form-control" value="" /><br />
+                    <button class="btn-success" type="button" id="addTeacherButton">Add</button>
+                </form>
+            </div>
+        </div>
+        
     </div>
     <div id="SubjectSegment">
         <button onclick="DisplayAddSubjectForm()" id="AddSubjectButton" class="btn-success">Add Subject</button>
@@ -139,12 +161,13 @@
                     <tbody>
                         @foreach (var subject in Model.ViewModelSubject)
                         {
-                            <tr id=@subject.Id>
-                                <td><b onclick="ViewDetails(@subject.Id)">@subject.Id</b></td>
-                                <td> @subject.Name </td>
-                                <td> @subject.Credits </td>
-                                <td> @subject.FeePerCredit </td>
-                            </tr>
+                        <tr id=@subject.Id>
+                            <td><b onclick="ViewDetails(@subject.Id)">@subject.Id</b></td>
+                            <td> @subject.Name </td>
+                            <td> @subject.Credits </td>
+                            <td> @subject.FeePerCredit </td>
+                            <td><b onclick="DeleteSubject('@subject.Id')">Delete</b></td>
+                        </tr>
                         }
                     </tbody>
                 </table>
@@ -215,7 +238,7 @@
     </div>
 </div>
 <style>
-    #addForm,#CourseSegment, #TeacherSegment, #SubjectSegment, #RoomSegment, #AccountSegment,#addRoomForm,#addSubjectForm {
+    #addForm,#CourseSegment, #TeacherSegment, #SubjectSegment, #RoomSegment, #AccountSegment,#addRoomForm,#addSubjectForm,#addTeacherForm {
         display: none;
     }
 
@@ -224,7 +247,7 @@
         grid-template-columns: 80% 20%;
     }
 
-    #course, .addCourseSegment,#room,#addRoomSegment,#addSubjectSegment,#subject{
+    #course, .addCourseSegment,#room,#addRoomSegment,#addSubjectSegment,#subject,#teacher{
         border: ridge;
         padding: 10px;
         margin: 20px;
@@ -430,7 +453,7 @@
 
         var addSubjectForm = document.getElementById("addSubjectForm");
         document.getElementById("addSubjectButton").addEventListener("click", function () {
-            AddRoom(addSubjectForm.childNodes[1].value,
+            AddSubject(addSubjectForm.childNodes[1].value,
                 addSubjectForm.childNodes[4].value,
                 addSubjectForm.childNodes[7].value, addSubjectForm.childNodes[10].value)
         })
@@ -495,6 +518,82 @@
             xhttp.send();
         }
     }
+
+
+
+
+    //ADD TEACHER
+    function DisplayAddTeacherForm() {
+        document.getElementById("addTeacherForm").style.display = "unset";
+
+        var addTeacherForm = document.getElementById("addTeacherForm");
+        document.getElementById("addTeacherButton").addEventListener("click", function () {
+            AddTeacher(addTeacherForm.childNodes[1].value,
+                addTeacherForm.childNodes[4].value,
+                addTeacherForm.childNodes[7].value, addTeacherForm.childNodes[10].value)
+        })
+    }
+    function AddTeacher(TeacherId, Name,IDC, Email) {
+        if (TeacherId == "" || Name == "" || IDC == "" || Email == "") {
+            alert("All fields must be filled!");
+            return;
+        }
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function () {
+            var c = JSON.parse(this.responseText);
+            if (!c) {
+                alert("Teacher existed");
+                document.getElementById("addTeacherForm").style.display = "none";
+                return;
+            }
+            alert("Teacher Added");
+            document.getElementById("addTeacherForm").style.display = "none";
+            var table = document.getElementById("TeacherTable");
+            var row = table.insertRow(1);
+            row.id = `${TeacherId}`;
+            var cell0 = row.insertCell(0);
+            var cell1 = row.insertCell(1);
+            var cell2 = row.insertCell(2);
+            var cell3 = row.insertCell(3);
+            var cell4 = row.insertCell(4);
+            var bold = document.createElement("b");
+            var textNode = document.createTextNode(`${TeacherId}`)
+            bold.appendChild(textNode);
+            cell0.appendChild(bold);
+            cell1.innerHTML = Name;
+            cell2.innerHTML = IDC;
+            cell3.innerHTML = Email;
+            var bold1 = document.createElement("b");
+            var textNode1 = document.createTextNode("Delete")
+            bold1.appendChild(textNode1);
+            cell4.appendChild(bold1);
+            cell4.addEventListener("click", function () {
+                DeleteTeacher(`${TeacherId}`);
+            });
+        }
+        xhttp.open("POST", "..//../AjaxAdmin/AddTeacher?Id=" + TeacherId + "&Name=" + Name + "&Idc=" + IDC + "&Email=" + Email);
+        xhttp.send();
+    }
+    //DELETE TEACHER
+    function DeleteTeacher(TeacherId) {
+        var confirmed = confirm("Confirm deletion?")
+        if (confirmed == true) {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                const c = JSON.parse(this.responseText);
+                if (!c) {
+                    alert("Fail to delete!");
+                }
+                else {
+                    document.getElementById(TeacherId).style.display = "none";
+                    alert("Teacher Deleted!");
+                }
+            }
+            xhttp.open("GET", "..//../AjaxAdmin/DeleteTeacher?Id=" + TeacherId);
+            xhttp.send();
+        }
+    }
+
 
 
 </script>
