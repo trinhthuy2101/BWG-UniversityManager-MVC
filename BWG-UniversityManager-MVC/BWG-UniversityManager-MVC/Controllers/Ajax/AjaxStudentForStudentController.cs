@@ -53,25 +53,27 @@ namespace ASP_NET_MVC.Controllers.Ajax
             }
             return Json(courses, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult RegisterToCourse(string course, string keepConflict ="no")
+        public ActionResult RegisterToCourse(string course, string keepConflict = "no")
         {
             string accountid = LoginModel.Id;
             string SQLFindTrueID = " select UserName from Account where id = '" + accountid + "'";
             string studentid = DB.Database.SqlQuery<string>(SQLFindTrueID).FirstOrDefault();
 
             //find registered coursed
-            string registeredCourseSQL = "select * from Course where id in (select Course from RegisteredCourse where Student='" + studentid + "')" ;
+            string registeredCourseSQL = "select * from Course where id in (select Course from RegisteredCourse where Student='" + studentid + "')";
             var registeredCourses = DB.Database.SqlQuery<Course>(registeredCourseSQL).ToList();
 
-            string thisCourseSQL = "select * from Course where id ='" + course+"'";
+            string thisCourseSQL = "select * from Course where id ='" + course + "'";
 
-            var thisCourse=DB.Database.SqlQuery<Course>(thisCourseSQL).FirstOrDefault();
-            if (thisCourse != null) {
-                if (registeredCourses.Find(x => x.Date == thisCourse.Date && x.Time == thisCourse.Time) != null) {
-                   if(keepConflict=="no") return (Json("Time conflict: you cannot register since you already register a course has same time period", JsonRequestBehavior.AllowGet));
+            var thisCourse = DB.Database.SqlQuery<Course>(thisCourseSQL).FirstOrDefault();
+            if (thisCourse != null)
+            {
+                if (registeredCourses.Find(x => x.Date == thisCourse.Date && x.Time == thisCourse.Time) != null)
+                {
+                    if (keepConflict == "no") return (Json("Time conflict: you cannot register since you already register a course has same time period", JsonRequestBehavior.AllowGet));
                 }
             }
-            string SQL = "insert into RegisteredCourse values('" + course + "','" + studentid +"',NULL" +",NULL) ";
+            string SQL = "insert into RegisteredCourse values('" + course + "','" + studentid + "',NULL" + ",NULL) ";
             DB.Database.ExecuteSqlCommand(SQL);
             return (Json("Registered", JsonRequestBehavior.AllowGet));
         }
@@ -89,10 +91,36 @@ namespace ASP_NET_MVC.Controllers.Ajax
 
         }
 
-        public ActionResult PayThisCourse(string student, string course) {
+        public ActionResult PayThisCourse(string student, string course)
+        {
             string SQL = "update RegisteredCourse set Fee ='paid' where Course= '" + course + "' and Student='" + student + "'";
             DB.Database.ExecuteSqlCommand(SQL);
             return Json(new object(), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult PayAllCourse()
+        {
+            string accountid = LoginModel.Id;
+            string SQLFindTrueID = " select UserName from Account where id = '" + accountid + "'";
+            string id = DB.Database.SqlQuery<string>(SQLFindTrueID).FirstOrDefault();
+
+            string SQL = "update RegisteredCourse set Fee ='paid' where Student='" + id + "'";
+            DB.Database.ExecuteSqlCommand(SQL);
+            return Json(new object(), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetSumFee()
+        {
+            string accountid = LoginModel.Id;
+            string SQLFindTrueID = " select UserName from Account where id = '" + accountid + "'";
+            string id = DB.Database.SqlQuery<string>(SQLFindTrueID).FirstOrDefault();
+
+            string SQL = "select * from subject where id in(select Subject from course where id in(select Course from registeredcourse where Student='" + id + "' and fee is null))";
+            var subjects = DB.Database.SqlQuery<Subject>(SQL).ToList();
+            int sum = 0;
+            foreach (var subject in subjects)
+            {
+                sum += (int)subject.FeePerCredit * (int)subject.Credits;
+            }
+            return Json(sum, JsonRequestBehavior.AllowGet);
         }
     }
 }

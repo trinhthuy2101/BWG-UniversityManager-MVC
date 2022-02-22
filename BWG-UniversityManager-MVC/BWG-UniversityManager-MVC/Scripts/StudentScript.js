@@ -32,7 +32,28 @@ function showPayBtnOrNot(feeStatus, student, course) {
     else return '<button  class="btn btn-light"> You paid </button>';
 
 }
+function calculateFeeAndPay() {
+    //calculate fee
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "..//../AjaxStudentForStudent/GetSumFee");
+    xhttp.send();
+    xhttp.onload = function () {
+        const parsed = JSON.parse(this.responseText);
+        let text = "Pay Fee: " + parsed + " $";
+        if (confirm(text) == true) {
+            payAllCourse();
+        }
+    }
+}
+function payAllCourse(){
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "..//../AjaxStudentForStudent/PayAllCourse");
+    xhttp.send();
+    xhttp.onload = function () {
+        getTimeTable();
+    }
 
+}
 function payThisCourse(student, course) {
     const xhttp = new XMLHttpRequest();
     xhttp.open("GET", "..//../AjaxStudentForStudent/PayThisCourse?student=" + student + "&course=" + course);
@@ -58,7 +79,7 @@ function showCoursesToRegister() {
                 "</td><td>" +
                 convert(parsed[i].StartDate) +
                 "</td>" + "<td>" + convert(parsed[i].EndDate) + "</td>" +
-                "<td>" + parsed[i].Date + "</td>"+
+                "<td>" + parsed[i].Date + "</td>" +
                 "<td>" + parsed[i].Time + "</td>" +
                 "<td>" + '<button onclick="registerToCourse((\'' + parsed[i].Id + '\'))" class="btn btn-success">Register</button>' + "</td>" +
                 "</tr>";
@@ -118,7 +139,7 @@ function helloTextWithName() {
 
 
 function convert(value) {
-    if ((""+value) == "NULL" ||(""+ value )== "null") {
+    if (("" + value) == "NULL" || ("" + value) == "null") {
         return "not determined";
     }
     var str = new Date(parseInt(value.replace("/Date(", "").replace(")/", ""), 10));
