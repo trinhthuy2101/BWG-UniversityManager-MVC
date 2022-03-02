@@ -97,6 +97,12 @@ namespace ASP_NET_MVC.Controllers.Ajax
             DB.Database.ExecuteSqlCommand(SQL);
             return Json(new object(), JsonRequestBehavior.AllowGet);
         }
+        public ActionResult RemoveThisCourse(string student, string course)
+        {
+            string SQL = "delete from RegisteredCourse where Course= '" + course + "' and Student='" + student + "'";
+            DB.Database.ExecuteSqlCommand(SQL);
+            return Json(new object(), JsonRequestBehavior.AllowGet);
+        }
         public ActionResult PayAllCourse()
         {
             string accountid = LoginModel.Id;

@@ -10,17 +10,37 @@ function getTimeTable() {
         timetable.style.display = "table";
         coursesToRegisterTable.style.display = 'none';
 
-        let table = '<tr><th style="text-align:center">Subject</th><th style="text-align:center">StartTime</th><th style="text-align:center">TimeEnd</th><th>  </th></tr>';
+        let table = '<tr><th style="text-align:center">Subject</th><th style="text-align:center">StartTime</th><th style="text-align:center">TimeEnd</th><th style="text-align:center">Status</th><th></th><th>  </th></tr>';
         for (let i = 0; i < parsed.length; i++) {
             table += "<tr><td>" +
                 parsed[i].Subject +
                 "</td><td>" +
                 convert(parsed[i].StartDate) +
                 "</td>" + "<td>" + convert(parsed[i].EndDate) + "</td>" +
+                "<td>" + parsed[i].Status + "</td>" +
                 "<td>" + showPayBtnOrNot(parsed[i].Fee, parsed[i].Student, parsed[i].Id) + "</td>" +
+                "<td>" + showRemoveBtnOrNot(parsed[i].Status, parsed[i].Student, parsed[i].Id) + "</td>" +
+
                 "</tr>";
         }
         timetable.innerHTML = table;
+    }
+
+}
+function showRemoveBtnOrNot(Status, student, course) {
+    if (Status =="pending"||Status=="canceled") {
+        return '<button onclick="removeThisCourse(\'' + student + '\',\'' + course + '\')" class="btn btn-danger">Remove</button>';
+    }
+    else return '';
+
+}
+function removeThisCourse(student, course) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "..//../AjaxStudentForStudent/RemoveThisCourse?student=" + student + "&course=" + course);
+    xhttp.send();
+    xhttp.onload = function () {
+        alert("You remove this course");
+        getTimeTable();
     }
 
 }
