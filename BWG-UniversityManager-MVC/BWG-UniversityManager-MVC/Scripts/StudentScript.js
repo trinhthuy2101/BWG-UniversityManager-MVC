@@ -10,17 +10,37 @@ function getTimeTable() {
         timetable.style.display = "table";
         coursesToRegisterTable.style.display = 'none';
 
-        let table = '<tr><th style="text-align:center">Subject</th><th style="text-align:center">StartTime</th><th style="text-align:center">TimeEnd</th><th>  </th></tr>';
+        let table = '<tr><th style="text-align:center">Subject</th><th style="text-align:center">StartTime</th><th style="text-align:center">TimeEnd</th><th style="text-align:center">Status</th><th></th><th>  </th></tr>';
         for (let i = 0; i < parsed.length; i++) {
             table += "<tr><td>" +
                 parsed[i].Subject +
                 "</td><td>" +
                 convert(parsed[i].StartDate) +
                 "</td>" + "<td>" + convert(parsed[i].EndDate) + "</td>" +
+                "<td>" + parsed[i].Status + "</td>" +
                 "<td>" + showPayBtnOrNot(parsed[i].Fee, parsed[i].Student, parsed[i].Id) + "</td>" +
+                "<td>" + showRemoveBtnOrNot(parsed[i].Status, parsed[i].Student, parsed[i].Id) + "</td>" +
+
                 "</tr>";
         }
         timetable.innerHTML = table;
+    }
+
+}
+function showRemoveBtnOrNot(Status, student, course) {
+    if (Status =="pending"||Status=="canceled") {
+        return '<button onclick="removeThisCourse(\'' + student + '\',\'' + course + '\')" class="btn btn-danger">Remove</button>';
+    }
+    else return '';
+
+}
+function removeThisCourse(student, course) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "..//../AjaxStudentForStudent/RemoveThisCourse?student=" + student + "&course=" + course);
+    xhttp.send();
+    xhttp.onload = function () {
+        alert("You remove this course");
+        getTimeTable();
     }
 
 }
@@ -32,7 +52,28 @@ function showPayBtnOrNot(feeStatus, student, course) {
     else return '<button  class="btn btn-light"> You paid </button>';
 
 }
+function calculateFeeAndPay() {
+    //calculate fee
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "..//../AjaxStudentForStudent/GetSumFee");
+    xhttp.send();
+    xhttp.onload = function () {
+        const parsed = JSON.parse(this.responseText);
+        let text = "Pay Fee: " + parsed + " $";
+        if (confirm(text) == true) {
+            payAllCourse();
+        }
+    }
+}
+function payAllCourse(){
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "..//../AjaxStudentForStudent/PayAllCourse");
+    xhttp.send();
+    xhttp.onload = function () {
+        getTimeTable();
+    }
 
+}
 function payThisCourse(student, course) {
     const xhttp = new XMLHttpRequest();
     xhttp.open("GET", "..//../AjaxStudentForStudent/PayThisCourse?student=" + student + "&course=" + course);
@@ -51,13 +92,15 @@ function showCoursesToRegister() {
         timetable.style.display = "none";
         coursesToRegisterTable.style.display = 'table';
 
-        let table = '<tr><th style="text-align:center">Subject</th><th style="text-align:center">StartTime</th><th style="text-align:center">TimeEnd</th><th style="text-align:center">Register</th></tr>';
+        let table = '<tr> <th style="text-align:center">Subject</th>          <th style="text-align:center">StartTime</th>           <th style="text-align:center">TimeEnd</th>            <th style="text-align:center">Day in week</th>         <th style="text-align:center">Preiod</th>            <th style="text-align:center">Register</th></tr>';
         for (let i = 0; i < parsed.length; i++) {
             table += "<tr><td>" +
                 parsed[i].Subject +
                 "</td><td>" +
                 convert(parsed[i].StartDate) +
                 "</td>" + "<td>" + convert(parsed[i].EndDate) + "</td>" +
+                "<td>" + parsed[i].Date + "</td>" +
+                "<td>" + parsed[i].Time + "</td>" +
                 "<td>" + '<button onclick="registerToCourse((\'' + parsed[i].Id + '\'))" class="btn btn-success">Register</button>' + "</td>" +
                 "</tr>";
         }
@@ -72,8 +115,20 @@ function registerToCourse(course) {
     xhttp.send();
     xhttp.onload = function () {
         const parsed = JSON.parse(this.responseText);
-        alert(parsed);
-        showCoursesToRegister();
+        if (parsed == "Registered") {
+            alert(parsed);
+            showCoursesToRegister();
+        }
+        else {
+            alert(parsed);
+            if (confirm("Still register")) {
+                xhttp.open("POST", "..//../AjaxStudentForStudent/RegisterToCourse?course=" + course + "&keepConflict=keepConflict");
+                xhttp.send();
+            } else {
+                txt = "You pressed Cancel!";
+            }
+
+        }
     }
 
 }
@@ -104,7 +159,7 @@ function helloTextWithName() {
 
 
 function convert(value) {
-    if ((""+value) == "NULL" ||(""+ value )== "null") {
+    if (("" + value) == "NULL" || ("" + value) == "null") {
         return "not determined";
     }
     var str = new Date(parseInt(value.replace("/Date(", "").replace(")/", ""), 10));
